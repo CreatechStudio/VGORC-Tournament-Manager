@@ -1,6 +1,6 @@
 import {Box, Button, Chip, ChipDelete, Input} from "@mui/joy";
 import {useState} from "react";
-import {PAD} from "../src/constants";
+import {PAD} from "../constants.ts";
 
 export default function ChipInput({
     chips,

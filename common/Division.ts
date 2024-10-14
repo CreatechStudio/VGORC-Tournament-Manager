@@ -17,27 +17,41 @@ export class Division {
         return -1;
     }
 
+    _newFieldsExist(newFields: string[], index?: number,) {
+        for (let i = 0; i < this.data.length; i ++) {
+            for (let j = 0; j < newFields.length; j ++) {
+                if (i !== index && this.data[i].fields.includes(newFields[j])) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     add(divisionName: string, fields: string[]) {
         if (divisionName.length === 0) {
             throw "Division name should not be empty";
         }
-        if (this._indexOf(divisionName) !== -1) {
-            throw `Division ${divisionName} already exists`;
-        }
         if (new Set(fields).size !== fields.length) {
             throw "Fields cannot repeat";
         }
-        for (let i = 0; i < this.data.length; i ++) {
-            for (let j = 0; j < fields.length; j ++) {
-                if (this.data[i].fields.includes(fields[j])) {
-                    throw `Field ${fields[j]} already exists`;
-                }
+
+        let index = this._indexOf(divisionName);
+        if (this._newFieldsExist(fields, index)) {
+            throw "Field name already exists";
+        }
+
+        if (index === -1) {
+            this.data.push({
+                divisionName,
+                fields
+            });
+        } else {
+            this.data[index] = {
+                divisionName,
+                fields
             }
         }
-        this.data.push({
-            divisionName,
-            fields
-        });
     }
 
     get() {

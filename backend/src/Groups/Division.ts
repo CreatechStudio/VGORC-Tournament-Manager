@@ -5,11 +5,12 @@ export const division = new Elysia()
     .decorate('division', new Division())
     .group('/division', (app) => app
         .get('', ({ division }) => division.get())
-        .post('create', ({
+        .post('update', ({
             division, body: { name, fields }, error
         }) => {
             try {
                 division.add(name, fields);
+                return division.get();
             } catch (e) {
                 return error(406, e);
             }
@@ -24,6 +25,7 @@ export const division = new Elysia()
         }) => {
             try {
                 division.delete(decodeURI(name));
+                return division.get();
             } catch (e) {
                 return error(406, e);
             }

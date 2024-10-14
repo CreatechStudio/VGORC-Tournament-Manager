@@ -10,7 +10,7 @@ import {
 } from "@mui/joy";
 import TapAndPlayRoundedIcon from '@mui/icons-material/TapAndPlayRounded';
 import {useState} from "react";
-import {PAD} from "../src/constants.ts";
+import {PAD} from "../constants.ts";
 
 export default function BasicAccordion({
     disabled

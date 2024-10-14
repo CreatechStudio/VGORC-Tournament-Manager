@@ -1,17 +1,12 @@
 import {Box, Grid} from "@mui/joy";
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import {Toaster} from "react-hot-toast";
-import DashPage from "../pages/DashPage.tsx";
-import SchedulePage from "../pages/SchedulePage.tsx";
-import RankPage from "../pages/RankPage.tsx";
-import SkillsRankPage from "../pages/SkillsRankPage.tsx";
-import MatchPage from "../pages/MatchPage.tsx";
-import AdminPage from "../pages/AdminPage.tsx";
-import * as axios from "axios";
-
-export const axiosInstance = axios.default.create({
-    baseURL: import.meta.env.BACKEND_URL || "http://localhost:3000"
-});
+import DashPage from "./pages/DashPage.tsx";
+import SchedulePage from "./pages/SchedulePage.tsx";
+import RankPage from "./pages/RankPage.tsx";
+import SkillsRankPage from "./pages/SkillsRankPage.tsx";
+import MatchPage from "./pages/MatchPage.tsx";
+import AdminPage from "./pages/AdminPage.tsx";
 
 function App() {
     const router = createBrowserRouter([
