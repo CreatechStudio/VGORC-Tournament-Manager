@@ -6,14 +6,32 @@ import {
     IconButton,
     Typography
 } from "@mui/joy";
-import {PAD} from "../src/constants.ts";
+import {PAD} from "../constants.ts";
 import LogoutIcon from '@mui/icons-material/Logout';
 import BasicAccordion from "../accordions/BasicAccordion.tsx";
 import TournamentAccordion from "../accordions/TournamentAccordion.tsx";
+import {useEffect, useState} from "react";
+import {getReq} from "../net.ts";
+import RefreshIcon from '@mui/icons-material/Refresh';
+import {DivisionObject} from "../../../common/Division.ts";
 
 export default function AdminPage() {
-    function handleLogout() {
+    const [disabled, setDisabled] = useState(true);
+    const [divisions, setDivisions] = useState<DivisionObject[]>([]);
 
+    useEffect(() => {
+        getReq('/utils/database/existed').then((res) => {
+            setDisabled(res);
+        }).catch();
+        handleRefresh();
+    }, []);
+
+    function handleLogout() {}
+
+    function handleRefresh() {
+        getReq('/division').then((res) => {
+            setDivisions(res);
+        }).catch();
     }
 
     return (
@@ -26,6 +44,9 @@ export default function AdminPage() {
                     Admin
                 </Typography>
                 <ButtonGroup>
+                    <IconButton onClick={() => handleRefresh()}>
+                        <RefreshIcon/>
+                    </IconButton>
                     <IconButton onClick={() => handleLogout()}>
                         <LogoutIcon/>
                     </IconButton>
@@ -47,8 +68,12 @@ export default function AdminPage() {
                     },
                 }}
             >
-                <BasicAccordion/>
-                <TournamentAccordion/>
+                <BasicAccordion disabled={disabled}/>
+                <TournamentAccordion
+                    disabled={disabled}
+                    divisions={divisions}
+                    setDivisions={setDivisions}
+                />
             </AccordionGroup>
         </Box>
     );
