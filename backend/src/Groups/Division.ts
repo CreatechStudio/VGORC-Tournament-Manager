@@ -19,17 +19,17 @@ export const division = new Elysia()
                 fields: t.Array(t.String())
             })
         })
-        .delete('delete/:data', ({
-            division, params: { data }, error
+        .delete('delete/:name', ({
+            division, params: { name }, error
         }) => {
             try {
-                division.delete(data);
+                division.delete(decodeURI(name));
             } catch (e) {
                 return error(406, e);
             }
         }, {
             params: t.Object({
-                data: t.String()
+                name: t.String()
             })
         })
     );
