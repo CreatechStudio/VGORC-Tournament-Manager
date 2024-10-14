@@ -27,3 +27,5 @@ DB
 .env
 yarn.lock
 bun.lockb
+
+.env
