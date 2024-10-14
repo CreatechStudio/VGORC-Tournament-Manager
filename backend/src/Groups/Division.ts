@@ -6,16 +6,17 @@ export const division = new Elysia()
     .group('/division', (app) => app
         .get('', ({ division }) => division.get())
         .post('create', ({
-            division, body: { data }, error
+            division, body: { name, fields }, error
         }) => {
             try {
-                division.add(data);
+                division.add(name, fields);
             } catch (e) {
                 return error(406, e);
             }
         }, {
             body: t.Object({
-                data: t.String()
+                name: t.String(),
+                fields: t.Array(t.String())
             })
         })
         .delete('delete/:data', ({
