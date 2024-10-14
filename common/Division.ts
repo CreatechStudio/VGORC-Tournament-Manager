@@ -1,5 +1,10 @@
+export interface DivisionObject {
+    divisionName: string,
+    fields: string[]
+}
+
 export class Division {
-    data: string[] = [];
+    data: DivisionObject[] = [];
 
     constructor() {}
 
