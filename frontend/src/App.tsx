@@ -6,6 +6,12 @@ import SchedulePage from "../pages/SchedulePage.tsx";
 import RankPage from "../pages/RankPage.tsx";
 import SkillsRankPage from "../pages/SkillsRankPage.tsx";
 import MatchPage from "../pages/MatchPage.tsx";
+import AdminPage from "../pages/AdminPage.tsx";
+import * as axios from "axios";
+
+export const axiosInstance = axios.default.create({
+    baseURL: import.meta.env.BACKEND_URL || "http://localhost:3000"
+});
 
 function App() {
     const router = createBrowserRouter([
@@ -29,6 +35,10 @@ function App() {
             path: '/match',
             element: <MatchPage/>
         },
+        {
+            path: '/admin',
+            element: <AdminPage/>
+        }
     ]);
 
     return (
