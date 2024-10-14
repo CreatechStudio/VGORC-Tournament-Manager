@@ -23,7 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 
-DB
 .env
 yarn.lock
 bun.lockb
