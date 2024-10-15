@@ -14,7 +14,7 @@ import ChipInput from "../components/ChipInput.tsx";
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import {deleteReq, postReq} from "../net.ts";
 import AddIcon from '@mui/icons-material/Add';
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {includes} from "../utils.ts";
 import toast from "react-hot-toast";
 
@@ -28,6 +28,10 @@ export default function TournamentAccordion({
     disabled?: boolean;
 }) {
     const [localDivisions, setLocalDivisions] = useState<DivisionObject[]>(divisions);
+
+    useEffect(() => {
+        setLocalDivisions(divisions);
+    }, [setDivisions, divisions]);
 
     function handleSetFields(index: number, newFields: string[]) {
         const newDivisions = JSON.parse(JSON.stringify(localDivisions));
@@ -49,6 +53,7 @@ export default function TournamentAccordion({
                 const newDivisions = JSON.parse(JSON.stringify(localDivisions));
                 newDivisions.splice(index, 1);
                 setLocalDivisions(newDivisions);
+                toast.success("Delete successfully");
             });
         } else {
             const newDivisions = JSON.parse(JSON.stringify(localDivisions));
@@ -159,12 +164,14 @@ export default function TournamentAccordion({
                                     />
                                 </td>
                                 <td>
-                                    <ChipInput chips={d.fields} setChips={(fields) => {
-                                        handleSetFields(index, fields);
-                                    }} disabled={disabled}/>
+                                    <Box sx={{pt: PAD, pb: PAD}}>
+                                        <ChipInput chips={d.fields} setChips={(fields) => {
+                                            handleSetFields(index, fields);
+                                        }} disabled={disabled}/>
+                                    </Box>
                                 </td>
                                 <td>
-                                    <IconButton onClick={() => handleDelete(index)}>
+                                    <IconButton onClick={() => handleDelete(index)} disabled={disabled}>
                                         <DeleteOutlineIcon/>
                                     </IconButton>
                                 </td>

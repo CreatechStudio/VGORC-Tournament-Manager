@@ -6,8 +6,7 @@ const axiosInstance = axios.default.create({
 });
 
 function solveErr(e: unknown) {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
+    // @ts-expect-error solve unknown error
     toast.error(e.response.data || e.message || "Something went wrong");
 }
 

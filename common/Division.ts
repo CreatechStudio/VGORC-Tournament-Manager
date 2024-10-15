@@ -1,5 +1,5 @@
-import {db} from "../backend/src";
 import {Data} from "./Data";
+import {Utils} from "../backend/src/Database/Utils";
 
 export interface DivisionObject {
     divisionName: string,
@@ -8,8 +8,11 @@ export interface DivisionObject {
 
 export class Division {
     data: DivisionObject[] = [];
+    db: Utils = new Utils();
 
-    constructor() {}
+    constructor() {
+        this.data = this.db.getData().settings.division;
+    }
 
     _indexOf(divisionName: string) {
         for (let i = 0; i < this.data.length; i++) {
@@ -59,7 +62,7 @@ export class Division {
     }
 
     get() {
-        return this.data.sort();
+        return this.db.getData().settings.division;
     }
 
     delete(divisionName: string) {
@@ -73,8 +76,8 @@ export class Division {
     }
 
     _update() {
-        let newData: Data = JSON.parse(JSON.stringify(db.data));
+        let newData: Data = this.db.getData();
         newData.settings.division = this.data;
-        db.updateData(newData);
+        this.db.updateData(newData);
     }
 }

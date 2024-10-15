@@ -6,7 +6,7 @@ dotenv.config({ path: '../../.env' });
 
 export class Utils {
     private readonly dbFile: string;
-    data: Data = DEFAULT_DATA;
+    private data: Data = DEFAULT_DATA;
 
     constructor() {
         this.dbFile = process.env.DB_FILE || '';
@@ -17,12 +17,19 @@ export class Utils {
         this.initDatabaseConnection();
     }
 
+    _isDatabaseExist() {
+        return fs.existsSync(this.dbFile) && fs.readFileSync(this.dbFile).length !== 0;
+    }
+
     isDatabaseExist() {
-        return fs.existsSync(this.dbFile);
+        if (process.env.DEV_ALWAYS_UNLOCK) {
+            return false;
+        }
+        return this._isDatabaseExist();
     }
 
     createTournamentDatabase() {
-        if (!this.isDatabaseExist()) {
+        if (!this._isDatabaseExist()) {
             fs.writeFileSync(this.dbFile, '');
             console.log('Utils created successfully');
         } else {
@@ -31,11 +38,14 @@ export class Utils {
     }
 
     initDatabaseConnection() {
-        if (!this.isDatabaseExist()) {
+        if (!this._isDatabaseExist()) {
             this.createTournamentDatabase();
-        } else {
-            this.data = JSON.parse(fs.readFileSync(this.dbFile, 'utf-8') || JSON.stringify(this.data));
         }
+    }
+
+    getData(): Data {
+        this.data = JSON.parse(fs.readFileSync(this.dbFile, 'utf-8') || JSON.stringify(this.data));
+        return this.data;
     }
 
     updateData(newData: Data) {

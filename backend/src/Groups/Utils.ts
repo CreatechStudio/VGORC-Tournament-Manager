@@ -1,7 +1,8 @@
 import {Elysia} from "elysia";
-import {db} from "../index";
+import {Utils} from "../Database/Utils";
 
 export const utils = new Elysia()
+    .decorate('db', new Utils())
     .group('/utils', (app) => app
-        .get('database/existed', ({}) => db.isDatabaseExist())
+        .get('database/existed', ({ db }) => db.isDatabaseExist())
     );

@@ -5,7 +5,7 @@ export const team = new Elysia()
     .decorate('team', new Team())
     .group('/team', (app) => app
         .get('', ({ team }) => team.get())
-        .post('create', ({
+        .post('update', ({
             team, body: { data }, error
         }) => {
             try {
