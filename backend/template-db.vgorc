@@ -72,125 +72,183 @@
     }
   ],
   "matches": [
-      {
-        "divisionName": "Division A",
-        "matches": [
-          {
-            "matchNumber": 1,
-            "matchType": "Qualification",
-            "matchField": "Field 1",
-            "matchFieldSet": 1,
-            "matchPeriod": 1,
-            "matchCountInPeriod": 1,
-            "matchTeam": ["1123A","2123A"],
-            "matchScore": 0
-          },
-          {
-            "matchNumber": 2,
-            "matchType": "Qualification",
-            "matchField": "Field 2",
-            "matchFieldSet": 2,
-            "matchPeriod": 1,
-            "matchCountInPeriod": 2,
-            "matchTeam": ["1123A","2123A"],
-            "matchScore": 0
-          },
-          {
-            "matchNumber": 3,
-            "matchType": "Qualification",
-            "matchField": "Field 1",
-            "matchFieldSet": 1,
-            "matchPeriod": 2,
-            "matchCountInPeriod": 1,
-            "matchTeam": ["1123A","2123A"],
-            "matchScore": 0
-          },
-          {
-            "matchNumber": 4,
-            "matchType": "Qualification",
-            "matchField": "Field 2",
-            "matchFieldSet": 2,
-            "matchPeriod": 2,
-            "matchCountInPeriod": 1,
-            "matchTeam": ["1123A","2123A"],
-            "matchScore": 0
-          }
-        ]
-      },
-      {
-        "divisionName": "Division B",
-        "match": [
-          {
-            "matchNumber": 1,
-            "matchType": "Qualification",
-            "matchField": "Field 1",
-            "matchFieldSet": 1,
-            "matchPeriod": 1,
-            "matchCountInPeriod": 1,
-            "matchTeam": ["1123B","2123B"],
-            "matchScore": 0
-          },
-          {
-            "matchNumber": 2,
-            "matchType": "Qualification",
-            "matchField": "Field 2",
-            "matchFieldSet": 2,
-            "matchPeriod": 1,
-            "matchCountInPeriod": 2,
-            "matchTeam": ["1123B","2123B"],
-            "matchScore": 0
-          },
-          {
-            "matchNumber": 3,
-            "matchType": "Qualification",
-            "matchField": "Field 1",
-            "matchFieldSet": 1,
-            "matchPeriod": 2,
-            "matchCountInPeriod": 1,
-            "matchTeam": ["1123B","2123B"],
-            "matchScore": 0
-          },
-          {
-            "matchNumber": 4,
-            "matchType": "Qualification",
-            "matchField": "Field 2",
-            "matchFieldSet": 2,
-            "matchPeriod": 2,
-            "matchCountInPeriod": 1,
-            "matchTeam": ["1123B","2123B"],
-            "matchScore": 0
-          }
-        ]
-      }
+    {
+      "divisionName": "Division A",
+      "matches": [
+        {
+          "matchNumber": 1,
+          "matchType": "Qualification",
+          "matchField": "Field 1",
+          "matchFieldSet": 1,
+          "matchPeriod": 1,
+          "matchCountInPeriod": 1,
+          "matchTeam": [
+            "1123A",
+            "2123A"
+          ],
+          "matchScore": 0
+        },
+        {
+          "matchNumber": 2,
+          "matchType": "Qualification",
+          "matchField": "Field 2",
+          "matchFieldSet": 2,
+          "matchPeriod": 1,
+          "matchCountInPeriod": 2,
+          "matchTeam": [
+            "1123A",
+            "2123A"
+          ],
+          "matchScore": 0
+        },
+        {
+          "matchNumber": 3,
+          "matchType": "Qualification",
+          "matchField": "Field 1",
+          "matchFieldSet": 1,
+          "matchPeriod": 2,
+          "matchCountInPeriod": 1,
+          "matchTeam": [
+            "1123A",
+            "2123A"
+          ],
+          "matchScore": 0
+        },
+        {
+          "matchNumber": 4,
+          "matchType": "Qualification",
+          "matchField": "Field 2",
+          "matchFieldSet": 2,
+          "matchPeriod": 2,
+          "matchCountInPeriod": 1,
+          "matchTeam": [
+            "1123A",
+            "2123A"
+          ],
+          "matchScore": 0
+        }
+      ]
+    },
+    {
+      "divisionName": "Division B",
+      "match": [
+        {
+          "matchNumber": 1,
+          "matchType": "Qualification",
+          "matchField": "Field 1",
+          "matchFieldSet": 1,
+          "matchPeriod": 1,
+          "matchCountInPeriod": 1,
+          "matchTeam": [
+            "1123B",
+            "2123B"
+          ],
+          "matchScore": 0
+        },
+        {
+          "matchNumber": 2,
+          "matchType": "Qualification",
+          "matchField": "Field 2",
+          "matchFieldSet": 2,
+          "matchPeriod": 1,
+          "matchCountInPeriod": 2,
+          "matchTeam": [
+            "1123B",
+            "2123B"
+          ],
+          "matchScore": 0
+        },
+        {
+          "matchNumber": 3,
+          "matchType": "Qualification",
+          "matchField": "Field 1",
+          "matchFieldSet": 1,
+          "matchPeriod": 2,
+          "matchCountInPeriod": 1,
+          "matchTeam": [
+            "1123B",
+            "2123B"
+          ],
+          "matchScore": 0
+        },
+        {
+          "matchNumber": 4,
+          "matchType": "Qualification",
+          "matchField": "Field 2",
+          "matchFieldSet": 2,
+          "matchPeriod": 2,
+          "matchCountInPeriod": 1,
+          "matchTeam": [
+            "1123B",
+            "2123B"
+          ],
+          "matchScore": 0
+        }
+      ]
+    }
   ],
-  "skills": {
-    "mySkills": [
-      {
-        "skillsTeamNumber": "1123A",
-        "driverSkill": [
-          { "attempt": 1, "score": 50 },
-          { "attempt": 2, "score": 60 },
-          { "attempt": 3, "score": 0 }
-        ],
-        "autoSkill": [
-          { "attempt": 1, "score": 70 },
-          { "attempt": 2, "score": 0 },
-          { "attempt": 3, "score": 0 }
-        ]
-      },
-      {
-        "skillsTeamNumber": "1123B",
-        "driverSkill": [
-          { "attempt": 1, "score": 50 },
-          { "attempt": 2, "score": 60 },
-          { "attempt": 3, "score": 10 }
-        ],
-        "autoSkill": [
-          { "attempt": 1, "score": 70 },
-          { "attempt": 2, "score": 30 },
-          { "attempt": 3, "score": 0 }
-        ]
-      }
-    ]
-  }
+  "skills": [
+    {
+      "skillsTeamNumber": "1123A",
+      "driverSkill": [
+        {
+          "attempt": 1,
+          "score": 50
+        },
+        {
+          "attempt": 2,
+          "score": 60
+        },
+        {
+          "attempt": 3,
+          "score": 0
+        }
+      ],
+      "autoSkill": [
+        {
+          "attempt": 1,
+          "score": 70
+        },
+        {
+          "attempt": 2,
+          "score": 0
+        },
+        {
+          "attempt": 3,
+          "score": 0
+        }
+      ]
+    },
+    {
+      "skillsTeamNumber": "1123B",
+      "driverSkill": [
+        {
+          "attempt": 1,
+          "score": 50
+        },
+        {
+          "attempt": 2,
+          "score": 60
+        },
+        {
+          "attempt": 3,
+          "score": 10
+        }
+      ],
+      "autoSkill": [
+        {
+          "attempt": 1,
+          "score": 70
+        },
+        {
+          "attempt": 2,
+          "score": 30
+        },
+        {
+          "attempt": 3,
+          "score": 0
+        }
+      ]
+    }
+  ]
 }

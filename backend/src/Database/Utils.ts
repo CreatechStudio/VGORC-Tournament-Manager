@@ -1,10 +1,12 @@
 import * as fs from 'fs';
 import * as dotenv from 'dotenv';
+import {Data, DEFAULT_DATA} from "../../../common/Data";
 
 dotenv.config({ path: '../../.env' });
 
 export class Utils {
     private readonly dbFile: string;
+    data: Data = DEFAULT_DATA;
 
     constructor() {
         this.dbFile = process.env.DB_FILE || '';
@@ -12,7 +14,7 @@ export class Utils {
             throw new Error('DB_FILE is not defined in the .env file');
         }
         console.log(`Database file: ${this.dbFile}`);
-        this.initDatabaseConnection()
+        this.initDatabaseConnection();
     }
 
     isDatabaseExist() {
@@ -31,12 +33,13 @@ export class Utils {
     initDatabaseConnection() {
         if (!this.isDatabaseExist()) {
             this.createTournamentDatabase();
+        } else {
+            this.data = JSON.parse(fs.readFileSync(this.dbFile, 'utf-8') || JSON.stringify(this.data));
         }
     }
 
-    readDatabaseKey(key: string) {
-        const dbContent = fs.readFileSync(this.dbFile, 'utf8');
-        const db = JSON.parse(dbContent);
-        return db[key];
+    updateData(newData: Data) {
+        fs.writeFileSync(this.dbFile, JSON.stringify(newData, null, 4));
+        this.data = newData;
     }
 }

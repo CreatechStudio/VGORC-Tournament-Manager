@@ -3,6 +3,9 @@ import { swagger } from '@elysiajs/swagger';
 import {division} from "./Groups/Division";
 import {team} from "./Groups/Team";
 import {utils} from "./Groups/Utils";
+import {Utils} from "./Database/Utils";
+
+export const db = new Utils();
 
 const app = new Elysia()
     .use(swagger({

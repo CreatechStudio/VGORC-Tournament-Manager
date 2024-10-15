@@ -1,3 +1,6 @@
+import {db} from "../backend/src";
+import {Data} from "./Data";
+
 export interface DivisionObject {
     divisionName: string,
     fields: string[]
@@ -52,6 +55,7 @@ export class Division {
                 fields
             }
         }
+        this._update();
     }
 
     get() {
@@ -65,5 +69,12 @@ export class Division {
         } else {
             throw "Division does not exist";
         }
+        this._update();
+    }
+
+    _update() {
+        let newData: Data = JSON.parse(JSON.stringify(db.data));
+        newData.settings.division = this.data;
+        db.updateData(newData);
     }
 }

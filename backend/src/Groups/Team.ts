@@ -1,5 +1,5 @@
 import {Elysia, t} from "elysia";
-import {Team} from "../../../common/team";
+import {Team} from "../../../common/Team";
 
 export const team = new Elysia()
     .decorate('team', new Team())
@@ -19,20 +19,22 @@ export const team = new Elysia()
                     teamNumber: t.String(),
                     teamName: t.String(),
                     teamOrganization: t.String(),
+                    teamDivision: t.String(),
+                    teamAvgScore: t.Integer()
                 })
             })
         })
-        .delete('delete/:data', ({
-            team, params: { data }, error
+        .delete('delete/:teamNumber', ({
+            team, params: { teamNumber }, error
         }) => {
             try {
-                team.delete(data);
+                team.delete(teamNumber);
             } catch (e) {
                 return error(406, e);
             }
         }, {
             params: t.Object({
-                data: t.String()
+                teamNumber: t.String()
             })
         })
     );

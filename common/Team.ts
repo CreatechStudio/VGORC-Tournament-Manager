@@ -2,6 +2,8 @@ export interface TeamObject {
     teamNumber: string,
     teamName: string,
     teamOrganization: string,
+    teamDivision: string,
+    teamAvgScore: number
 }
 
 export class Team {
