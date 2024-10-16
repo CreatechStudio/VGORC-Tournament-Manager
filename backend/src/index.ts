@@ -1,8 +1,8 @@
 import { Elysia } from 'elysia';
 import { swagger } from '@elysiajs/swagger';
-import {division} from "./Groups/Division";
-import {team} from "./Groups/Team";
-import {utils} from "./Groups/Utils";
+import {divisionGroup} from "./Groups/Division";
+import {teamGroup} from "./Groups/Team";
+import {utilsGroup} from "./Groups/Utils";
 
 const app = new Elysia()
     .use(swagger({
@@ -14,9 +14,9 @@ const app = new Elysia()
         }
     }))
     .get('/', 'Welcome to VGORC TM Backend')
-    .use(division)
-    .use(team)
-    .use(utils)
+    .use(divisionGroup)
+    .use(teamGroup)
+    .use(utilsGroup)
     .listen(3000);
 
 console.log(

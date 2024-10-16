@@ -1,7 +1,7 @@
 import {Elysia, t} from "elysia";
 import {Team} from "../../../common/Team";
 
-export const team = new Elysia()
+export const teamGroup = new Elysia()
     .decorate('team', new Team())
     .group('/team', (app) => app
         .get('', ({ team }) => team.get())
