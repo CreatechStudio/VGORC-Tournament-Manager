@@ -3,6 +3,7 @@ import { swagger } from '@elysiajs/swagger';
 import {divisionGroup} from "./Groups/Division";
 import {teamGroup} from "./Groups/Team";
 import {utilsGroup} from "./Groups/Utils";
+import {authGroup} from "./Groups/Auth";
 
 const app = new Elysia()
     .use(swagger({
@@ -14,6 +15,7 @@ const app = new Elysia()
         }
     }))
     .get('/', 'Welcome to VGORC TM Backend')
+    .use(authGroup)
     .use(divisionGroup)
     .use(teamGroup)
     .use(utilsGroup)

@@ -9,7 +9,8 @@
   "dependencies": {
     "@elysiajs/swagger": "^1.1.5",
     "dotenv": "^16.4.5",
-    "elysia": "latest"
+    "elysia": "latest",
+    "elysia-ip": "^1.0.7"
   },
   "devDependencies": {
     "bun-types": "latest"

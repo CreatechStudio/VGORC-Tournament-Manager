@@ -1,6 +1,16 @@
 {
   "tournamentName": "VGORC",
   "tournamentPassword": "123456",
+  "auth": [
+    {
+      "authIP": "10.0.3.10",
+      "authRole": "Admin"
+    },
+    {
+      "authIP": "10.0.3.11",
+      "authRole": "Referee"
+    }
+  ],
   "settings": {
     "playerDuration": 60,
     "division": [
