@@ -14,6 +14,7 @@ import {useEffect, useState} from "react";
 import {getReq} from "../net.ts";
 import RefreshIcon from '@mui/icons-material/Refresh';
 import {DivisionObject} from "../../../common/Division.ts";
+import MenuDrawer from "../components/MenuDrawer.tsx";
 
 export default function AdminPage() {
     const [disabled, setDisabled] = useState(true);
@@ -47,6 +48,7 @@ export default function AdminPage() {
                     <IconButton onClick={() => handleRefresh()}>
                         <RefreshIcon/>
                     </IconButton>
+                    <MenuDrawer/>
                     <IconButton onClick={() => handleLogout()}>
                         <LogoutIcon/>
                     </IconButton>
