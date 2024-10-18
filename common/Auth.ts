@@ -1,26 +1,28 @@
 import {Data} from "./Data";
 import {Utils} from "../backend/src/Database/Utils";
 
+export enum AuthRole {
+    Admin,
+    Referee,
+    Guest
+}
+
 export interface AuthObject {
-    authIP: string,
-    authRole: string,
+    authRole: AuthRole,
+    authPasswordHash: string
 }
 
 export class Auth {
-    data: AuthObject[] = [];
     db: Utils = new Utils();
 
-    constructor() {
-        this.data = this.db.getData().auth;
-    }
-
-    checkAuth(authIP: string): AuthObject {
-        console.log(authIP)
-        for (const auth of this.data) {
-            if (auth.authIP === authIP) {
-                return auth;
+    checkAuth(role: number, password : string): boolean {
+        console.log(`Role is ${role}`)
+        console.log(`Password is ${password}`)
+        for (const auth of this.db.getData().auth) {
+            if (auth.authRole === role && auth.authPasswordHash === password) {
+                return true;
             }
         }
-        return {authIP: "", authRole: ""};
+        return false;
     }
 }

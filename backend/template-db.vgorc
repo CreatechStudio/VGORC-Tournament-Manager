@@ -3,12 +3,12 @@
   "tournamentPassword": "123456",
   "auth": [
     {
-      "authIP": "10.0.3.10",
-      "authRole": "Admin"
+      "authRole": "Admin",
+      "authPasswordHash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92"
     },
     {
-      "authIP": "10.0.3.11",
-      "authRole": "Referee"
+      "authRole": "Referee",
+      "authPasswordHash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92"
     }
   ],
   "settings": {
