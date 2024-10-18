@@ -6,19 +6,21 @@ import {
     IconButton,
     Typography
 } from "@mui/joy";
-import {PAD} from "../constants.ts";
+import {PAD} from "../constants";
 import LogoutIcon from '@mui/icons-material/Logout';
-import BasicAccordion from "../accordions/BasicAccordion.tsx";
-import TournamentAccordion from "../accordions/TournamentAccordion.tsx";
+import BasicAccordion from "../accordions/BasicAccordion";
+import TournamentAccordion from "../accordions/TournamentAccordion";
 import {useEffect, useState} from "react";
-import {getReq} from "../net.ts";
+import {getReq} from "../net";
 import RefreshIcon from '@mui/icons-material/Refresh';
-import {DivisionObject} from "../../../common/Division.ts";
-import MenuDrawer from "../components/MenuDrawer.tsx";
+import {DivisionObject} from "../../../common/Division";
+import MenuDrawer from "../components/MenuDrawer";
+import {TeamObject} from "../../../common/Team";
 
 export default function AdminPage() {
     const [disabled, setDisabled] = useState(true);
     const [divisions, setDivisions] = useState<DivisionObject[]>([]);
+    const [teams, setTeams] = useState<TeamObject[]>([]);
 
     useEffect(() => {
         getReq('/utils/database/existed').then((res) => {
@@ -32,7 +34,10 @@ export default function AdminPage() {
     function handleRefresh() {
         getReq('/division').then((res) => {
             setDivisions(res);
-        }).catch();
+        });
+        getReq('/team').then((res) => {
+            setTeams(res);
+        });
     }
 
     return (
@@ -74,6 +79,8 @@ export default function AdminPage() {
                 <TournamentAccordion
                     disabled={disabled}
                     divisions={divisions}
+                    teams={teams}
+                    setTeams={setTeams}
                     setDivisions={setDivisions}
                 />
             </AccordionGroup>

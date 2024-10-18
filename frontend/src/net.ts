@@ -16,6 +16,7 @@ export async function getReq(url: string) {
         return res.data;
     } catch (e) {
         solveErr(e);
+        throw e;
     }
 }
 
@@ -25,6 +26,7 @@ export async function postReq(url: string, data = {}) {
         return res.data;
     } catch (e) {
         solveErr(e);
+        throw e;
     }
 }
 
@@ -34,5 +36,6 @@ export async function deleteReq(url: string) {
         return res.data;
     } catch (e) {
         solveErr(e);
+        throw e;
     }
 }
