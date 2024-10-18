@@ -4,6 +4,7 @@ import {divisionGroup} from "./Groups/Division";
 import {teamGroup} from "./Groups/Team";
 import {utilsGroup} from "./Groups/Utils";
 import {authGroup} from "./Groups/Auth";
+import {rankingGroup} from "./Groups/Ranking";
 
 const app = new Elysia()
     .use(swagger({
@@ -14,13 +15,14 @@ const app = new Elysia()
             }
         }
     }))
-    .get('/', 'Welcome to VGORC TM Backend')
+    .get('/', 'Welcome to VGORC TM API Backend')
     .use(authGroup)
     .use(divisionGroup)
+    .use(rankingGroup)
     .use(teamGroup)
     .use(utilsGroup)
     .listen(3000);
 
 console.log(
-    `🦊 VGORC TM Backend is running at http://${app.server?.hostname}:${app.server?.port}`
+    `🤖 VGORC TM API Backend is running at http://${app.server?.hostname}:${app.server?.port}`
 );
