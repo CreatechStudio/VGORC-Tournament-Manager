@@ -20,12 +20,34 @@ export class Team {
     }
 
     add(aTeam: TeamObject) {
-        if (this.data[aTeam.teamNumber] !== undefined) {
-            throw "Division already exist";
-        }
         if (aTeam.teamNumber.length === 0) {
-            throw "Division name should not be empty";
+            throw "Team number should not be empty";
         }
+        if (aTeam.teamDivision.length === 0) {
+            throw "Team division should not be empty";
+        }
+        if (aTeam.teamName.length === 0) {
+            throw "Team name should not be empty";
+        }
+        if (aTeam.teamOrganization.length === 0) {
+            throw "Team organization should not be empty";
+        }
+        if (aTeam.teamAvgScore < 0) {
+            throw "Team average score should not be lower than zero";
+        }
+        // 检查team的division是否存在
+        let validDivisionFlag = false;
+        let divisions = this.db.getData().settings.division;
+        for (let i = 0; i < divisions.length; i ++) {
+            if (divisions[i].divisionName === aTeam.teamDivision) {
+                validDivisionFlag = true;
+                break;
+            }
+        }
+        if (!validDivisionFlag) {
+            throw "Team division does not exist";
+        }
+        // 添加并保存
         this.data[aTeam.teamNumber] = aTeam;
         this._update();
     }
