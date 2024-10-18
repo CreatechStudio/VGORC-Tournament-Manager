@@ -3,7 +3,7 @@ import {Utils} from "../backend/src/Database/Utils";
 
 export interface DivisionObject {
     divisionName: string,
-    fields: string[]
+    divisionFields: string[]
 }
 
 export class Division {
@@ -26,7 +26,7 @@ export class Division {
     _newFieldsExist(newFields: string[], index?: number,) {
         for (let i = 0; i < this.data.length; i ++) {
             for (let j = 0; j < newFields.length; j ++) {
-                if (i !== index && this.data[i].fields.includes(newFields[j])) {
+                if (i !== index && this.data[i].divisionFields.includes(newFields[j])) {
                     return true;
                 }
             }
@@ -34,29 +34,23 @@ export class Division {
         return false;
     }
 
-    add(divisionName: string, fields: string[]) {
-        if (divisionName.length === 0) {
+    add(obj: DivisionObject) {
+        if (obj.divisionName.length === 0) {
             throw "Division name should not be empty";
         }
-        if (new Set(fields).size !== fields.length) {
+        if (new Set(obj.divisionFields).size !== obj.divisionFields.length) {
             throw "Fields cannot repeat";
         }
 
-        let index = this._indexOf(divisionName);
-        if (this._newFieldsExist(fields, index)) {
+        let index = this._indexOf(obj.divisionName);
+        if (this._newFieldsExist(obj.divisionFields, index)) {
             throw "Field name already exists";
         }
 
         if (index === -1) {
-            this.data.push({
-                divisionName,
-                fields
-            });
+            this.data.push(obj);
         } else {
-            this.data[index] = {
-                divisionName,
-                fields
-            }
+            this.data[index] = obj;
         }
         this._update();
     }
