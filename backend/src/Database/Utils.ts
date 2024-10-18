@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import * as dotenv from 'dotenv';
 import {Data, DEFAULT_DATA} from "../../../common/Data";
 
-dotenv.config({ path: '../../.env' });
+dotenv.config({ path: `${process.cwd()}/.env` });
 
 export class Utils {
     private readonly dbFile: string;
@@ -13,7 +13,7 @@ export class Utils {
         if (!this.dbFile) {
             throw new Error('DB_FILE is not defined in the .env file');
         }
-        console.log(`Database file: ${this.dbFile}`);
+        // console.log(`Database file: ${this.dbFile}`);
         this.initDatabaseConnection();
     }
 
