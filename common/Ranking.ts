@@ -19,8 +19,6 @@ export class Ranking {
                 });
             }
         });
-
-        console.log(matches)
         return matches;
     }
 
@@ -45,7 +43,6 @@ export class Ranking {
         let totalScore = 0;
         matches.forEach(match => {
             totalScore += match.matchScore;
-            console.log(teamNumber, match.matchNumber, match.matchScore, totalScore)
         });
         return totalScore / matches.length;
     }
@@ -64,7 +61,6 @@ export class Ranking {
         });
 
         ranking.sort((a, b) => b.teamAvgScore - a.teamAvgScore);
-
         return ranking;
     }
 }
