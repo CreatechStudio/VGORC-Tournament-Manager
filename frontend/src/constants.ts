@@ -1,5 +1,6 @@
 import {DivisionObject} from "../../common/Division.ts";
 import {TeamObject} from "../../common/Team.ts";
+import {FieldSetObject} from "../../common/FieldSet.ts";
 
 export const ASPECT_RATIO = 1/0.618;
 export const SMALL_PART = 38.2;
@@ -25,4 +26,9 @@ export const DEFAULT_TEAM: TeamObject = {
     teamOrganization: "",
     teamDivision: "",
     teamAvgScore: 0
+}
+
+export const DEFAULT_FIELD_SET: FieldSetObject = {
+    fieldSetId: 0,
+    fields: []
 }

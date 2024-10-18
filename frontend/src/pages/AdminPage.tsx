@@ -16,11 +16,13 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import {DivisionObject} from "../../../common/Division";
 import MenuDrawer from "../components/MenuDrawer";
 import {TeamObject} from "../../../common/Team";
+import {FieldSetObject} from "../../../common/FieldSet";
 
 export default function AdminPage() {
     const [disabled, setDisabled] = useState(true);
     const [divisions, setDivisions] = useState<DivisionObject[]>([]);
     const [teams, setTeams] = useState<TeamObject[]>([]);
+    const [fieldSets, setFieldSets] = useState<FieldSetObject[]>([]);
 
     useEffect(() => {
         getReq('/utils/database/existed').then((res) => {
@@ -37,6 +39,9 @@ export default function AdminPage() {
         });
         getReq('/team').then((res) => {
             setTeams(res);
+        });
+        getReq('/fieldset').then((res) => {
+            setFieldSets(res);
         });
     }
 
@@ -79,9 +84,11 @@ export default function AdminPage() {
                 <TournamentAccordion
                     disabled={disabled}
                     divisions={divisions}
+                    setDivisions={setDivisions}
                     teams={teams}
                     setTeams={setTeams}
-                    setDivisions={setDivisions}
+                    fieldSets={fieldSets}
+                    setFieldSets={setFieldSets}
                 />
             </AccordionGroup>
         </Box>

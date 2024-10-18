@@ -63,10 +63,10 @@ export class Division {
         let index = this._indexOf(divisionName);
         if (index > -1) {
             this.data.splice(index, 1);
+            this._update();
         } else {
             throw "Division does not exist";
         }
-        this._update();
     }
 
     _update() {

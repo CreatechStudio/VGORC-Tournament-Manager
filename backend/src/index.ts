@@ -5,6 +5,7 @@ import {teamGroup} from "./Groups/Team";
 import {utilsGroup} from "./Groups/Utils";
 import {authGroup} from "./Groups/Auth";
 import {rankingGroup} from "./Groups/Ranking";
+import {fieldSetGroup} from "./Groups/FieldSet";
 
 const app = new Elysia()
     .use(swagger({
@@ -20,6 +21,7 @@ const app = new Elysia()
     .use(divisionGroup)
     .use(rankingGroup)
     .use(teamGroup)
+    .use(fieldSetGroup)
     .use(utilsGroup)
     .listen(3000);
 

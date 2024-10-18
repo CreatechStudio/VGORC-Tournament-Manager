@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {Box, Button, ButtonGroup, IconButton, Input, Table} from "@mui/joy";
+import {Box, Button, ButtonGroup, IconButton, Input, Table, Typography} from "@mui/joy";
 import AddIcon from "@mui/icons-material/Add";
 import UploadIcon from "@mui/icons-material/Upload";
 import ChipInput from "./ChipInput.tsx";
@@ -113,14 +113,13 @@ export default function TournamentTable<T extends Record<keyof T, string | strin
     }
 
     function handleSave() {
-        let flag = false;
+        let changeFlag = false;
         let successFlag = true;
         const promises: Promise<unknown>[] = [];
         localArr.forEach((obj) => {
             // 如果本地存在但是远端不存在或与远端的不同，那就更新这条记录
             if (!includes(arr, obj)) {
-                console.log('Update', obj);
-                flag = true;
+                changeFlag = true;
                 promises.push(postReq(updateEndpoint, {
                     data: obj
                 }).then((res) => {
@@ -132,7 +131,7 @@ export default function TournamentTable<T extends Record<keyof T, string | strin
             }
         });
         Promise.all(promises).then(() => {
-            if (!flag) {
+            if (!changeFlag) {
                 setLocalArr(arr);
             }
             if (successFlag) {
@@ -172,7 +171,11 @@ export default function TournamentTable<T extends Record<keyof T, string | strin
             <tr>
                 {
                     TKeys.map((key, index) => (
-                        <th key={index}>{key}</th>
+                        <th key={index}>
+                            <Typography sx={{pl: PAD}}>
+                                {key}
+                            </Typography>
+                        </th>
                     ))
                 }
                 <th style={{width: '25%'}}>

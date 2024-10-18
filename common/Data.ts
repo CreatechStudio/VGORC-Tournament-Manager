@@ -4,6 +4,7 @@ import {MatchWithDivision} from "./Match";
 import {SkillWithTeam} from "./Skill";
 import {TeamObject} from "./Team";
 import {AuthObject} from "./Auth";
+import {FieldSetObject} from "./FieldSet";
 
 export interface Data {
     tournamentName: string,
@@ -12,7 +13,7 @@ export interface Data {
     settings: {
         playerDuration: number,
         division: DivisionObject[],
-        fieldSetId: number[],
+        fieldSets: FieldSetObject[],
         eliminationAllianceCount: number
     },
     teams: TeamObject[],
@@ -28,7 +29,7 @@ export const DEFAULT_DATA: Data = {
     settings: {
         playerDuration: 0,
         division: [],
-        fieldSetId: [],
+        fieldSets: [],
         eliminationAllianceCount: 0,
     },
     teams: [],
