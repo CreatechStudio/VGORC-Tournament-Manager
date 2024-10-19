@@ -9,6 +9,7 @@ export interface MatchObject {
     matchPeriod: number,
     matchCountInPeriod: number,
     matchTeam: string[],
+    hasScore: boolean,
     matchScore: number
 }
 
@@ -42,26 +43,42 @@ export class Match {
 
     setScore(divisionName: string, matchNumber: number, score: number) {
         let decodedDivisionName = decodeURIComponent(divisionName);
-        let currentMath = this._locateMatch(decodedDivisionName, matchNumber);
-        currentMath.matchScore = score;
-        this.data.push(
-            {
-                divisionName: decodedDivisionName,
-                matches: [currentMath]
+        let currentMatch = this._locateMatch(decodedDivisionName, matchNumber);
+        currentMatch.matchScore = score;
+        currentMatch.hasScore = true;
+
+        this.data.forEach(division => {
+            if (division.divisionName === decodedDivisionName) {
+                division.matches.forEach((match, matchIndex) => {
+                    if (match.matchNumber === matchNumber) {
+                        division.matches[matchIndex] = currentMatch;
+                    }
+                });
             }
-        );
-        this._update();
-        return currentMath;
+        });
+
+        this._update(divisionName, currentMatch);
+        return currentMatch;
     }
 
-    getScore(divisionName: string, matchNumber: number) {
-        let match = this._locateMatch(divisionName, matchNumber);
-        return match.matchScore;
+    getMatch(divisionName: string, matchNumber: number) {
+        return this._locateMatch(divisionName, matchNumber);
     }
 
-    _update() {
+    _update(divisionName: string, currentMatch: MatchObject) {
         let newData: Data = this.db.getData();
-        newData.matches = this.data;
+        let decodedDivisionName = decodeURIComponent(divisionName);
+
+        newData.matches.forEach(division => {
+            if (division.divisionName === decodedDivisionName) {
+                division.matches.forEach((match, matchIndex) => {
+                    if (match.matchNumber === currentMatch.matchNumber) {
+                        division.matches[matchIndex] = currentMatch;
+                    }
+                });
+            }
+        });
+
         this.db.updateData(newData);
     }
 }

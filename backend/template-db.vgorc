@@ -92,6 +92,7 @@
             "1123A",
             "2123A"
           ],
+          "hasScore": true,
           "matchScore": 5
         },
         {
@@ -105,6 +106,7 @@
             "1123A",
             "2123A"
           ],
+          "hasScore": true,
           "matchScore": 3
         },
         {
@@ -118,7 +120,8 @@
             "1123A",
             "2123A"
           ],
-          "matchScore": 1
+          "hasScore": false,
+          "matchScore": 0
         },
         {
           "matchNumber": 4,
@@ -131,7 +134,8 @@
             "1123A",
             "2123A"
           ],
-          "matchScore": 2
+          "hasScore": false,
+          "matchScore": 0
         }
       ]
     },
@@ -149,6 +153,7 @@
             "1123B",
             "2123B"
           ],
+          "hasScore": false,
           "matchScore": 0
         },
         {
@@ -162,6 +167,7 @@
             "1123B",
             "2123B"
           ],
+          "hasScore": false,
           "matchScore": 0
         },
         {
@@ -175,6 +181,7 @@
             "1123B",
             "2123B"
           ],
+          "hasScore": false,
           "matchScore": 0
         },
         {
@@ -188,6 +195,7 @@
             "1123B",
             "2123B"
           ],
+          "hasScore": false,
           "matchScore": 0
         }
       ]
