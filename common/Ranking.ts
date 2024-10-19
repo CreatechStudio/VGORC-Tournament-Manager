@@ -47,7 +47,7 @@ export class Ranking {
         return totalScore / matches.length;
     }
 
-    getRanking(divisionName: string) {
+    getQualRanking(divisionName: string) {
         let decodedDivisionName = decodeURIComponent(divisionName);
         let teams = this._findTeamsInDivision(decodedDivisionName);
         let ranking: { teamNumber: string; teamAvgScore: number; }[] = [];
@@ -61,6 +61,27 @@ export class Ranking {
         });
 
         ranking.sort((a, b) => b.teamAvgScore - a.teamAvgScore);
+        return ranking;
+    }
+
+    getSkillRanking() {
+        let data = this.db.getData();
+        let ranking: { teamNumber: string; DriverScore: number; AutoScore: number; TotalScore: number; }[] = [];
+
+        data.skills.forEach(team => {
+            let driverScore = Math.max(...team.driverSkill);
+            let autoScore = Math.max(...team.autoSkill);
+            let totalScore = driverScore + autoScore;
+
+            ranking.push({
+                teamNumber: team.skillsTeamNumber,
+                DriverScore: driverScore,
+                AutoScore: autoScore,
+                TotalScore: totalScore
+            });
+        });
+
+        ranking.sort((a, b) => b.TotalScore - a.TotalScore);
         return ranking;
     }
 }
