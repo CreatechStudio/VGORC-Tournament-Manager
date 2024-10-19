@@ -32,8 +32,6 @@ export class Skill {
 
     setSkillScore(teamNumber: string, skillType: SkillType, score: number) {
         let team = this._locateTeam(teamNumber);
-        console.log((skillType))
-        console.log(team)
         if (team[skillType].length >= 3) {
             throw new Error(`${skillType} attempts have reached the limit`);
         }
