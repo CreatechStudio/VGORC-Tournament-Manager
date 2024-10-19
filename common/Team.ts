@@ -6,7 +6,6 @@ export interface TeamObject {
     teamName: string,
     teamOrganization: string,
     teamDivision: string,
-    teamAvgScore: number
 }
 
 export class Team {
@@ -31,9 +30,6 @@ export class Team {
         }
         if (aTeam.teamOrganization.length === 0) {
             throw "Team organization should not be empty";
-        }
-        if (aTeam.teamAvgScore < 0) {
-            throw "Team average score should not be lower than zero";
         }
         // 检查team的division是否存在
         let validDivisionFlag = false;

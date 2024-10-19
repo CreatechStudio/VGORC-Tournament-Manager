@@ -40,29 +40,25 @@
       "teamNumber": "1123A",
       "teamName": "Ulink A",
       "teamOrganization": "Ulink",
-      "teamDivision": "Division A",
-      "teamAvgScore": 0
+      "teamDivision": "Division A"
     },
     {
       "teamNumber": "1123B",
       "teamName": "Ulink B",
       "teamOrganization": "Ulink",
-      "teamDivision": "Division B",
-      "teamAvgScore": 0
+      "teamDivision": "Division B"
     },
     {
       "teamNumber": "2123A",
       "teamName": "Createch A",
       "teamOrganization": "Createch",
-      "teamDivision": "Division A",
-      "teamAvgScore": 0
+      "teamDivision": "Division A"
     },
     {
       "teamNumber": "2123B",
       "teamName": "Createch B",
       "teamOrganization": "Createch",
-      "teamDivision": "Division B",
-      "teamAvgScore": 0
+      "teamDivision": "Division B"
     }
   ],
   "periods": [
