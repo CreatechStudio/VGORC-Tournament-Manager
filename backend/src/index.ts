@@ -7,6 +7,7 @@ import {authGroup} from "./Groups/Auth";
 import {rankingGroup} from "./Groups/Ranking";
 import {fieldSetGroup} from "./Groups/FieldSet";
 import {matchGroup} from "./Groups/Match";
+import {skillGroup} from "./Groups/Skills";
 
 const app = new Elysia()
     .use(swagger({
@@ -20,10 +21,11 @@ const app = new Elysia()
     .get('/', 'Welcome to VGORC TM API Backend')
     .use(authGroup)
     .use(divisionGroup)
+    .use(fieldSetGroup)
     .use(matchGroup)
     .use(rankingGroup)
+    .use(skillGroup)
     .use(teamGroup)
-    .use(fieldSetGroup)
     .use(utilsGroup)
     .listen(3000);
 

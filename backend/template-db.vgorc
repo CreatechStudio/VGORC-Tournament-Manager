@@ -204,65 +204,13 @@
   "skills": [
     {
       "skillsTeamNumber": "1123A",
-      "driverSkill": [
-        {
-          "attempt": 1,
-          "score": 50
-        },
-        {
-          "attempt": 2,
-          "score": 60
-        },
-        {
-          "attempt": 3,
-          "score": 0
-        }
-      ],
-      "autoSkill": [
-        {
-          "attempt": 1,
-          "score": 70
-        },
-        {
-          "attempt": 2,
-          "score": 0
-        },
-        {
-          "attempt": 3,
-          "score": 0
-        }
-      ]
+      "driverSkill": [10],
+      "autoSkill": [5,9]
     },
     {
       "skillsTeamNumber": "1123B",
-      "driverSkill": [
-        {
-          "attempt": 1,
-          "score": 50
-        },
-        {
-          "attempt": 2,
-          "score": 60
-        },
-        {
-          "attempt": 3,
-          "score": 10
-        }
-      ],
-      "autoSkill": [
-        {
-          "attempt": 1,
-          "score": 70
-        },
-        {
-          "attempt": 2,
-          "score": 30
-        },
-        {
-          "attempt": 3,
-          "score": 0
-        }
-      ]
+      "driverSkill": [9,2],
+      "autoSkill": [11]
     }
   ]
 }
