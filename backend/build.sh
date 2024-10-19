@@ -5,7 +5,7 @@ cd "$(dirname "$0")"
 build() {
     local platform=$1
     local arch=$2
-    bun build src/index.ts --compile --target=bun-${platform}-${arch} --outfile ./dist/backend-${platform}-${arch}
+    bun build --minify --sourcemap src/index.ts --compile --target=bun-${platform}-${arch} --outfile ./dist/backend-${platform}-${arch}
 }
 
 echo "Select Platform:"
