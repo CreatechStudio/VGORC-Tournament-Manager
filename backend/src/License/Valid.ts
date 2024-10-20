@@ -1,11 +1,10 @@
 import * as fs from 'fs';
-import * as path from 'path';
 import NodeRSA from 'node-rsa';
-import * as dotenv from 'dotenv';
 import { machineIdSync } from 'node-machine-id';
 import fetch from 'node-fetch';
+import dotenv from 'dotenv';
 
-dotenv.config({ path: `${process.cwd()}/.env` });
+dotenv.config();
 
 const activationFilePath = process.env.LICENSE_FILE || 'license.license';
 
@@ -45,8 +44,8 @@ async function validateLicense() {
     } catch (error) {
         console.error('Error validating license:', error.message);
         let machineIdValue = machineIdSync();
-        console.log(`🔑 Your machine id is ${machineIdValue}.`);
-        console.log(`❌ Your license is invalid or expired. Application will terminate.`);
+        console.log(`🔑 Your machine id is ${machineIdValue}`);
+        console.log(`❌ Your license is invalid or expired. Application will terminate`);
     }
 }
 

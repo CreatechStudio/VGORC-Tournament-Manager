@@ -1,8 +1,8 @@
 import * as fs from 'fs';
-import * as dotenv from 'dotenv';
 import {Data, DEFAULT_DATA} from "../../../common/Data";
+import dotenv from 'dotenv';
 
-dotenv.config({ path: `${process.cwd()}/.env` });
+dotenv.config();
 
 export class Utils {
     private readonly dbFile: string;
