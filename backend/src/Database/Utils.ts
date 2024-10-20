@@ -30,8 +30,8 @@ export class Utils {
 
     createTournamentDatabase() {
         if (!this._isDatabaseExist()) {
-            fs.writeFileSync(this.dbFile, '');
-            console.log('Utils created successfully');
+            fs.writeFileSync(this.dbFile, JSON.stringify(DEFAULT_DATA, null, 4));
+            console.log('Utils created successfully with default data');
         } else {
             console.log('Utils already exists');
         }
