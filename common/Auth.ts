@@ -1,4 +1,3 @@
-import {Data} from "./Data";
 import {Utils} from "../backend/src/Database/Utils";
 
 export enum AuthRole {
