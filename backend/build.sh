@@ -2,6 +2,8 @@
 
 cd "$(dirname "$0")"
 
+mv .env .temp-env
+
 build() {
     local platform=$1
     local arch=$2
@@ -34,3 +36,4 @@ esac
 
 build $PLATFORM $ARCH
 rm -f .*.bun-build
+mv .temp-env .env
