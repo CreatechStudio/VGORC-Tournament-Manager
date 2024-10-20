@@ -1,3 +1,4 @@
+import { licenseInfo } from './License/Valid';
 import { Elysia } from 'elysia';
 import { swagger } from '@elysiajs/swagger';
 import { divisionGroup } from './Groups/Division';
@@ -8,7 +9,6 @@ import { rankingGroup } from './Groups/Ranking';
 import { fieldSetGroup } from './Groups/FieldSet';
 import { matchGroup } from './Groups/Match';
 import { skillGroup } from './Groups/Skills';
-import { licenseInfo } from './License/Valid';
 
 function delay(ms: number) {
     return new Promise( resolve => setTimeout(resolve, ms) );
