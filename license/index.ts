@@ -9,9 +9,9 @@ const key = new NodeRSA();
 key.importKey(privateKey, 'private');
 
 const licenseData = {
-    expireDate: '2024-12-31',
-    organization: 'Shanghai JiaoTong University',
-    machineId: 'ac55ff07acdb72bf1acc5b65090a2bcee737740cd32a298f9894e8d2bbafe1e2'
+    expireDate: process.env.EXPIRE_DATE,
+    organization: process.env.ORGANIZATION,
+    machineId: process.env.MACHINE_ID
 };
 
 const encryptedLicense = key.encryptPrivate(JSON.stringify(licenseData), 'base64');
