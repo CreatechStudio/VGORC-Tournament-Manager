@@ -17,7 +17,7 @@ async function getNetworkTime() {
         const options = {
             hostname: 'license.createchstudio.com',
             port: 443,
-            path: '/api/ip',
+            path: '/',
             method: 'GET',
             key: '-----BEGIN PRIVATE KEY-----\n' +
                 'MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDKf8bU/e1CTOxc\n' +
