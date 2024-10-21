@@ -24,8 +24,7 @@ export const DEFAULT_TEAM: TeamObject = {
     teamNumber: "",
     teamName: "",
     teamOrganization: "",
-    teamDivision: "",
-    teamAvgScore: 0
+    teamDivision: ""
 }
 
 export const DEFAULT_FIELD_SET: FieldSetObject = {
