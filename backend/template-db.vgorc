@@ -16,14 +16,14 @@
     "division": [
       {
         "divisionName": "Division A",
-        "divisionField": [
+        "divisionFields": [
           "Field 1",
           "Field 2"
         ]
       },
       {
         "divisionName": "Division B",
-        "divisionField": [
+        "divisionFields": [
           "Field 3",
           "Field 4"
         ]
