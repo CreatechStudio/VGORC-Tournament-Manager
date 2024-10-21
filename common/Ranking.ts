@@ -41,10 +41,17 @@ export class Ranking {
         if (matches.length === 0) return 0;
 
         let totalScore = 0;
+        let validMatchesCount = 0;
+
         matches.forEach(match => {
-            totalScore += match.matchScore;
+            if (match.hasScore) {
+                totalScore += match.matchScore;
+                validMatchesCount++;
+            }
         });
-        return totalScore / matches.length;
+        
+        if (validMatchesCount === 0) return 0;
+        return totalScore / validMatchesCount;
     }
 
     getQualRanking(divisionName: string) {
