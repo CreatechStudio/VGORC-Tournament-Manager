@@ -23,7 +23,8 @@ export class Division {
         return -1;
     }
 
-    _newFieldsExist(newFields: string[], index?: number,) {
+    // Division A里不能有Division B里已经有的场地
+    _newFieldsExistInOtherDivision(newFields: string[], index?: number,) {
         for (let i = 0; i < this.data.length; i ++) {
             for (let j = 0; j < newFields.length; j ++) {
                 if (i !== index && this.data[i].divisionFields.includes(newFields[j])) {
@@ -32,6 +33,20 @@ export class Division {
             }
         }
         return false;
+    }
+
+    _newFieldsExistInAnyFieldSets(newFields: string[]) {
+        let allFields: string[] = [];
+        let allExist: boolean = true
+        this.db.getData().settings.fieldSets.forEach(fieldSet => {
+            allFields = allFields.concat(fieldSet.fields);
+        });
+        for (let i = 0; i < newFields.length; i++) {
+            if (!allFields.includes(newFields[i])) {
+                allExist = false;
+            }
+        }
+        return allExist;
     }
 
     add(obj: DivisionObject) {
@@ -43,8 +58,12 @@ export class Division {
         }
 
         let index = this._indexOf(obj.divisionName);
-        if (this._newFieldsExist(obj.divisionFields, index)) {
+        if (this._newFieldsExistInOtherDivision(obj.divisionFields, index)) {
             throw "Field name already exists";
+        }
+
+        if (!this._newFieldsExistInAnyFieldSets(obj.divisionFields)) {
+            throw "Field name does not exist in field sets";
         }
 
         if (index === -1) {
