@@ -31,3 +31,26 @@ export const DEFAULT_FIELD_SET: FieldSetObject = {
     fieldSetId: 0,
     fields: []
 }
+
+
+export interface PictureObject {
+    url: string;
+    name: string;
+}
+
+export const PICTURES: PictureObject[] = [
+    {
+        url: import.meta.env.VITE_VENDOR_LOGO,
+        name: "Vendor Logo"
+    },
+    {
+        url: "/CreatechStudio.png",
+        name: "CreatechStudio"
+    },
+    {
+        url: "/VEX GO Logo_Full Color.png",
+        name: "VEX GO"
+    }
+];
+
+export const SCROLL_SPEED = .25;

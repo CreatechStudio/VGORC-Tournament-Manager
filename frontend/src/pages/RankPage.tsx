@@ -1,5 +1,5 @@
 import {Box, ButtonGroup, Sheet, Table, Typography} from "@mui/joy";
-import {PAD} from "../constants.ts";
+import {PAD, PictureObject, PICTURES, SCROLL_SPEED} from "../constants.ts";
 import MenuDrawer from "../components/MenuDrawer.tsx";
 import {MutableRefObject, useEffect, useRef, useState} from "react";
 import {getReq} from "../net.ts";
@@ -9,28 +9,6 @@ interface RankObject {
     teamAvgScore: number;
     rank: number;
 }
-
-interface PictureObject {
-    url: string;
-    name: string;
-}
-
-const PICTURES: PictureObject[] = [
-    {
-        url: import.meta.env.VITE_VENDOR_LOGO,
-        name: "Vendor Logo"
-    },
-    {
-        url: "/CreatechStudio.png",
-        name: "CreatechStudio"
-    },
-    {
-        url: "/VEX GO Logo_Full Color.png",
-        name: "VEX GO"
-    }
-];
-
-const SCROLL_SPEED = .3;
 
 export default function RankPage() {
     const urlParams = new URLSearchParams(window.location.search);
@@ -50,11 +28,11 @@ export default function RankPage() {
         try {
             if (tableRef.current) {
                 tableOffsetTop += SCROLL_SPEED;
-                const totalHeight = tableRef.current.scrollHeight - tableRef.current.clientHeight;
+                const totalHeight = tableRef.current.scrollHeight - tableRef.current.clientHeight + SCROLL_SPEED * 120;
                 tableRef.current.scrollTo({
                     left: 0,
                     top: tableOffsetTop,
-                    behavior: "smooth",
+                    behavior: tableOffsetTop === 0 ? "instant" : "smooth",
                 });
                 if (tableOffsetTop > totalHeight) {
                     tableOffsetTop = -SCROLL_SPEED;
@@ -92,8 +70,8 @@ export default function RankPage() {
                 pl: PAD, pr: PAD, pb: PAD,
                 display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'
             }}>
-                <Typography level="title-lg">
-                    Ranking
+                <Typography level="h1">
+                    QUALIFICATION RANKING {divisionName ? `- ${divisionName}` : ""}
                 </Typography>
                 <ButtonGroup>
                     <MenuDrawer/>
@@ -154,7 +132,8 @@ export default function RankPage() {
                             </tbody>
                             <tfoot>
                             <tr>
-                                <td colSpan={3} style={{textAlign: 'center'}}>End</td>
+                                {/*占位*/}
+                                <td colSpan={3} style={{textAlign: 'center'}}></td>
                             </tr>
                             </tfoot>
                         </Table>
