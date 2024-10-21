@@ -29,9 +29,14 @@
         ]
       }
     ],
-    "fieldSetId": [
-      1,
-      2
+    "fieldSets": [
+      {
+        "fieldSetId": 1,
+        "fields": [
+          "Field 1",
+          "Field 3"
+        ]
+      }
     ],
     "eliminationAllianceCount": 10
   },
