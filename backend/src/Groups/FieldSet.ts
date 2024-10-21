@@ -10,6 +10,7 @@ export const fieldSetGroup = new Elysia()
         }) => {
             try {
                 fieldSet.add(data);
+                return fieldSet.get();
             } catch (e) {
                 return error(406, e);
             }
@@ -26,6 +27,7 @@ export const fieldSetGroup = new Elysia()
         }) => {
             try {
                 fieldSet.delete(fieldSetId);
+                return fieldSet.get();
             } catch (e) {
                 return error(406, e);
             }
