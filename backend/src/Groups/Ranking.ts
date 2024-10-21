@@ -5,9 +5,9 @@ export const rankingGroup = new Elysia()
     .decorate('rank', new Ranking())
     .group('/rank', (app) => app
         .get('/qualification/:divisionName', ({ rank, params }) =>
-            rank.getQualRanking(params.division), {
+            rank.getQualRanking(params.divisionName), {
             params: t.Object({
-                division: t.String()
+                divisionName: t.String()
             })
         })
         .get('/skill', ({ rank }) =>
