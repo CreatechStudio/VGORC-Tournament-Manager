@@ -9,12 +9,18 @@ import { rankingGroup } from './Groups/Ranking';
 import { fieldSetGroup } from './Groups/FieldSet';
 import { matchGroup } from './Groups/Match';
 import { skillGroup } from './Groups/Skills';
+import { cors } from "@elysiajs/cors";
+import { logger } from '@bogeychan/elysia-logger';
+import {machineIdSync} from "node-machine-id";
 
 function delay(ms: number) {
     return new Promise( resolve => setTimeout(resolve, ms) );
 }
 
 if (!licenseInfo.isValid) {
+    let machineIdValue = machineIdSync();
+    console.log(`🔑 Your machine id is ${machineIdValue}`);
+    console.log(`❌ Your license is invalid or expired. Application will terminate`);
     await delay(10000);
     process.exit(1);
 } else {
@@ -31,6 +37,13 @@ const app = new Elysia()
                 version: '1.0.0'
             }
         }
+    }))
+    .use(cors({
+        origin: '*'
+    }))
+    .use(logger({
+        stream: process.stdout,
+        // level: "error",
     }))
     .get('/', 'Welcome to VGORC TM API Backend')
     .use(authGroup)

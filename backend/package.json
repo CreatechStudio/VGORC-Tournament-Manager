@@ -7,6 +7,8 @@
     "dev-db": "bun run --watch src/Database/Utils.ts"
   },
   "dependencies": {
+    "@bogeychan/elysia-logger": "^0.1.4",
+    "@elysiajs/cors": "^1.1.1",
     "@elysiajs/jwt": "^1.1.1",
     "@elysiajs/swagger": "^1.1.5",
     "dotenv": "^16.4.5",
