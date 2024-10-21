@@ -16,44 +16,50 @@ export class Skill {
     data: SkillWithTeam[] = [];
     db: Utils = new Utils();
 
-    _locateTeam(teamNumber: string): SkillWithTeam {
-        let data = this.db.getData();
-        let foundTeam: SkillWithTeam | null = null;
-        data.skills.forEach(team => {
-            if (team.skillsTeamNumber === teamNumber) {
-                foundTeam = team;
+    constructor() {
+        this.data = this.db.getData().skills || [];
+    }
+
+    _indexOf(teamNumber: string): number {
+        for (let i = 0; i < this.data.length; i++) {
+            if (this.data[i].skillsTeamNumber === teamNumber) {
+                return i;
             }
-        });
-        if (!foundTeam) {
-            throw new Error(`Team with number ${teamNumber} not found`);
         }
-        return foundTeam;
+        return -1;
     }
 
     setSkillScore(teamNumber: string, skillType: SkillType, score: number) {
-        let team = this._locateTeam(teamNumber);
-        if (team[skillType].length >= 3) {
-            throw new Error(`${skillType} attempts have reached the limit`);
+        let index = this._indexOf(teamNumber);
+        if (index !== -1) {
+            let team = this.data[index];
+            if (team[skillType].length >= 3) {
+                throw new Error(`${skillType} attempts have reached the limit`);
+            }
+            team[skillType].push(score);
+            this._update();
+        } else {
+            let newTeam: SkillWithTeam = {
+                skillsTeamNumber: teamNumber,
+                driverSkill: skillType === SkillType.driverSkill ? [score] : [],
+                autoSkill: skillType === SkillType.autoSkill ? [score] : []
+            };
+            this.data.push(newTeam);
+            this._update();
         }
-
-        team[skillType].push(score);
-        this._update(team);
-        return team;
     }
 
     getSkill(teamNumber: string): SkillWithTeam {
-        return this._locateTeam(teamNumber);
+        let index = this._indexOf(teamNumber);
+        if (index === -1) {
+            throw new Error(`Team with number ${teamNumber} not found`);
+        }
+        return this.data[index];
     }
 
-    _update(updatedTeam: SkillWithTeam) {
+    _update() {
         let newData: Data = this.db.getData();
-
-        newData.skills.forEach((team, index) => {
-            if (team.skillsTeamNumber === updatedTeam.skillsTeamNumber) {
-                newData.skills[index] = updatedTeam;
-            }
-        });
-
+        newData.skills = this.data;
         this.db.updateData(newData);
     }
 }
