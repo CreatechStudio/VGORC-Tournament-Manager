@@ -1,5 +1,6 @@
 import * as fs from 'fs';
 import https from 'https';
+// @ts-ignore
 import NodeRSA from 'node-rsa';
 import { machineIdSync } from 'node-machine-id';
 import dotenv from 'dotenv';
@@ -114,9 +115,11 @@ async function validateLicense() {
         expireDate = new Date(licenseData.expireDate);
         const currentMachineId = machineIdSync();
 
+        // @ts-ignore
         isValid = currentDate <= expireDate && licenseData.machineId === currentMachineId;
         organization = licenseData.organization;
     } catch (error) {
+        // @ts-ignore
         console.error('Error validating license:', error.message);
         let machineIdValue = machineIdSync();
         console.log(`🔑 Your machine id is ${machineIdValue}`);
