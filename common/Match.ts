@@ -61,6 +61,18 @@ export class Match {
         return currentMatch;
     }
 
+    getAllMatches(divisionName: string) {
+        let decodedDivisionName = decodeURIComponent(divisionName);
+        let data = this.db.getData();
+        let foundMatches: MatchObject[] = [];
+        data.matches.forEach(division => {
+            if (division.divisionName === decodedDivisionName) {
+                foundMatches = division.matches;
+            }
+        });
+        return foundMatches
+    }
+
     getMatch(divisionName: string, matchNumber: number) {
         return this._locateMatch(divisionName, matchNumber);
     }
