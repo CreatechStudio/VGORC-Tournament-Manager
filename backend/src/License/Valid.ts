@@ -124,6 +124,7 @@ async function validateLicense() {
         let machineIdValue = machineIdSync();
         console.log(`🔑 Your machine id is ${machineIdValue}`);
         console.log(`❌ Your license is invalid or expired. Application will terminate`);
+        process.exit(1)
     }
 }
 
