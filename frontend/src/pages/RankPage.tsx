@@ -1,8 +1,9 @@
 import {Box, ButtonGroup, Sheet, Table, Typography} from "@mui/joy";
-import {PAD, PictureObject, PICTURES, SCROLL_SPEED} from "../constants.ts";
+import {PAD, PictureObject, PICTURES, RANK_TABLE_SCROLL_SPEED} from "../constants.ts";
 import MenuDrawer from "../components/MenuDrawer.tsx";
 import {MutableRefObject, useEffect, useRef, useState} from "react";
 import {getReq} from "../net.ts";
+import {ChooseDivisionPage} from "./ScorePage.tsx";
 
 interface RankObject {
     teamNumber: string;
@@ -10,58 +11,24 @@ interface RankObject {
     rank: number;
 }
 
+const DIVISION_NAME_KEY = "division"
+
 export default function RankPage() {
     const urlParams = new URLSearchParams(window.location.search);
-    const divisionName = urlParams.get("division");
+    const divisionName = urlParams.get(DIVISION_NAME_KEY);
 
     const [ranks, setRanks] = useState<RankObject[] | PictureObject[]>([]);
-    const tableRef: MutableRefObject<HTMLElement | null> = useRef(null);
+    const tableRef: MutableRefObject<HTMLDivElement | null> = useRef(null);
 
     useEffect(() => {
         handleRefresh();
-        requestAnimationFrame(step);
+        rankTableScrollStep(tableRef, handleRefresh);
     }, []);
 
-    let tableOffsetTop = 0;
-
-    function step() {
-        try {
-            if (tableRef.current) {
-                tableOffsetTop += SCROLL_SPEED;
-                const totalHeight = tableRef.current.scrollHeight - tableRef.current.clientHeight + SCROLL_SPEED * 120;
-                tableRef.current.scrollTo({
-                    left: 0,
-                    top: tableOffsetTop,
-                    behavior: tableOffsetTop === 0 ? "instant" : "smooth",
-                });
-                if (tableOffsetTop > totalHeight) {
-                    tableOffsetTop = -SCROLL_SPEED;
-                    handleRefresh();
-                }
-            }
-        } catch (e) {
-            console.log(e);
-        }
-        requestAnimationFrame(step);
-    }
-
     function handleRefresh() {
-        getReq(`/rank/qualification/${divisionName}`).then((res) => {
-            const newRanks = [];
-            let pictureIndex = 0;
-            for (let i = 0; i < res.length; i ++) {
-                if (i % 40 === 0 && i !== 0) {
-                    newRanks.push(PICTURES[pictureIndex]);
-                    pictureIndex += 1;
-                }
-                res[i].rank = i+1;
-                newRanks.push(res[i]);
-            }
-            for (let j = pictureIndex; j <= PICTURES.length; j ++) {
-                newRanks.push(PICTURES[j]);
-            }
-            setRanks(newRanks);
-        }).catch();
+        generateRankList(`/rank/qualification/${divisionName}`).then((res) => {
+            setRanks(res);
+        });
     }
 
     return (
@@ -80,11 +47,11 @@ export default function RankPage() {
             <Sheet sx={{height: '100%'}}>
                 {
                     divisionName === null
-                    ? <Typography sx={{width: '100%', textAlign: 'center'}}>
-                        Division name not exist.
-                        Use /rank?division={"{divisionName}"} to set.
-                    </Typography>
-                    : <Box sx={{
+                    ? <ChooseDivisionPage
+                        divisionNameKey={DIVISION_NAME_KEY}
+                        urlPrefix={"/rank"}
+                    />
+                    : <div style={{
                         height: '100%', display: 'flex', flexDirection: 'column',
                         overflowY: "scroll"
                     }} ref={tableRef}>
@@ -137,9 +104,65 @@ export default function RankPage() {
                             </tr>
                             </tfoot>
                         </Table>
-                    </Box>
+                    </div>
                 }
             </Sheet>
         </Box>
     );
+}
+
+// eslint-disable-next-line react-refresh/only-export-components
+export function rankTableScrollStep(
+    tableRef: MutableRefObject<HTMLElement | null>,
+    handleRefresh: () => void,
+    tableOffsetTop?: number
+) {
+    if (tableOffsetTop === undefined) {
+        tableOffsetTop = 0;
+    }
+    try {
+        if (tableRef.current) {
+            tableOffsetTop += RANK_TABLE_SCROLL_SPEED;
+            const totalHeight = tableRef.current.scrollHeight / 3;
+            tableRef.current.scrollTo({
+                left: 0,
+                top: tableOffsetTop,
+                behavior: "smooth"
+            });
+            if (tableOffsetTop > totalHeight) {
+                tableOffsetTop = 0;
+                handleRefresh();
+                tableRef.current.scrollTo({
+                    left: 0,
+                    top: tableOffsetTop,
+                    behavior: "instant"
+                });
+            }
+        }
+    } catch (e) {
+        console.error(e);
+    }
+
+    requestAnimationFrame(() => {
+        rankTableScrollStep(tableRef, handleRefresh, tableOffsetTop);
+    });
+}
+
+// eslint-disable-next-line react-refresh/only-export-components
+export async function generateRankList(endpoint: string) {
+    const res = await getReq(endpoint);
+    const newRanks = [];
+    let pictureIndex = 0;
+    for (let i = 0; i < res.length; i ++) {
+        if (i % 40 === 0 && i !== 0) {
+            newRanks.push(PICTURES[pictureIndex]);
+            pictureIndex += 1;
+        }
+        res[i].rank = i+1;
+        newRanks.push(res[i]);
+    }
+    for (let j = pictureIndex; j <= PICTURES.length; j ++) {
+        newRanks.push(PICTURES[j]);
+    }
+    return [...newRanks, ...newRanks, ...newRanks];
 }

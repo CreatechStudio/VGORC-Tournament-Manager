@@ -53,4 +53,4 @@ export const PICTURES: PictureObject[] = [
     }
 ];
 
-export const SCROLL_SPEED = .25;
+export const RANK_TABLE_SCROLL_SPEED = parseFloat(import.meta.env.VITE_RANK_TABLE_SCROLL_SPEED) || .3;

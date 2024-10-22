@@ -1,8 +1,8 @@
 import {MutableRefObject, useEffect, useRef, useState} from "react";
-import {getReq} from "../net.ts";
 import {Box, ButtonGroup, Sheet, Table, Typography} from "@mui/joy";
-import {PAD, PictureObject, PICTURES, SCROLL_SPEED} from "../constants.ts";
+import {PAD, PictureObject} from "../constants.ts";
 import MenuDrawer from "../components/MenuDrawer.tsx";
+import {generateRankList, rankTableScrollStep} from "./RankPage.tsx";
 
 interface RankObject {
     teamNumber: string;
@@ -18,48 +18,12 @@ export default function SkillsRankPage() {
 
     useEffect(() => {
         handleRefresh();
-        requestAnimationFrame(step);
+        rankTableScrollStep(tableRef, handleRefresh);
     }, []);
 
-    let tableOffsetTop = -SCROLL_SPEED;
-
-    function step() {
-        try {
-            if (tableRef.current) {
-                tableOffsetTop += SCROLL_SPEED;
-                const totalHeight = tableRef.current.scrollHeight - tableRef.current.clientHeight + SCROLL_SPEED * 120;
-                tableRef.current.scrollTo({
-                    left: 0,
-                    top: tableOffsetTop,
-                    behavior: tableOffsetTop === 0 ? "instant" : "smooth",
-                });
-                if (tableOffsetTop > totalHeight) {
-                    tableOffsetTop = -SCROLL_SPEED;
-                    handleRefresh();
-                }
-            }
-        } catch (e) {
-            console.log(e);
-        }
-        requestAnimationFrame(step);
-    }
-
     function handleRefresh() {
-        getReq(`/rank/skill`).then((res) => {
-            const newRanks = [];
-            let pictureIndex = 0;
-            for (let i = 0; i < res.length; i ++) {
-                if (i % 40 === 0 && i !== 0) {
-                    newRanks.push(PICTURES[pictureIndex]);
-                    pictureIndex += 1;
-                }
-                res[i].rank = i+1;
-                newRanks.push(res[i]);
-            }
-            for (let j = pictureIndex; j <= PICTURES.length; j ++) {
-                newRanks.push(PICTURES[j]);
-            }
-            setRanks(newRanks);
+        generateRankList(`/rank/skill`).then((res) => {
+            setRanks(res);
         }).catch();
     }
 

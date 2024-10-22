@@ -24,7 +24,13 @@ import ListAltOutlinedIcon from '@mui/icons-material/ListAltOutlined';
 const DIVISION_NAME_KEY = "division";
 const MATCH_NUMBER_KEY = "match";
 
-function ChooseDivisionPage() {
+export function ChooseDivisionPage({
+    divisionNameKey,
+    urlPrefix
+} : {
+    divisionNameKey: string;
+    urlPrefix: string;
+}) {
     const [divisions, setDivisions] = useState<DivisionObject[]>([]);
 
     useEffect(() => {
@@ -43,7 +49,7 @@ function ChooseDivisionPage() {
                             variant="soft"
                             size="lg"
                             onClick={() => {
-                                window.location.href = `/score?${DIVISION_NAME_KEY}=${d.divisionName}`;
+                                window.location.href = `${urlPrefix}?${divisionNameKey}=${d.divisionName}`;
                             }}
                         >
                             {d.divisionName}
@@ -258,7 +264,10 @@ export default function ScorePage() {
                 />;
             }
         } else {
-            return <ChooseDivisionPage/>;
+            return <ChooseDivisionPage
+                divisionNameKey={DIVISION_NAME_KEY}
+                urlPrefix="/score"
+            />;
         }
     }
 
