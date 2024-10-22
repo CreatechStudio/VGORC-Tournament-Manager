@@ -115,27 +115,30 @@ export default function RankPage() {
 export function rankTableScrollStep(
     tableRef: MutableRefObject<HTMLElement | null>,
     handleRefresh: () => void,
-    tableOffsetTop?: number
+    startTime?: number
 ) {
-    if (tableOffsetTop === undefined) {
-        tableOffsetTop = 0;
+    const cur = new Date().getTime();
+    if (startTime === undefined) {
+        startTime = cur;
     }
+    const timeEscaped = cur - startTime;
     try {
         if (tableRef.current) {
-            tableOffsetTop += RANK_TABLE_SCROLL_SPEED;
+            const offsetTop = RANK_TABLE_SCROLL_SPEED * timeEscaped;
             const totalHeight = tableRef.current.scrollHeight / 3;
-            tableRef.current.scrollTo({
-                left: 0,
-                top: tableOffsetTop,
-                behavior: "smooth"
-            });
-            if (tableOffsetTop > totalHeight) {
-                tableOffsetTop = 0;
+            if (offsetTop >= totalHeight) {
                 handleRefresh();
                 tableRef.current.scrollTo({
                     left: 0,
-                    top: tableOffsetTop,
+                    top: -RANK_TABLE_SCROLL_SPEED,
                     behavior: "instant"
+                });
+                startTime = cur;
+            } else {
+                tableRef.current.scrollTo({
+                    left: 0,
+                    top: offsetTop,
+                    behavior: "smooth"
                 });
             }
         }
@@ -144,7 +147,7 @@ export function rankTableScrollStep(
     }
 
     requestAnimationFrame(() => {
-        rankTableScrollStep(tableRef, handleRefresh, tableOffsetTop);
+        rankTableScrollStep(tableRef, handleRefresh, startTime);
     });
 }
 
