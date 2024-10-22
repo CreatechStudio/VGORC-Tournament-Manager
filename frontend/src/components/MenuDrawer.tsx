@@ -10,48 +10,11 @@ import {
     ModalClose, Sheet, Typography,
 } from "@mui/joy";
 import {PAD1_5, PAD2} from "../constants.ts";
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import ScheduleIcon from '@mui/icons-material/Schedule';
-import StarBorderIcon from '@mui/icons-material/StarBorder';
 import TocIcon from '@mui/icons-material/Toc';
-import GamepadIcon from '@mui/icons-material/Gamepad';
-import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import {routes} from "../route.tsx";
 
 export default function MenuDrawer() {
     const [open, setOpen] = useState(false);
-
-    const routes = [
-        {
-            path: '/',
-            name: "Dashboard",
-            icon: <DashboardIcon/>
-        },
-        {
-            path: '/schedule',
-            name: "Schedule",
-            icon: <ScheduleIcon/>
-        },
-        {
-            path: '/rank',
-            name: "Rank",
-            icon: <StarBorderIcon/>
-        },
-        {
-            path: '/srank',
-            name: "Skills Rank",
-
-        },
-        {
-            path: '/match',
-            name: "Matches",
-            icon: <GamepadIcon/>
-        },
-        {
-            path: '/admin',
-            name: "Admin",
-            icon: <AdminPanelSettingsIcon/>
-        }
-    ];
 
     return (
         <React.Fragment>
