@@ -1,17 +1,18 @@
 import { licenseInfo } from './License/Valid';
+import { machineIdSync } from "node-machine-id";
 import { Elysia } from 'elysia';
 import { swagger } from '@elysiajs/swagger';
-import { divisionGroup } from './Groups/Division';
-import { teamGroup } from './Groups/Team';
-import { utilsGroup } from './Groups/Utils';
-import { authGroup } from './Groups/Auth';
-import { rankingGroup } from './Groups/Ranking';
-import { fieldSetGroup } from './Groups/FieldSet';
-import { matchGroup } from './Groups/Match';
-import { skillGroup } from './Groups/Skills';
 import { cors } from "@elysiajs/cors";
 import { logger } from '@bogeychan/elysia-logger';
-import {machineIdSync} from "node-machine-id";
+import { authGroup } from './Groups/Auth';
+import { divisionGroup } from './Groups/Division';
+import { fieldSetGroup } from './Groups/FieldSet';
+import { matchGroup } from './Groups/Match';
+import { periodGroup } from "./Groups/Period";
+import { rankingGroup } from './Groups/Ranking';
+import { skillGroup } from './Groups/Skills';
+import { teamGroup } from './Groups/Team';
+import { utilsGroup } from './Groups/Utils';
 
 function delay(ms: number) {
     return new Promise( resolve => setTimeout(resolve, ms) );
@@ -50,6 +51,7 @@ const app = new Elysia()
     .use(divisionGroup)
     .use(fieldSetGroup)
     .use(matchGroup)
+    .use(periodGroup)
     .use(rankingGroup)
     .use(skillGroup)
     .use(teamGroup)
