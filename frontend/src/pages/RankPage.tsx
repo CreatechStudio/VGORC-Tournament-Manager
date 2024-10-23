@@ -126,6 +126,7 @@ export function rankTableScrollStep(
         if (tableRef.current) {
             const offsetTop = RANK_TABLE_SCROLL_SPEED * timeEscaped;
             const totalHeight = tableRef.current.scrollHeight / 3;
+            // console.log(offsetTop, totalHeight);
             if (offsetTop >= totalHeight) {
                 handleRefresh();
                 tableRef.current.scrollTo({
@@ -146,9 +147,9 @@ export function rankTableScrollStep(
         console.error(e);
     }
 
-    requestAnimationFrame(() => {
+    setTimeout(() => {
         rankTableScrollStep(tableRef, handleRefresh, startTime);
-    });
+    }, 16.6);
 }
 
 // eslint-disable-next-line react-refresh/only-export-components
