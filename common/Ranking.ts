@@ -1,4 +1,4 @@
-import {Utils} from "../backend/src/Database/Utils";
+import {Utils} from "../backend/src/Utils";
 import {MatchObject} from "./Match";
 import {TeamObject} from "./Team";
 

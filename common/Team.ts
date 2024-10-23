@@ -1,5 +1,5 @@
 import {Data} from "./Data";
-import {Utils} from "../backend/src/Database/Utils";
+import {Utils} from "../backend/src/Utils";
 
 export interface TeamObject {
     teamNumber: string,

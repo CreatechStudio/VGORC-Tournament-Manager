@@ -1,4 +1,4 @@
-import { licenseInfo } from './License/Valid';
+import { licenseInfo } from './License';
 import { machineIdSync } from "node-machine-id";
 import { Elysia } from 'elysia';
 import { swagger } from '@elysiajs/swagger';

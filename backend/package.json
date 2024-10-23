@@ -4,7 +4,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "bun run --watch src/index.ts",
-    "dev-db": "bun run --watch src/Database/Utils.ts"
+    "dev-db": "bun run --watch src/Utils.ts"
   },
   "dependencies": {
     "@bogeychan/elysia-logger": "^0.1.4",

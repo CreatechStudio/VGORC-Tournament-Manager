@@ -1,5 +1,5 @@
 import {Elysia} from "elysia";
-import {Utils} from "../Database/Utils";
+import {Utils} from "../Utils";
 
 export const utilsGroup = new Elysia()
     .decorate('db', new Utils())

@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import {Data, DEFAULT_DATA} from "../../../common/Data";
+import {Data, DEFAULT_DATA} from "../../common/Data";
 import dotenv from 'dotenv';
 
 dotenv.config();
