@@ -22,12 +22,12 @@ export default function RankPage() {
 
     useEffect(() => {
         handleRefresh();
-        rankTableScrollStep(tableRef, handleRefresh);
     }, []);
 
     function handleRefresh() {
         generateRankList(`/rank/qualification/${divisionName}`).then((res) => {
             setRanks(res);
+            rankTableScrollStep(tableRef, handleRefresh);
         });
     }
 
@@ -132,14 +132,13 @@ export function rankTableScrollStep(
                 tableRef.current.scrollTo({
                     left: 0,
                     top: -RANK_TABLE_SCROLL_SPEED,
-                    behavior: "instant"
+                    behavior: 'instant'
                 });
                 startTime = cur;
             } else {
                 tableRef.current.scrollTo({
                     left: 0,
-                    top: offsetTop,
-                    behavior: "smooth"
+                    top: offsetTop
                 });
             }
         }
@@ -147,9 +146,9 @@ export function rankTableScrollStep(
         console.error(e);
     }
 
-    setTimeout(() => {
+    requestAnimationFrame(() => {
         rankTableScrollStep(tableRef, handleRefresh, startTime);
-    }, 16.6);
+    })
 }
 
 // eslint-disable-next-line react-refresh/only-export-components
