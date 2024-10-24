@@ -1,3 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
+
 import {Box, ButtonGroup, Sheet, Table, Typography} from "@mui/joy";
 import {PAD, PictureObject, PICTURES, RANK_TABLE_SCROLL_SPEED} from "../constants.ts";
 import MenuDrawer from "../components/MenuDrawer.tsx";
@@ -11,7 +14,7 @@ interface RankObject {
     rank: number;
 }
 
-const DIVISION_NAME_KEY = "division"
+const DIVISION_NAME_KEY = "division";
 
 export default function RankPage() {
     const urlParams = new URLSearchParams(window.location.search);

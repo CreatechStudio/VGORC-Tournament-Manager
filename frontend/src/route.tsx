@@ -40,7 +40,7 @@ export const routes = [
     },
     {
         path: '/match',
-        name: "Matches",
+        name: "Match",
         icon: <GamepadIcon/>,
         element: <MatchPage/>
     },

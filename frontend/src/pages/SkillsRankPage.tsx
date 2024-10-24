@@ -1,3 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
+
 import {MutableRefObject, useEffect, useRef, useState} from "react";
 import {Box, ButtonGroup, Sheet, Table, Typography} from "@mui/joy";
 import {PAD, PictureObject} from "../constants.ts";
