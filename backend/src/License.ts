@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import https from 'https';
 // @ts-ignore
 import NodeRSA from 'node-rsa';
-import { machineIdSync } from 'node-machine-id';
+import {machineIdSync} from 'node-machine-id';
 import dotenv from 'dotenv';
 
 dotenv.config();

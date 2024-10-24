@@ -1,5 +1,8 @@
-import {Elysia, t} from "elysia";
+import {Elysia, error, t} from "elysia";
 import {Division} from "../../../common/Division";
+import {checkJWT} from "./Auth";
+
+const MODULE_PERM = "admin"
 
 export const divisionGroup = new Elysia()
     .decorate('division', new Division())
@@ -20,7 +23,10 @@ export const divisionGroup = new Elysia()
                     divisionName: t.String(),
                     divisionFields: t.Array(t.String())
                 })
-            })
+            }),
+            async beforeHandle() {
+                return await checkJWT(MODULE_PERM, error);
+            }
         })
         .delete('delete/:name', ({
             division, params: { name }, error
@@ -34,6 +40,9 @@ export const divisionGroup = new Elysia()
         }, {
             params: t.Object({
                 name: t.String()
-            })
+            }),
+            async beforeHandle() {
+                return await checkJWT(MODULE_PERM, error);
+            }
         })
     );

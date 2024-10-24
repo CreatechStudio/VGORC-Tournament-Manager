@@ -1,5 +1,8 @@
-import { Elysia, t } from "elysia";
-import { Match } from "../../../common/Match";
+import {Elysia, error, t} from "elysia";
+import {Match} from "../../../common/Match";
+import {checkJWT} from "./Auth";
+
+const MODULE_PERM = 'match';
 
 export const matchGroup = new Elysia()
     .decorate('match', new Match())
@@ -24,7 +27,10 @@ export const matchGroup = new Elysia()
                 divisionName: t.String(),
                 matchNumber: t.Number(),
                 score: t.Number()
-            })
+            }),
+            async beforeHandle() {
+                return await checkJWT(MODULE_PERM, error);
+            }
             }
         )
     );

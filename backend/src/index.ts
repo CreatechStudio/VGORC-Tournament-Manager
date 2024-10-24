@@ -1,18 +1,22 @@
-import { licenseInfo } from './License';
-import { machineIdSync } from "node-machine-id";
-import { Elysia } from 'elysia';
-import { swagger } from '@elysiajs/swagger';
-import { cors } from "@elysiajs/cors";
-import { logger } from '@bogeychan/elysia-logger';
-import { authGroup } from './Groups/Auth';
-import { divisionGroup } from './Groups/Division';
-import { fieldSetGroup } from './Groups/FieldSet';
-import { matchGroup } from './Groups/Match';
-import { periodGroup } from "./Groups/Period";
-import { rankingGroup } from './Groups/Ranking';
-import { skillGroup } from './Groups/Skills';
-import { teamGroup } from './Groups/Team';
-import { utilsGroup } from './Groups/Utils';
+import {licenseInfo} from './License';
+import {machineIdSync} from "node-machine-id";
+import {Elysia} from 'elysia';
+import {swagger} from '@elysiajs/swagger';
+import {cors} from "@elysiajs/cors";
+import {logger} from '@bogeychan/elysia-logger';
+import {authGroup} from './Groups/Auth';
+import {divisionGroup} from './Groups/Division';
+import {fieldSetGroup} from './Groups/FieldSet';
+import {matchGroup} from './Groups/Match';
+import {periodGroup} from "./Groups/Period";
+import {rankingGroup} from './Groups/Ranking';
+import {skillGroup} from './Groups/Skills';
+import {teamGroup} from './Groups/Team';
+import {utilsGroup} from './Groups/Utils';
+import dotenv from "dotenv";
+
+dotenv.config()
+export const BASE_URL = process.env.BASE_URL || 'http://localhost:3000';
 
 function delay(ms: number) {
     return new Promise( resolve => setTimeout(resolve, ms) );
@@ -59,5 +63,5 @@ const app = new Elysia()
     .listen(3000);
 
 console.log(
-    `🤖 VGORC TM API Backend is running at http://${app.server?.hostname}:${app.server?.port}`
+    `🤖 VGORC TM API Backend is running at ${BASE_URL}`
 );

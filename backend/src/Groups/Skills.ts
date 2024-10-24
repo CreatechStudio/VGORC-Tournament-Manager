@@ -1,4 +1,4 @@
-import { Elysia, t } from "elysia";
+import {Elysia, t} from "elysia";
 import {Skill, SkillType} from "../../../common/Skill";
 
 export const skillGroup = new Elysia()

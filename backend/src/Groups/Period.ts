@@ -1,5 +1,8 @@
-import {Elysia, t} from "elysia";
+import {Elysia, error, t} from "elysia";
 import {Period} from "../../../common/Period";
+import {checkJWT} from "./Auth";
+
+const MODULE_PERM = "admin"
 
 export const periodGroup = new Elysia()
     .decorate('period', new Period())
@@ -19,7 +22,10 @@ export const periodGroup = new Elysia()
                     periodStartTime: t.String(),
                     periodEndTime: t.String(),
                     periodMatchDuration: t.Number()
-            })
+            }),
+            async beforeHandle() {
+                return await checkJWT(MODULE_PERM, error);
+            }
         })
         .delete('delete/:divisionName/:periodId', ({ period, params: { divisionName, periodId }, error }) => {
             try {
@@ -32,6 +38,9 @@ export const periodGroup = new Elysia()
             params: t.Object({
                 divisionName: t.String(),
                 periodId: t.Number()
-            })
+            }),
+            async beforeHandle() {
+                return await checkJWT(MODULE_PERM, error);
+            }
         })
     );

@@ -1,5 +1,8 @@
-import {Elysia, t} from "elysia";
+import {Elysia, error, t} from "elysia";
 import {Team} from "../../../common/Team";
+import {checkJWT} from "./Auth";
+
+const MODULE_PERM = "admin"
 
 export const teamGroup = new Elysia()
     .decorate('team', new Team())
@@ -22,7 +25,10 @@ export const teamGroup = new Elysia()
                     teamDivision: t.String(),
                     teamAvgScore: t.Integer()
                 })
-            })
+            }),
+            async beforeHandle() {
+                return await checkJWT(MODULE_PERM, error);
+            }
         })
         .delete('delete/:teamNumber', ({
             team, params: { teamNumber }, error
@@ -35,6 +41,9 @@ export const teamGroup = new Elysia()
         }, {
             params: t.Object({
                 teamNumber: t.String()
-            })
+            }),
+            async beforeHandle() {
+                return await checkJWT(MODULE_PERM, error);
+            }
         })
     );

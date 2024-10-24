@@ -1,5 +1,8 @@
-import {Elysia, t} from "elysia";
+import {Elysia, error, t} from "elysia";
 import {FieldSet} from "../../../common/FieldSet";
+import {checkJWT} from "./Auth";
+
+const MODULE_PERM = "admin"
 
 export const fieldSetGroup = new Elysia()
     .decorate('fieldSet', new FieldSet())
@@ -20,7 +23,10 @@ export const fieldSetGroup = new Elysia()
                     fieldSetId: t.Number(),
                     fields: t.Array(t.String())
                 })
-            })
+            }),
+            async beforeHandle() {
+                return await checkJWT(MODULE_PERM, error);
+            }
         })
         .delete('delete/:fieldSetId', ({
             fieldSet, params: { fieldSetId }, error
@@ -34,6 +40,9 @@ export const fieldSetGroup = new Elysia()
         }, {
             params: t.Object({
                 fieldSetId: t.Number()
-            })
+            }),
+            async beforeHandle() {
+                return await checkJWT(MODULE_PERM, error);
+            }
         })
     );
