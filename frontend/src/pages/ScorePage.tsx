@@ -13,13 +13,14 @@ import {PAD} from "../constants.ts";
 import MenuDrawer from "../components/MenuDrawer.tsx";
 import {useEffect, useState} from "react";
 import {DivisionObject} from "../../../common/Division.ts";
-import {getReq, postReq} from "../net.ts";
+import {getReq, logout, postReq} from "../net.ts";
 import {MatchObject} from "../../../common/Match.ts";
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import ListAltOutlinedIcon from '@mui/icons-material/ListAltOutlined';
+import LogoutIcon from "@mui/icons-material/Logout";
 
 const DIVISION_NAME_KEY = "division";
 const MATCH_NUMBER_KEY = "match";
@@ -190,9 +191,12 @@ function SetScorePage({
                     <IconButton onClick={() => handleNext()}>
                         <ChevronRightIcon/>
                     </IconButton>
-                    <MenuDrawer/>
                     <IconButton onClick={() => handleChooseMatch()}>
                         <ListAltOutlinedIcon/>
+                    </IconButton>
+                    <MenuDrawer/>
+                    <IconButton onClick={() => logout()}>
+                        <LogoutIcon/>
                     </IconButton>
                 </ButtonGroup>
             </Box>

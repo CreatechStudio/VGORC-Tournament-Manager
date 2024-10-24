@@ -11,6 +11,8 @@ import SkillsRankPage from "./pages/SkillsRankPage.tsx";
 import MatchPage from "./pages/MatchPage.tsx";
 import ScorePage from "./pages/ScorePage.tsx";
 import AdminPage from "./pages/AdminPage.tsx";
+import LoginIcon from '@mui/icons-material/Login';
+import LoginPage from "./pages/LoginPage.tsx";
 
 export const routes = [
     {
@@ -47,6 +49,12 @@ export const routes = [
         name: "Score",
         icon: <ScoreboardOutlinedIcon/>,
         element: <ScorePage/>
+    },
+    {
+        path: '/login',
+        name: "Login",
+        icon: <LoginIcon/>,
+        element: <LoginPage/>
     },
     {
         path: '/admin',

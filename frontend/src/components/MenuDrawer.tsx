@@ -9,7 +9,7 @@ import {
     List, ListItemButton,
     ModalClose, Sheet, Typography,
 } from "@mui/joy";
-import {PAD1_5, PAD2} from "../constants.ts";
+import {PAD1_5, PAD2, TOURNAMENT_NAME} from "../constants.ts";
 import TocIcon from '@mui/icons-material/Toc';
 import {routes} from "../route.tsx";
 
@@ -49,7 +49,7 @@ export default function MenuDrawer() {
                     }}
                 >
                     <DialogTitle>
-                        {import.meta.env.VITE_TOURNAMENT_NAME || "VGORC"}
+                        {TOURNAMENT_NAME}
                     </DialogTitle>
                     <ModalClose/>
 

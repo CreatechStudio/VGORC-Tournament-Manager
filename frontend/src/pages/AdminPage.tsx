@@ -11,7 +11,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import BasicAccordion from "../accordions/BasicAccordion";
 import TournamentAccordion from "../accordions/TournamentAccordion";
 import {useEffect, useState} from "react";
-import {getReq} from "../net";
+import {getReq, logout} from "../net";
 import RefreshIcon from '@mui/icons-material/Refresh';
 import {DivisionObject} from "../../../common/Division";
 import MenuDrawer from "../components/MenuDrawer";
@@ -31,7 +31,9 @@ export default function AdminPage() {
         handleRefresh();
     }, []);
 
-    function handleLogout() {}
+    function handleLogout() {
+        logout();
+    }
 
     function handleRefresh() {
         getReq('/division').then((res) => {
