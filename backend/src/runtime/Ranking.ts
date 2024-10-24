@@ -1,6 +1,6 @@
-import {Utils} from "../backend/src/Utils";
-import {MatchObject} from "./Match";
-import {TeamObject} from "./Team";
+import {Utils} from "../Utils";
+import {MatchObject} from "../../../common/Match";
+import {TeamObject} from "../../../common/Team";
 
 export class Ranking {
     db: Utils = new Utils();

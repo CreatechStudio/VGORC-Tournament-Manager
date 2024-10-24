@@ -1,5 +1,6 @@
 import {Elysia, t} from "elysia";
-import {Skill, SkillType} from "../../../common/Skill";
+import {SkillType} from "../../../common/Skill";
+import {Skill} from "../runtime/Skill";
 
 export const skillGroup = new Elysia()
     .decorate('skill', new Skill())

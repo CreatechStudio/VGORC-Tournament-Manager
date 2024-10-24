@@ -1,6 +1,6 @@
 import {Elysia, error, t} from "elysia";
-import {Match} from "../../../common/Match";
 import {checkJWT} from "./Auth";
+import {Match} from "../runtime/Match";
 
 const MODULE_PERM = 'match';
 

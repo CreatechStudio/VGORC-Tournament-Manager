@@ -1,10 +1,10 @@
 import {Elysia, t} from "elysia";
-import {Auth} from "../../../common/Auth";
 import jwt from "@elysiajs/jwt";
 import dotenv from 'dotenv';
 import axios from 'axios';
 import {BASE_URL} from "../index";
 import {ElysiaCustomStatusResponse} from "elysia/dist/error";
+import {Auth} from "../runtime/Auth";
 
 dotenv.config();
 const JWT_SECRET = process.env.JWT_SECRET || 'Createch';

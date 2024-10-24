@@ -1,6 +1,6 @@
 import {Elysia, error, t} from "elysia";
-import {Division} from "../../../common/Division";
 import {checkJWT} from "./Auth";
+import {Division} from "../runtime/Division";
 
 const MODULE_PERM = "admin"
 
