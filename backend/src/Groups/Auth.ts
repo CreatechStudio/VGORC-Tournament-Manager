@@ -30,7 +30,7 @@ export const authGroup = new Elysia()
                     value: await jwt.sign(params),
                     httpOnly: true,
                     maxAge: 5 * 86400,
-                    path: '/auth/jwt/admin'
+                    path: '/auth/jwt/match'
                 })
             }
             else if (params.module == 'match' && auth.checkAuth(authRole, authPassword))
