@@ -52,13 +52,9 @@ export const authGroup = new Elysia()
             })
         })
         .get('jwt/:module', async ({ jwt, cookie: { permission } }) => {
-            const token = await jwt.verify(permission.value)
-
-            if (!token) {
-                return false
-            }
-
-            return true
+            console.log(permission);
+            const token = await jwt.verify(permission.value);
+            return token !== false;
         })
     );
 
