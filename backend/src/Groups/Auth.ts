@@ -41,7 +41,7 @@ export const authGroup = new Elysia()
                     path: '/auth/jwt/match'
                 });
 
-            return permission.value !== undefined;
+            return permission.cookie;
         }, {
             body: t.Object({
                 authRole: t.Number(),
