@@ -11,14 +11,20 @@ export const matchGroup = new Elysia()
             match.getAllMatches(params.divisionName),{
             params: t.Object({
                 divisionName: t.String()
-            })
+            }),
+            async beforeHandle() {
+                return await checkJWT(MODULE_PERM, error);
+            }
         })
         .get('/:divisionName/:matchNumber', ({ match, params }) =>
             match.getMatch(params.divisionName, params.matchNumber),{
             params: t.Object({
                 divisionName: t.String(),
                 matchNumber: t.Number()
-            })
+            }),
+            async beforeHandle() {
+                return await checkJWT(MODULE_PERM, error);
+            }
             }
         )
         .post('update', ({ match, body }) =>
