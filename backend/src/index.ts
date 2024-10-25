@@ -4,7 +4,7 @@ import {Elysia} from 'elysia';
 import {swagger} from '@elysiajs/swagger';
 import {cors} from "@elysiajs/cors";
 import {logger} from '@bogeychan/elysia-logger';
-import {authGroup} from './Groups/Auth';
+import {authGroup, JWT_SECRET} from './Groups/Auth';
 import {divisionGroup} from './Groups/Division';
 import {fieldSetGroup} from './Groups/FieldSet';
 import {matchGroup} from './Groups/Match';
@@ -14,6 +14,7 @@ import {skillGroup} from './Groups/Skills';
 import {teamGroup} from './Groups/Team';
 import {utilsGroup} from './Groups/Utils';
 import dotenv from "dotenv";
+import jwt from "@elysiajs/jwt";
 
 dotenv.config()
 export const BASE_URL = process.env.BASE_URL || 'http://localhost:3000';
@@ -50,6 +51,12 @@ const app = new Elysia()
         stream: process.stdout,
         // level: "error",
     }))
+    .use(
+        jwt({
+            name: 'jwt',
+            secret: JWT_SECRET,
+        })
+    )
     .get('/', 'Welcome to VGORC TM API Backend')
     .use(authGroup)
     .use(divisionGroup)
@@ -60,6 +67,39 @@ const app = new Elysia()
     .use(skillGroup)
     .use(teamGroup)
     .use(utilsGroup)
+    .post('/auth/:module', async ({ auth, jwt, cookie: { permission }, params ,body: {authRole, authPassword}}) => {
+        if (params.module == 'admin' && auth.checkAuth(authRole, authPassword)) {
+            permission.set({
+                value: await jwt.sign(params),
+                httpOnly: true,
+                maxAge: 5 * 86400,
+                path: '/auth/jwt/admin'
+            })
+            permission.set({
+                value: await jwt.sign(params),
+                httpOnly: true,
+                maxAge: 5 * 86400,
+                path: '/auth/jwt/match'
+            })
+        }
+        else if (params.module == 'match' && auth.checkAuth(authRole, authPassword))
+            permission.set({
+                value: await jwt.sign(params),
+                httpOnly: true,
+                maxAge: 5 * 86400,
+                path: '/auth/jwt/match'
+            });
+
+        return permission.cookie;
+    }, {
+        body: t.Object({
+            authRole: t.Number(),
+            authPassword: t.String()
+        }),
+        params: t.Object({
+            module: t.String()
+        })
+    })
     .listen(3000);
 
 console.log(

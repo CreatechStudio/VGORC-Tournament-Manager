@@ -7,9 +7,12 @@ const MODULE_PERM = "admin"
 export const divisionGroup = new Elysia()
     .decorate('division', new Division())
     .group('/division', (app) => app
+        .onBeforeHandle(async ({cookie: {permission}}) => {
+
+        })
         .guard({
             beforeHandle: async ({cookie: {permission}}) => {
-                return await checkJWT(MODULE_PERM, error);
+                return await checkJWT(MODULE_PERM, error, permission.value || "");
             },
         }, (app) => app
             .get('', ({ division }) => division.get())
