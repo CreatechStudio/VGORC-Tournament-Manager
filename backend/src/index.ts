@@ -46,7 +46,9 @@ new Elysia()
         }
     }))
     .use(cors({
-        origin: '*'
+        origin: 'http://localhost:5173',
+        credentials: true,
+        allowedHeaders: ['Content-Type', 'Origin', 'Cookie', 'Accept']
     }))
     .use(logger({
         stream: process.stdout,
@@ -87,11 +89,16 @@ new Elysia()
     })
     .post("/auth/check", async ({ jwt, body }) => {
         const token = await jwt.verify(body.cookie);
+        console.log(token)
         // @ts-ignore
-        return token.module === body.moudle;
+        if (token.module === 'admin') {
+            return true;
+        }
+        // @ts-ignore
+        return token.module === body.module;
     }, {
         body: t.Object({
-            moudle: t.String(),
+            module: t.String(),
             cookie: t.String()
         })
     })

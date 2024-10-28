@@ -18,11 +18,11 @@ export class Auth {
     }
 }
 
-export async function verifyPermission(cookie: string, moudle: string): Promise<boolean> {
+export async function verifyPermission(cookie: string, module: string): Promise<boolean> {
     try {
         const response = await axios.post(`${BASE_URL}/auth/check`, {
             cookie: cookie,
-            module: moudle
+            module: module
         });
         return response.data === true;
     } catch (error) {
@@ -31,8 +31,8 @@ export async function verifyPermission(cookie: string, moudle: string): Promise<
     }
 }
 
-export async function checkJWT(cookie: string, moudle: string, error: (code: number, response?: string) => ElysiaCustomStatusResponse<number, string>) {
-    if (!await verifyPermission(cookie, moudle)) {
+export async function checkJWT(cookie: string, module: string, error: (code: number, response?: string) => ElysiaCustomStatusResponse<number, string>) {
+    if (!await verifyPermission(cookie, module)) {
         return error(401, 'Unauthorized')
     }
 }
