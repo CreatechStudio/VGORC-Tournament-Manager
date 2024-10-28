@@ -22,7 +22,7 @@ export async function verifyPermission(cookie: string, moudle: string): Promise<
     try {
         const response = await axios.post(`${BASE_URL}/auth/check`, {
             cookie: cookie,
-            moudle: 'yourModuleName' // Replace 'yourModuleName' with the actual module name
+            module: moudle
         });
         return response.data === true;
     } catch (error) {

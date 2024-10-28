@@ -11,10 +11,10 @@ export const fieldSetGroup = new Elysia()
         .guard(
             {
                 async beforeHandle ({cookie: { permission }}) {
-                    if (typeof permission !== "string") {
+                    if (permission === undefined) {
                         return error(401, "Unauthorized");
                     }
-                    return await checkJWT(permission, MODULE_PERMISSION, error)
+                    return await checkJWT(permission.value || "", MODULE_PERMISSION, error)
                 }
             },(app) => app
                 .post('update', ({ fieldSet, body: { data }, error }) => {
