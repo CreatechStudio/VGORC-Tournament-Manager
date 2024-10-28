@@ -1,4 +1,7 @@
 import {Utils} from "../Utils";
+import axios from "axios";
+import {BASE_URL} from "../index";
+import {ElysiaCustomStatusResponse} from "elysia/dist/error";
 
 export class Auth {
     db: Utils = new Utils();
@@ -12,5 +15,24 @@ export class Auth {
             }
         }
         return false;
+    }
+}
+
+export async function verifyPermission(cookie: string, moudle: string): Promise<boolean> {
+    try {
+        const response = await axios.post(`${BASE_URL}/auth/check`, {
+            cookie: cookie,
+            moudle: 'yourModuleName' // Replace 'yourModuleName' with the actual module name
+        });
+        return response.data === true;
+    } catch (error) {
+        console.error('Error verifying module:', error);
+        return false;
+    }
+}
+
+export async function checkJWT(cookie: string, moudle: string, error: (code: number, response?: string) => ElysiaCustomStatusResponse<number, string>) {
+    if (!await verifyPermission(cookie, moudle)) {
+        return error(401, 'Unauthorized')
     }
 }

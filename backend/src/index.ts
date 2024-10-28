@@ -1,10 +1,9 @@
 import {licenseInfo} from './License';
 import {machineIdSync} from "node-machine-id";
-import {Elysia} from 'elysia';
+import {Elysia, t} from 'elysia';
 import {swagger} from '@elysiajs/swagger';
 import {cors} from "@elysiajs/cors";
 import {logger} from '@bogeychan/elysia-logger';
-import {authGroup, JWT_SECRET} from './Groups/Auth';
 import {divisionGroup} from './Groups/Division';
 import {fieldSetGroup} from './Groups/FieldSet';
 import {matchGroup} from './Groups/Match';
@@ -15,9 +14,11 @@ import {teamGroup} from './Groups/Team';
 import {utilsGroup} from './Groups/Utils';
 import dotenv from "dotenv";
 import jwt from "@elysiajs/jwt";
+import {Auth} from "./runtime/Auth";
 
 dotenv.config()
 export const BASE_URL = process.env.BASE_URL || 'http://localhost:3000';
+const JWT_SECRET = process.env.JWT_SECRET || 'Createch';
 
 function delay(ms: number) {
     return new Promise( resolve => setTimeout(resolve, ms) );
@@ -35,7 +36,7 @@ if (!licenseInfo.isValid) {
     console.log('🏢 Organization:', licenseInfo.organization);
 }
 
-const app = new Elysia()
+new Elysia()
     .use(swagger({
         documentation: {
             info: {
@@ -58,28 +59,13 @@ const app = new Elysia()
         })
     )
     .get('/', 'Welcome to VGORC TM API Backend')
-    .use(authGroup)
-    .use(divisionGroup)
-    .use(fieldSetGroup)
-    .use(matchGroup)
-    .use(periodGroup)
-    .use(rankingGroup)
-    .use(skillGroup)
-    .use(teamGroup)
-    .use(utilsGroup)
+    .decorate('auth', new Auth())
     .post('/auth/:module', async ({ auth, jwt, cookie: { permission }, params ,body: {authRole, authPassword}}) => {
         if (params.module == 'admin' && auth.checkAuth(authRole, authPassword)) {
             permission.set({
                 value: await jwt.sign(params),
                 httpOnly: true,
                 maxAge: 5 * 86400,
-                path: '/auth/jwt/admin'
-            })
-            permission.set({
-                value: await jwt.sign(params),
-                httpOnly: true,
-                maxAge: 5 * 86400,
-                path: '/auth/jwt/match'
             })
         }
         else if (params.module == 'match' && auth.checkAuth(authRole, authPassword))
@@ -87,7 +73,6 @@ const app = new Elysia()
                 value: await jwt.sign(params),
                 httpOnly: true,
                 maxAge: 5 * 86400,
-                path: '/auth/jwt/match'
             });
 
         return permission.cookie;
@@ -100,6 +85,24 @@ const app = new Elysia()
             module: t.String()
         })
     })
+    .post("/auth/check", async ({ jwt, body }) => {
+        const token = await jwt.verify(body.cookie);
+        // @ts-ignore
+        return token.module === body.moudle;
+    }, {
+        body: t.Object({
+            moudle: t.String(),
+            cookie: t.String()
+        })
+    })
+    .use(divisionGroup)
+    .use(fieldSetGroup)
+    .use(matchGroup)
+    .use(periodGroup)
+    .use(rankingGroup)
+    .use(skillGroup)
+    .use(teamGroup)
+    .use(utilsGroup)
     .listen(3000);
 
 console.log(

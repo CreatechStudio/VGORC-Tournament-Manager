@@ -1,24 +1,23 @@
 import {Elysia, error, t} from "elysia";
-import {checkJWT} from "./Auth";
 import {Division} from "../runtime/Division";
+import {checkJWT} from "../runtime/Auth";
 
-const MODULE_PERM = "admin"
+const MODULE_PERMISSION = "admin"
 
 export const divisionGroup = new Elysia()
     .decorate('division', new Division())
     .group('/division', (app) => app
-        .onBeforeHandle(async ({cookie: {permission}}) => {
-
-        })
-        .guard({
-            beforeHandle: async ({cookie: {permission}}) => {
-                return await checkJWT(MODULE_PERM, error, permission.value || "");
-            },
-        }, (app) => app
-            .get('', ({ division }) => division.get())
-            .post('update', ({
-                 division, body: { data }, error
-             }) => {
+        .get('', ({ division }) => division.get())
+        .guard(
+            {
+            async beforeHandle ({cookie: { permission }}) {
+                if (typeof permission !== "string") {
+                    return error(401, "Unauthorized");
+                }
+                return await checkJWT(permission, MODULE_PERMISSION, error)
+            }
+            },(app) => app
+            .post('update', ({ division, body: { data }, error }) => {
                 try {
                     division.add(data);
                     return division.get();
@@ -33,9 +32,7 @@ export const divisionGroup = new Elysia()
                     })
                 })
             })
-            .delete('delete/:name', ({
-                 division, params: { name }, error
-             }) => {
+            .delete('delete/:name', ({ division, params: { name }, error }) => {
                 try {
                     division.delete(decodeURI(name));
                     return division.get();

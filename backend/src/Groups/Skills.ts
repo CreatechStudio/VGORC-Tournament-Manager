@@ -1,6 +1,9 @@
-import {Elysia, t} from "elysia";
+import {Elysia, error, t} from "elysia";
 import {SkillType} from "../../../common/Skill";
 import {Skill} from "../runtime/Skill";
+import {checkJWT} from "../runtime/Auth";
+
+const MODULE_PERMISSION = "match"
 
 export const skillGroup = new Elysia()
     .decorate('skill', new Skill())
@@ -11,12 +14,22 @@ export const skillGroup = new Elysia()
                 teamNumber: t.String()
             })
         })
-        .post('/update', ({ skill, body }) =>
-            skill.setSkillScore(body.teamNumber, body.skillType as SkillType, body.score), {
-            body: t.Object({
-                teamNumber: t.String(),
-                skillType: t.String(),
-                score: t.Number()
-            })
-        })
+        .guard(
+            {
+                async beforeHandle ({cookie: { permission }}) {
+                    if (typeof permission !== "string") {
+                        return error(401, "Unauthorized");
+                    }
+                    return await checkJWT(permission, MODULE_PERMISSION, error)
+                }
+            },(app) => app
+                .post('/update', ({ skill, body }) =>
+                    skill.setSkillScore(body.teamNumber, body.skillType as SkillType, body.score), {
+                    body: t.Object({
+                        teamNumber: t.String(),
+                        skillType: t.String(),
+                        score: t.Number()
+                    })
+                })
+        )
     );
