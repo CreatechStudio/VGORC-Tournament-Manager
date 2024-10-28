@@ -8,13 +8,15 @@ import {RETURN_URL_PARAM_KEY} from "./constants.ts";
 import Base64 from "base-64";
 
 const axiosInstance = axios.default.create({
-    baseURL: import.meta.env.VITE_BACKEND_URL || "http://localhost:3000"
+    baseURL: import.meta.env.VITE_BACKEND_URL || "http://localhost:3000",
+    withCredentials: true
 });
 
 function solveErr(e: never) {
     if (e.response.status === 401) {
         toast.error("Unauthorized");
         setTimeout(() => {
+            // 未认证回弹
             window.location.href = `/login?${RETURN_URL_PARAM_KEY}=${Base64.encode(window.location.href)}`;
         }, 1000);
     } else {

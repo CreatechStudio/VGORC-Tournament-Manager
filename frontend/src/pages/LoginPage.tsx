@@ -51,7 +51,8 @@ export default function LoginPage() {
             authRole: role.role,
             authPassword: sha256(password)
         }).then((res) => {
-            if (res) {
+            if (res.value) {
+                setCookie("permission", res.value, res.maxAge, res.path);
                 toast.success("Login successfully");
                 setTimeout(() => {
                     handleReturn();
@@ -99,4 +100,20 @@ export default function LoginPage() {
             </Button>
         </Card>
     );
+}
+
+function setCookie(name: string, value: string, maxAge?: number, path?: string) {
+    eraseCookie(name);
+    let expires = "";
+    if (maxAge) {
+        const date = new Date();
+        date.setTime(date.getTime() + maxAge);
+        expires = "; expires=" + date.toUTCString();
+    }
+    console.log(name + "=" + (value || "")  + expires + `; path=${path || "/"}`);
+    document.cookie = name + "=" + (value || "")  + expires + `; path=${path || "/"}`;
+}
+
+function eraseCookie(name: string) {
+    document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 }
