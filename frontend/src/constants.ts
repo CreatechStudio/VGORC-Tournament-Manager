@@ -40,7 +40,7 @@ export interface PictureObject {
 
 export const PICTURES: PictureObject[] = [
     {
-        url: import.meta.env.VITE_VENDOR_LOGO,
+        url: import.meta.env.TM_VENDOR_LOGO,
         name: "Vendor Logo"
     },
     {
@@ -53,7 +53,7 @@ export const PICTURES: PictureObject[] = [
     }
 ];
 
-export const RANK_TABLE_SCROLL_SPEED = parseFloat(import.meta.env.VITE_RANK_TABLE_SCROLL_SPEED) || 0.03;
-export const TOURNAMENT_NAME = import.meta.env.VITE_TOURNAMENT_NAME || "VGORC";
+export const RANK_TABLE_SCROLL_SPEED = parseFloat(import.meta.env.TM_RANK_TABLE_SCROLL_SPEED) || 0.03;
+export const TOURNAMENT_NAME = import.meta.env.TM_TOURNAMENT_NAME || "VGORC";
 
 export const RETURN_URL_PARAM_KEY = "returnUrl";

@@ -8,7 +8,6 @@ import {RETURN_URL_PARAM_KEY} from "./constants.ts";
 import Base64 from "base-64";
 
 const axiosInstance = axios.default.create({
-    baseURL: import.meta.env.VITE_BACKEND_URL || "http://localhost:3000",
     withCredentials: true
 });
 
@@ -26,7 +25,7 @@ function solveErr(e: never) {
 
 export async function getReq(url: string) {
     try {
-        const res = await axiosInstance.get(url);
+        const res = await axiosInstance.get(`/api/${url}`);
         return res.data;
     } catch (e) {
         solveErr(e);
@@ -36,7 +35,7 @@ export async function getReq(url: string) {
 
 export async function postReq(url: string, data = {}) {
     try {
-        const res = await axiosInstance.post(url, data);
+        const res = await axiosInstance.post(`/api/${url}`, data);
         return res.data;
     } catch (e) {
         solveErr(e);
@@ -46,7 +45,7 @@ export async function postReq(url: string, data = {}) {
 
 export async function deleteReq(url: string) {
     try {
-        const res = await axiosInstance.delete(url);
+        const res = await axiosInstance.delete(`/api/${url}`);
         return res.data;
     } catch (e) {
         solveErr(e);
