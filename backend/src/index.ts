@@ -18,6 +18,7 @@ import {Auth} from "./runtime/Auth";
 
 dotenv.config()
 export const BASE_URL = process.env.BASE_URL || 'http://localhost:3000';
+export const WEB_URL = process.env.WEB_URL || 'http://localhost:5173';
 const JWT_SECRET = process.env.JWT_SECRET || 'Createch';
 
 function delay(ms: number) {
@@ -46,7 +47,7 @@ new Elysia()
         }
     }))
     .use(cors({
-        origin: 'http://localhost:5173',
+        origin: WEB_URL,
         credentials: true,
         allowedHeaders: ['Content-Type', 'Origin', 'Cookie', 'Accept']
     }))
@@ -63,20 +64,13 @@ new Elysia()
     .get('/', 'Welcome to VGORC TM API Backend')
     .decorate('auth', new Auth())
     .post('/auth/:module', async ({ auth, jwt, cookie: { permission }, params ,body: {authRole, authPassword}}) => {
-        if (params.module == 'admin' && auth.checkAuth(authRole, authPassword)) {
+        if (auth.checkAuth(authRole, authPassword)) {
             permission.set({
                 value: await jwt.sign(params),
                 httpOnly: true,
                 maxAge: 5 * 86400,
             })
         }
-        else if (params.module == 'match' && auth.checkAuth(authRole, authPassword))
-            permission.set({
-                value: await jwt.sign(params),
-                httpOnly: true,
-                maxAge: 5 * 86400,
-            });
-
         return permission.cookie;
     }, {
         body: t.Object({
