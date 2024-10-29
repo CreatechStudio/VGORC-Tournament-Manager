@@ -76,8 +76,8 @@ export class Ranking {
         let ranking: { teamNumber: string; DriverScore: number; AutoScore: number; TotalScore: number; }[] = [];
 
         data.skills.forEach(team => {
-            let driverScore = Math.max(...team.driverSkill);
-            let autoScore = Math.max(...team.autoSkill);
+            let driverScore = Math.max(...team.driverSkill, 0);
+            let autoScore = Math.max(...team.autoSkill, 0);
             let totalScore = driverScore + autoScore;
 
             ranking.push({
