@@ -40,18 +40,24 @@ export interface PictureObject {
 
 export const PICTURES: PictureObject[] = [
     {
-        url: import.meta.env.TM_VENDOR_LOGO,
-        name: "Vendor Logo"
+        url: "/VEX GO Logo_Full Color.png",
+        name: "VEX GO"
     },
     {
         url: "/CreatechStudio.png",
         name: "CreatechStudio"
     },
-    {
-        url: "/VEX GO Logo_Full Color.png",
-        name: "VEX GO"
-    }
 ];
+
+const logos: string[] = import.meta.env.TM_VENDOR_LOGO.split(',');
+logos.forEach((logo: string) => {
+    if (logo.length > 0) {
+        PICTURES.push({
+            url: logo.trim(),
+            name: "Vendor Logo"
+        });
+    }
+});
 
 export const RANK_TABLE_SCROLL_SPEED = parseFloat(import.meta.env.TM_RANK_TABLE_SCROLL_SPEED) || 0.03;
 export const TOURNAMENT_NAME = import.meta.env.TM_TOURNAMENT_NAME || "VGORC";
