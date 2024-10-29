@@ -41,7 +41,7 @@ export function ChooseDivisionPage({
     }, []);
 
     return (
-        <List sx={{gap: PAD}}>
+        <List sx={{gap: PAD, overflowY: 'auto'}}>
             {
                 divisions.map((d, i) => (
                     <ListItem key={i} sx={{width: '100%'}}>
