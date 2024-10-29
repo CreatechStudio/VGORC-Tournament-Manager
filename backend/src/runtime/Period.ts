@@ -6,11 +6,8 @@ export class Period {
     data: PeriodObject[] = [];
     db: Utils = new Utils();
 
-    constructor() {
-        this.data = this.db.getData().periods || [];
-    }
-
     _indexOf(periodNumber: number) {
+        this.data = this.db.getData().periods || [];
         for (let i = 0; i < this.data.length; i++) {
             if (this.data[i].periodNumber === periodNumber) {
                 return i;
@@ -40,6 +37,7 @@ export class Period {
     }
 
     _hasPeriodTimeOverlap(periodNumber: number, periodStartTime: string, periodEndTime: string): boolean {
+        this.data = this.db.getData().periods || [];
         const newStartTime = new Date(periodStartTime);
         const newEndTime = new Date(periodEndTime);
 

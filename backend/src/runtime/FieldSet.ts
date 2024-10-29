@@ -6,11 +6,8 @@ export class FieldSet {
     data: FieldSetObject[] = [];
     db: Utils = new Utils();
 
-    constructor() {
-        this.data = this.db.getData().settings.fieldSets;
-    }
-
     _indexOf(fieldSetId: number) {
+        this.data = this.db.getData().settings.fieldSets;
         for (let i = 0; i < this.data.length; i++) {
             if (this.data[i].fieldSetId === fieldSetId) {
                 return i;
@@ -20,6 +17,7 @@ export class FieldSet {
     }
 
     _newFieldsExist(newFields: string[], index?: number) {
+        this.data = this.db.getData().settings.fieldSets;
         for (let i = 0; i < this.data.length; i ++) {
             for (let j = 0; j < newFields.length; j ++) {
                 if (i !== index && this.data[i].fields.includes(newFields[j])) {

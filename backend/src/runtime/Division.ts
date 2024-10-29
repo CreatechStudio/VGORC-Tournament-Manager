@@ -6,11 +6,8 @@ export class Division {
     data: DivisionObject[] = [];
     db: Utils = new Utils();
 
-    constructor() {
-        this.data = this.db.getData().settings.division;
-    }
-
     _indexOf(divisionName: string) {
+        this.data = this.db.getData().settings.division;
         for (let i = 0; i < this.data.length; i++) {
             if (this.data[i].divisionName === divisionName) {
                 return i;
@@ -21,6 +18,7 @@ export class Division {
 
     // Division A里不能有Division B里已经有的场地
     _newFieldsExistInOtherDivision(newFields: string[], index?: number,) {
+        this.data = this.db.getData().settings.division;
         for (let i = 0; i < this.data.length; i ++) {
             for (let j = 0; j < newFields.length; j ++) {
                 if (i !== index && this.data[i].divisionFields.includes(newFields[j])) {

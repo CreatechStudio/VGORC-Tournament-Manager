@@ -6,11 +6,8 @@ export class Skill {
     data: SkillWithTeam[] = [];
     db: Utils = new Utils();
 
-    constructor() {
-        this.data = this.db.getData().skills || [];
-    }
-
     _indexOf(teamNumber: string): number {
+        this.data = this.db.getData().skills || [];
         for (let i = 0; i < this.data.length; i++) {
             if (this.data[i].skillsTeamNumber === teamNumber) {
                 return i;
