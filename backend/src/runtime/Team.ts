@@ -43,7 +43,7 @@ export class Team {
     }
 
     get() {
-        return this.db.getData().teams;
+        return this.db.getData().teams.sort((a, b) => a.teamNumber.localeCompare(b.teamNumber));
     }
 
     delete(teamNumber: string) {
