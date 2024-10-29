@@ -16,20 +16,19 @@ export class Skill {
         return -1;
     }
 
-    setSkillScore(teamNumber: string, skillType: SkillType, score: number) {
+
+
+    setSkillScore(teamNumber: string, skillType: SkillType, scores: number[]) {
         let index = this._indexOf(teamNumber);
         if (index !== -1) {
             let team = this.data[index];
-            if (team[skillType].length >= 3) {
-                throw new Error(`${skillType} attempts have reached the limit`);
-            }
-            team[skillType].push(score);
+            team[skillType] = scores;
             this._update();
         } else {
             let newTeam: SkillWithTeam = {
                 skillsTeamNumber: teamNumber,
-                driverSkill: skillType === SkillType.driverSkill ? [score] : [],
-                autoSkill: skillType === SkillType.autoSkill ? [score] : []
+                driverSkill: skillType === SkillType.driverSkill ? scores : [],
+                autoSkill: skillType === SkillType.autoSkill ? scores : []
             };
             this.data.push(newTeam);
             this._update();
@@ -39,7 +38,11 @@ export class Skill {
     getSkill(teamNumber: string): SkillWithTeam {
         let index = this._indexOf(teamNumber);
         if (index === -1) {
-            throw new Error(`Team with number ${teamNumber} not found`);
+            return {
+                skillsTeamNumber: teamNumber,
+                driverSkill: [],
+                autoSkill: []
+            }
         }
         return this.data[index];
     }

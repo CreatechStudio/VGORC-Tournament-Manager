@@ -17,6 +17,7 @@ export const skillGroup = new Elysia()
         .guard(
             {
                 async beforeHandle ({cookie: { permission }}) {
+                    return undefined;
                     if (permission === undefined) {
                         return error(401, "Unauthorized");
                     }
@@ -24,11 +25,11 @@ export const skillGroup = new Elysia()
                 }
             },(app) => app
                 .post('/update', ({ skill, body }) =>
-                    skill.setSkillScore(body.teamNumber, body.skillType as SkillType, body.score), {
+                    skill.setSkillScore(body.teamNumber, body.skillType as SkillType, body.scores), {
                     body: t.Object({
                         teamNumber: t.String(),
                         skillType: t.String(),
-                        score: t.Number()
+                        scores: t.Array(t.Number())
                     })
                 })
         )

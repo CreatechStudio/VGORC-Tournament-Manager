@@ -31,7 +31,7 @@ export class Utils {
         return this._isDatabaseExist();
     }
 
-    editAuth(adminHash: string, refereeHash: string) {
+    initAuth(adminHash: string, refereeHash: string) {
         let newData: Data = this.getData();
         newData.auth = [
             { authRole: 0, authPasswordHash: adminHash },
@@ -44,7 +44,7 @@ export class Utils {
         if (!this._isDatabaseExist()) {
             fs.writeFileSync(this.dbFile, JSON.stringify(DEFAULT_DATA, null, 4));
             console.log('Utils created successfully with default data');
-            this.editAuth(adminPasswordHash, refereePasswordHash);
+            this.initAuth(adminPasswordHash, refereePasswordHash);
             console.log('Auth updated successfully');
         } else {
             console.log('Utils already exists');
