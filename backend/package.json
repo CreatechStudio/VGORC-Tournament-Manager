@@ -14,6 +14,7 @@
     "axios": "^1.7.7",
     "dotenv": "^16.4.5",
     "elysia": "latest",
+    "js-sha256": "^0.11.0",
     "node-machine-id": "^1.1.12",
     "node-rsa": "^1.1.1"
   },

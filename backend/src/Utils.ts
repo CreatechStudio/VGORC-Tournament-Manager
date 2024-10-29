@@ -1,8 +1,11 @@
 import * as fs from 'fs';
 import {Data, DEFAULT_DATA} from "../../common/Data";
 import dotenv from 'dotenv';
+import {sha256} from "js-sha256";
 
 dotenv.config();
+const adminPasswordHash = sha256(process.env.ADMIN_PASSWORD || '123456');
+const refereePasswordHash = sha256(process.env.REFEREE_PASSWORD || '123456')
 
 export class Utils {
     private readonly dbFile: string;
@@ -28,10 +31,21 @@ export class Utils {
         return this._isDatabaseExist();
     }
 
+    editAuth(adminHash: string, refereeHash: string) {
+        let newData: Data = this.getData();
+        newData.auth = [
+            { authRole: 0, authPasswordHash: adminHash },
+            { authRole: 1, authPasswordHash: refereeHash }
+        ];
+        this.updateData(newData);
+    }
+
     createTournamentDatabase() {
         if (!this._isDatabaseExist()) {
             fs.writeFileSync(this.dbFile, JSON.stringify(DEFAULT_DATA, null, 4));
             console.log('Utils created successfully with default data');
+            this.editAuth(adminPasswordHash, refereePasswordHash);
+            console.log('Auth updated successfully');
         } else {
             console.log('Utils already exists');
         }
