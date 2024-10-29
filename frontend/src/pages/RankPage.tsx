@@ -128,8 +128,7 @@ export function rankTableScrollStep(
     try {
         if (tableRef.current) {
             const offsetTop = RANK_TABLE_SCROLL_SPEED * timeEscaped;
-            const totalHeight = tableRef.current.scrollHeight / 3;
-            // console.log(offsetTop, totalHeight);
+            const totalHeight = (tableRef.current.scrollHeight - tableRef.current.querySelector('thead').clientHeight) / 3;
             if (offsetTop >= totalHeight) {
                 handleRefresh();
                 tableRef.current.scrollTo({
