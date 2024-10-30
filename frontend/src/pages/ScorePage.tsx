@@ -1,7 +1,9 @@
 import {
     Box,
     Button,
-    ButtonGroup, Grid,
+    ButtonGroup,
+    CircularProgress,
+    Grid,
     IconButton,
     Input,
     List,
@@ -9,7 +11,7 @@ import {
     Stack,
     Typography
 } from "@mui/joy";
-import {PAD} from "../constants.ts";
+import {generateSocketUrl, LARGE_PART, PAD, PAD2, SMALL_PART} from "../constants.ts";
 import MenuDrawer from "../components/MenuDrawer.tsx";
 import {useEffect, useState} from "react";
 import {DivisionObject} from "../../../common/Division.ts";
@@ -21,6 +23,8 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import ListAltOutlinedIcon from '@mui/icons-material/ListAltOutlined';
 import LogoutIcon from "@mui/icons-material/Logout";
+import {Websocket, WebsocketBuilder, WebsocketEvent} from "websocket-ts";
+import {TimerAction} from "../../../common/Timer.ts";
 
 const DIVISION_NAME_KEY = "division";
 const MATCH_NUMBER_KEY = "match";
@@ -106,6 +110,9 @@ function SetScorePage({
 }) {
     const [matches, setMatches] = useState<MatchObject[]>([]);
     const [current, setCurrent] = useState<MatchObject | null>(null);
+    const [totalTime, setTotalTime] = useState<number | null>(null);
+    const [time, setTime] = useState<number | null>(null);
+    const [timerWs, setTimerWs] = useState<Websocket | null>(null);
 
     useEffect(() => {
         getReq(`/match/${divisionName}/${matchNumber}`).then((res) => {
@@ -115,6 +122,63 @@ function SetScorePage({
             setMatches(res);
         }).catch();
     }, []);
+
+    function startTimer() {
+        if (current) {
+            stopTimer();
+
+            const ws = new WebsocketBuilder(generateSocketUrl('/timer/match')).build();
+
+            ws.addEventListener(WebsocketEvent.message, (_instance, ev) => {
+                const data = JSON.parse(ev.data);
+                if (data.time !== undefined) {
+                    if (data.isTotal) {
+                        setTotalTime(data.time);
+                    } else {
+                        setTime(data.time);
+                    }
+                    if (data.time <= 0) {
+                        stopTimer();
+                    }
+                }
+            });
+            ws.addEventListener(WebsocketEvent.close, (_instance) => {
+                // toast.error("Lost connection");
+                setTime(0);
+            });
+            ws.addEventListener(WebsocketEvent.open, (instance) => {
+                // toast.success("Websocket Connected Successfully");
+                instance.send(JSON.stringify({
+                    fieldName: current.matchField,
+                    action: TimerAction.start,
+                }));
+            });
+            return ws;
+        } else {
+            return null;
+        }
+    }
+
+    function handleStartTimer() {
+        setTimerWs(startTimer());
+    }
+
+    function stopTimer() {
+        if (timerWs && current) {
+            timerWs.send(JSON.stringify({
+                fieldName: current.matchField,
+                action: TimerAction.stop,
+            }));
+            setTime(0);
+            timerWs.close();
+        }
+    }
+
+    function handleStopTimer() {
+        if (confirm("Confirm to stop the timer.")) {
+            stopTimer();
+        }
+    }
 
     function _indexOf(match: MatchObject | null) {
         if (match === null) {
@@ -176,6 +240,20 @@ function SetScorePage({
         }).catch();
     }
 
+    function getTimeString() {
+        if (time !== null) {
+            const seconds = time % 60;
+            const minutes = (time - seconds) / 60;
+            let secondPrefix = "";
+            if (seconds < 10) {
+                secondPrefix = "0";
+            }
+            return `${minutes}:${secondPrefix}${seconds}`;
+        } else {
+            return "0:00";
+        }
+    }
+
     return (
         <Stack sx={{height: '100%'}}>
             <Box sx={{
@@ -211,7 +289,47 @@ function SetScorePage({
                     style={{minHeight: '100vh', left: 0, top: 0, width: '100vw'}}
                 >
                     <Grid xs={10}>
-                        <Box sx={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
+                        <Box sx={{
+                            display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center",
+                            gap: `${PAD2}rem`, height: '100%'
+                        }}>
+                            <Box sx={{
+                                display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center",
+                                gap: PAD2
+                            }}>
+                                <CircularProgress
+                                    value={(time || 0) / (totalTime || 0) * 100}
+                                    determinate
+                                    sx={{
+                                        "--CircularProgress-size": `${SMALL_PART}vh`,
+                                        "--CircularProgress-progressThickness": `${PAD}rem`,
+                                        "--CircularProgress-trackThickness": `${PAD}rem`
+                                    }}
+                                >
+                                    {getTimeString()}
+                                </CircularProgress>
+                                <Box sx={{
+                                    display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center',
+                                    gap: PAD2, width: `${LARGE_PART}%`
+                                }}>
+                                    <Button
+                                        variant="soft"
+                                        color="danger"
+                                        sx={{width: '100%'}}
+                                        onClick={() => handleStopTimer()}
+                                    >
+                                        Stop
+                                    </Button>
+                                    <Button
+                                        onClick={() => handleStartTimer()}
+                                        variant="soft"
+                                        sx={{width: '100%'}}
+                                    >
+                                        Start
+                                    </Button>
+                                </Box>
+                            </Box>
+
                             <Box sx={{
                                 display: "flex", flexDirection: "row", justifyContent: "space-around", alignItems: "center",
                                 width: '100%'

@@ -63,3 +63,7 @@ export const RANK_TABLE_SCROLL_SPEED = parseFloat(import.meta.env.TM_RANK_TABLE_
 export const TOURNAMENT_NAME = import.meta.env.TM_TOURNAMENT_NAME || "VGORC";
 
 export const RETURN_URL_PARAM_KEY = "returnUrl";
+
+export function generateSocketUrl(endpoint: string) {
+    return `/socket/${endpoint}`;
+}

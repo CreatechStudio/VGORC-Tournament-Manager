@@ -23,9 +23,15 @@ export default ({mode}) => {
     server: {
       proxy: {
         '/api': {
-          target: env.TM_BACKEND_URL || "http://localhost:3000",
+          target: `http://${env.TM_BACKEND_URL}` || "http://localhost:3000",
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/api/, '')
+        },
+        '/socket': {
+          target: `ws://${env.TM_BACKEND_URL}`,
+          ws: true,
+          rewriteWsOrigin: true,
+          rewrite: (path) => path.replace(/^\/socket/, '')
         }
       }
     },
