@@ -28,6 +28,8 @@ import {TimerAction} from "../../../common/Timer.ts";
 
 const DIVISION_NAME_KEY = "division";
 const MATCH_NUMBER_KEY = "match";
+const DISPLAY_MODE_KEY = "displayMode";
+const FIELD_NAME_KEY = "fieldName";
 
 export function ChooseDivisionPage({
     divisionNameKey,
@@ -103,10 +105,14 @@ function ChooseMatchPage({
 
 function SetScorePage({
     matchNumber,
-    divisionName
+    divisionName,
+    displayMode,
+    fieldName
 } : {
     matchNumber: string;
     divisionName: string;
+    displayMode: boolean;
+    fieldName: string | null;
 }) {
     const [matches, setMatches] = useState<MatchObject[]>([]);
     const [current, setCurrent] = useState<MatchObject | null>(null);
@@ -115,62 +121,67 @@ function SetScorePage({
     const [timerWs, setTimerWs] = useState<Websocket | null>(null);
 
     useEffect(() => {
-        getReq(`/match/${divisionName}/${matchNumber}`).then((res) => {
-            setCurrent(res);
-        }).catch();
-        getReq(`/match/${divisionName}`).then((res) => {
-            setMatches(res);
-        }).catch();
+        if (displayMode && fieldName) {
+            const ws = connectTimer(fieldName);
+            setTimerWs(ws);
+        } else {
+            getReq(`/match/${divisionName}/${matchNumber}`).then((res) => {
+                setCurrent(res);
+            }).catch();
+            getReq(`/match/${divisionName}`).then((res) => {
+                setMatches(res);
+            }).catch();
+        }
     }, []);
 
-    function startTimer() {
+    function connectTimer(matchField: string, start?: boolean) {
+        const ws = new WebsocketBuilder(generateSocketUrl('/timer/match')).build();
+        ws.addEventListener(WebsocketEvent.message, (_instance, ev) => {
+            const data = JSON.parse(ev.data);
+            if (data.time !== undefined) {
+                if (data.isTotal) {
+                    setTotalTime(data.time);
+                } else {
+                    setTime(data.time);
+                }
+                if (data.time <= 0) {
+                    stopTimer();
+                }
+            }
+        });
+        ws.addEventListener(WebsocketEvent.close, (_instance) => {
+            // toast.error("Lost connection");
+            setTime(0);
+        });
+        ws.addEventListener(WebsocketEvent.open, (instance) => {
+            // toast.success("Websocket Connected Successfully");
+            instance.send(JSON.stringify({
+                fieldName: matchField,
+                action: TimerAction.start,
+                holding: !start
+            }));
+        });
+        return ws;
+    }
+
+    function handleStartTimer() {
         if (current) {
             stopTimer();
-
-            const ws = new WebsocketBuilder(generateSocketUrl('/timer/match')).build();
-
-            ws.addEventListener(WebsocketEvent.message, (_instance, ev) => {
-                const data = JSON.parse(ev.data);
-                if (data.time !== undefined) {
-                    if (data.isTotal) {
-                        setTotalTime(data.time);
-                    } else {
-                        setTime(data.time);
-                    }
-                    if (data.time <= 0) {
-                        stopTimer();
-                    }
-                }
-            });
-            ws.addEventListener(WebsocketEvent.close, (_instance) => {
-                // toast.error("Lost connection");
-                setTime(0);
-            });
-            ws.addEventListener(WebsocketEvent.open, (instance) => {
-                // toast.success("Websocket Connected Successfully");
-                instance.send(JSON.stringify({
-                    fieldName: current.matchField,
-                    action: TimerAction.start,
-                }));
-            });
-            return ws;
+            setTimerWs(connectTimer(fieldName || current.matchField, true));
         } else {
             return null;
         }
     }
 
-    function handleStartTimer() {
-        setTimerWs(startTimer());
-    }
-
-    function stopTimer() {
-        if (timerWs && current) {
-            timerWs.send(JSON.stringify({
-                fieldName: current.matchField,
+    function stopTimer(ws?: Websocket) {
+        const instance = ws || timerWs;
+        if (instance && current) {
+            instance.send(JSON.stringify({
+                fieldName: fieldName || current.matchField,
                 action: TimerAction.stop,
+                holding: false
             }));
             setTime(0);
-            timerWs.close();
         }
     }
 
@@ -256,28 +267,32 @@ function SetScorePage({
 
     return (
         <Stack sx={{height: '100%'}}>
-            <Box sx={{
-                display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'
-            }}>
-                <Typography level="h2">
-                    Score - {current?.matchType} {current?.matchNumber}
-                </Typography>
-                <ButtonGroup size="lg">
-                    <IconButton onClick={() => handleLast()}>
-                        <ChevronLeftIcon/>
-                    </IconButton>
-                    <IconButton onClick={() => handleNext()}>
-                        <ChevronRightIcon/>
-                    </IconButton>
-                    <IconButton onClick={() => handleChooseMatch()}>
-                        <ListAltOutlinedIcon/>
-                    </IconButton>
-                    <MenuDrawer/>
-                    <IconButton onClick={() => logout()}>
-                        <LogoutIcon/>
-                    </IconButton>
-                </ButtonGroup>
-            </Box>
+            {
+                displayMode ? <></> : (
+                    <Box sx={{
+                        display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'
+                    }}>
+                        <Typography level="h2">
+                            Score - {current?.matchType} {current?.matchNumber}
+                        </Typography>
+                        <ButtonGroup size="lg">
+                            <IconButton onClick={() => handleLast()}>
+                                <ChevronLeftIcon/>
+                            </IconButton>
+                            <IconButton onClick={() => handleNext()}>
+                                <ChevronRightIcon/>
+                            </IconButton>
+                            <IconButton onClick={() => handleChooseMatch()}>
+                                <ListAltOutlinedIcon/>
+                            </IconButton>
+                            <MenuDrawer/>
+                            <IconButton onClick={() => logout()}>
+                                <LogoutIcon/>
+                            </IconButton>
+                        </ButtonGroup>
+                    </Box>
+                )
+            }
             <Box sx={{height: '100%', width: '100%'}}>
                 <Grid
                     container
@@ -301,68 +316,82 @@ function SetScorePage({
                                     value={(time || 0) / (totalTime || 0) * 100}
                                     determinate
                                     sx={{
-                                        "--CircularProgress-size": `${SMALL_PART}vh`,
+                                        "--CircularProgress-size": `${displayMode ? LARGE_PART : SMALL_PART}vh`,
                                         "--CircularProgress-progressThickness": `${PAD}rem`,
                                         "--CircularProgress-trackThickness": `${PAD}rem`
                                     }}
                                 >
                                     {getTimeString()}
                                 </CircularProgress>
-                                <Box sx={{
-                                    display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center',
-                                    gap: PAD2, width: `${LARGE_PART}%`
-                                }}>
-                                    <Button
-                                        variant="soft"
-                                        color="danger"
-                                        sx={{width: '100%'}}
-                                        onClick={() => handleStopTimer()}
-                                    >
-                                        Stop
-                                    </Button>
-                                    <Button
-                                        onClick={() => handleStartTimer()}
-                                        variant="soft"
-                                        sx={{width: '100%'}}
-                                    >
-                                        Start
-                                    </Button>
-                                </Box>
+                                {
+                                    displayMode ? <></> : (
+                                        <Box sx={{
+                                            display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center',
+                                            gap: PAD2, width: `${LARGE_PART}%`
+                                        }}>
+                                            <Button
+                                                variant="soft"
+                                                color="danger"
+                                                sx={{width: '100%'}}
+                                                onClick={() => handleStopTimer()}
+                                            >
+                                                Stop
+                                            </Button>
+                                            <Button
+                                                onClick={() => handleStartTimer()}
+                                                variant="soft"
+                                                sx={{width: '100%'}}
+                                            >
+                                                Start
+                                            </Button>
+                                        </Box>
+                                    )
+                                }
                             </Box>
-
-                            <Box sx={{
-                                display: "flex", flexDirection: "row", justifyContent: "space-around", alignItems: "center",
-                                width: '100%'
-                            }}>
-                                <IconButton variant="outlined" size="lg" onClick={() => {
-                                    if (current) {
-                                        setScore(current.matchScore - 1);
-                                    }
-                                }}>
-                                    <RemoveIcon/>
-                                </IconButton>
-                                <Input
-                                    value={current?.matchScore}
-                                    size="lg"
-                                    sx={{textAlign: 'center'}}
-                                    onChange={(e) => handleChangeInput(e.target.value)}
-                                />
-                                <IconButton variant="outlined" size="lg" onClick={() => {
-                                    if (current) {
-                                        setScore(current.matchScore + 1);
-                                    }
-                                }}>
-                                    <AddIcon/>
-                                </IconButton>
-                            </Box>
+                            {
+                                displayMode ? <></> : (
+                                    <Box sx={{
+                                        display: "flex",
+                                        flexDirection: "row",
+                                        justifyContent: "space-around",
+                                        alignItems: "center",
+                                        width: '100%'
+                                    }}>
+                                        <IconButton variant="outlined" size="lg" onClick={() => {
+                                            if (current) {
+                                                setScore(current.matchScore - 1);
+                                            }
+                                        }}>
+                                            <RemoveIcon/>
+                                        </IconButton>
+                                        <Input
+                                            value={current?.matchScore}
+                                            size="lg"
+                                            sx={{textAlign: 'center'}}
+                                            onChange={(e) => handleChangeInput(e.target.value)}
+                                        />
+                                        <IconButton variant="outlined" size="lg" onClick={() => {
+                                            if (current) {
+                                                setScore(current.matchScore + 1);
+                                            }
+                                        }}>
+                                            <AddIcon/>
+                                        </IconButton>
+                                    </Box>
+                                )
+                            }
                         </Box>
                     </Grid>
                 </Grid>
             </Box>
             <Box>
-                <Button size="lg" fullWidth onClick={() => handleSave()}>
-                    Save
-                </Button>
+                {
+                    displayMode ? <></> : (
+                        <Button size="lg" fullWidth onClick={() => handleSave()}>
+                            Save
+                        </Button>
+                    )
+                }
             </Box>
         </Stack>
     );
@@ -372,17 +401,23 @@ export default function ScorePage() {
     const urlParams = new URLSearchParams(window.location.search);
     const divisionName = urlParams.get(DIVISION_NAME_KEY);
     const matchNumber = urlParams.get(MATCH_NUMBER_KEY);
+    const displayMode = urlParams.get(DISPLAY_MODE_KEY) !== null;
+    const fieldName = urlParams.get(FIELD_NAME_KEY);
+
+    const directDisplay = displayMode && fieldName !== null;
 
     function GetContent() {
-        if (divisionName) {
-            if (matchNumber) {
+        if (divisionName || directDisplay) {
+            if (matchNumber || directDisplay) {
                 return <SetScorePage
-                    matchNumber={matchNumber}
-                    divisionName={divisionName}
+                    matchNumber={matchNumber || ""}
+                    divisionName={divisionName || ""}
+                    displayMode={displayMode}
+                    fieldName={fieldName}
                 />;
             } else {
                 return <ChooseMatchPage
-                    divisionName={divisionName}
+                    divisionName={divisionName || ""}
                 />;
             }
         } else {
@@ -402,7 +437,7 @@ export default function ScorePage() {
                         display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'
                     }}>
                         <Typography level="title-lg">
-                            Score
+                            Match
                         </Typography>
                         <ButtonGroup>
                             <MenuDrawer/>
