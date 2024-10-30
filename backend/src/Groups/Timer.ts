@@ -10,11 +10,9 @@ export const timerGroup = new Elysia()
             // validate incoming message
             body: t.Object({
                 fieldName: t.String(),
-                matchType: t.String(),
-                matchNumber: t.Number(),
                 action: t.Enum(TimerAction)
             }),
-            message(ws, { fieldName, matchNumber, action }) {
+            message(ws, { fieldName, action }) {
                 switch (action) {
                     case TimerAction.start:
                         startTimer(fieldName);
