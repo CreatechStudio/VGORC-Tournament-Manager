@@ -25,13 +25,22 @@ export function getTime(key: string) {
         timers[key].start = cur;
         return timers[key].time;
     } else {
-        timers[key] = {time: 0, status: TimeStatus.running, start: new Date().getTime()};
         return 0;
     }
 }
 
-export function repeatGetTime(totalTime: number, key: string, send: (data: object) => unknown) {
-    if (timers[key]?.status === TimeStatus.stopped) {
+export function repeatGetTime(totalTime: number, key: string, send: (data: object) => unknown, holding: boolean) {
+    const repeat = () => {
+        setTimeout(() => {
+            repeatGetTime(totalTime, key, send, holding);
+        }, 1000);
+    }
+    if (timers[key] === undefined || timers[key].status === TimeStatus.stopped) {
+        // 如果挂起并且目标不存在，返回 0
+        if (holding) {
+            send({time: 0});
+            repeat();
+        }
         return;
     }
     const time = totalTime - getTime(key) + 1;
@@ -41,27 +50,23 @@ export function repeatGetTime(totalTime: number, key: string, send: (data: objec
         } else {
             send({time: parseInt(time.toString())});
         }
-        setTimeout(() => {
-            repeatGetTime(totalTime, key, send);
-        }, 1000);
+        repeat();
     } else {
         send({time: 0});
-        timers[key] = undefined;
+        stopTimer(key);
     }
 }
 
 export function startTimer(key: string) {
-    if (timers[key] !== undefined) {
-        timers[key].start = new Date().getTime();
-        timers[key].status = TimeStatus.running;
-    }
+    timers[key] = {
+        status: TimeStatus.running,
+        start: new Date().getTime(),
+        time: 0
+    };
 }
 
 export function stopTimer(key: string) {
-    if (timers[key] !== undefined) {
-        timers[key].status = TimeStatus.stopped;
-        timers[key].time = 0;
-    }
+    timers[key] = undefined;
 }
 
 export function pauseTimer(key: string) {
