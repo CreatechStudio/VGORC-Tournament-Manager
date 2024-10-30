@@ -30,6 +30,10 @@ export const timerGroup = new Elysia()
             },
             open(ws) {
                 console.log('open');
+                ws.send({
+                    time: MATCH_DURATION,
+                    isTotal: true
+                });
             },
         })
     );
