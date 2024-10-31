@@ -55,7 +55,7 @@ export class Period {
     }
 
     get() {
-        return this.data;
+        return this.db.getData().periods;
     }
 
     add(periodNumber: number, periodType: string, periodStartTime: string, periodEndTime: string, periodMatchDuration: number) {
