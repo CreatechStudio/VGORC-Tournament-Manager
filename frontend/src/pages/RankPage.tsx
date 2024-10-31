@@ -2,7 +2,7 @@
 // @ts-nocheck
 
 import {Box, ButtonGroup, Sheet, Table, Typography} from "@mui/joy";
-import {PAD, PictureObject, PICTURES, RANK_TABLE_SCROLL_SPEED} from "../constants.ts";
+import {LOGO_INTERVAL_NUMBER, PAD, PictureObject, PICTURES, RANK_TABLE_SCROLL_SPEED} from "../constants.ts";
 import MenuDrawer from "../components/MenuDrawer.tsx";
 import {MutableRefObject, useEffect, useRef, useState} from "react";
 import {getReq} from "../net.ts";
@@ -159,7 +159,7 @@ export async function generateRankList(endpoint: string) {
     const newRanks = [];
     let pictureIndex = 0;
     for (let i = 0; i < res.length; i ++) {
-        if (i % 40 === 0 && i !== 0) {
+        if (i % LOGO_INTERVAL_NUMBER === 0 && i !== 0) {
             newRanks.push(PICTURES[pictureIndex]);
             pictureIndex += 1;
         }
