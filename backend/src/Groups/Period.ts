@@ -17,21 +17,25 @@ export const periodGroup = new Elysia()
                     return await checkJWT(permission.value || "", MODULE_PERMISSION, error)
                 }
             },(app) => app
-                .post('update', ({ period, body: { periodNumber, periodType, periodEndTime, periodStartTime, periodMatchDuration }, error }) => {
+                .post('update', ({ period, body: { data }, error }) => {
                     try {
-                        period.add(periodNumber, periodType, periodStartTime, periodEndTime, periodMatchDuration);
+                        period.add(data.periodNumber, data.periodType, data.periodStartTime, data.periodEndTime, data.periodMatchDuration);
                         return period.get();
                     } catch (e) {
                         return error(406, e);
                     }
                 }, {
-                    body: t.Object({
-                        periodNumber: t.Number(),
-                        periodType: t.String(),
-                        periodStartTime: t.String(),
-                        periodEndTime: t.String(),
-                        periodMatchDuration: t.Number()
-                    })
+                    body: t.Object(
+                        {
+                            data: t.Object({
+                                periodNumber: t.Number(),
+                                periodType: t.String(),
+                                periodStartTime: t.String(),
+                                periodEndTime: t.String(),
+                                periodMatchDuration: t.Number()
+                            })
+                        }
+                    )
                 })
                 .delete('delete/:periodId', ({ period, params: { periodId }, error }) => {
                     try {
