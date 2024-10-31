@@ -33,16 +33,15 @@ export const periodGroup = new Elysia()
                         periodMatchDuration: t.Number()
                     })
                 })
-                .delete('delete/:divisionName/:periodId', ({ period, params: { divisionName, periodId }, error }) => {
+                .delete('delete/:periodId', ({ period, params: { periodId }, error }) => {
                     try {
-                        period.delete(decodeURI(divisionName), periodId);
+                        period.delete(periodId);
                         return period.get();
                     } catch (e) {
                         return error(406, e);
                     }
                 }, {
                     params: t.Object({
-                        divisionName: t.String(),
                         periodId: t.Number()
                     })
                 })

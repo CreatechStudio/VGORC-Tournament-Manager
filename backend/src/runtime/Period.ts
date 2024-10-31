@@ -89,17 +89,13 @@ export class Period {
         this._update();
     }
 
-    delete(divisionName: string, periodNumber: number) {
+    delete(periodNumber: number) {
         const index = this._indexOf(periodNumber);
-        if (index !== -1) {
-            if (this._hasMatchesInPeriod(periodNumber, divisionName)) {
-                this.data.splice(index, 1);
-                this._update();
-            } else {
-                throw new Error(`Cannot delete period ${periodNumber} from division ${decodeURIComponent(divisionName)} because the period has matches`);
-            }
-        } else {
+        if (index === -1) {
             throw new Error(`Period ${periodNumber} not found`);
+        } else {
+            this.data.splice(index, 1);
+            this._update();
         }
     }
 
