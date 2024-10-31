@@ -11,7 +11,6 @@ export const scheduleGroup = new Elysia()
         .guard(
             {
                 async beforeHandle ({cookie: { permission }}) {
-                    return undefined;
                     if (permission === undefined) {
                         return error(401, "Unauthorized");
                     }
