@@ -10,15 +10,19 @@ export const timerGroup = new Elysia()
             // validate incoming message
             body: t.Object({
                 fieldName: t.String(),
-                action: t.Enum(TimerAction)
+                action: t.Enum(TimerAction),
+                holding: t.Boolean()
             }),
-            message(ws, { fieldName, action }) {
+            message(ws, { fieldName, action, holding }) {
                 switch (action) {
                     case TimerAction.start:
-                        startTimer(fieldName);
+                        if (!holding) {
+                            // 如果没有挂起，才需要创建计时器
+                            startTimer(fieldName);
+                        }
                         repeatGetTime(MATCH_DURATION, fieldName, (data) => {
                             ws.send(data);
-                        });
+                        }, holding);
                         break;
                     case TimerAction.stop:
                         stopTimer(fieldName);
@@ -29,7 +33,11 @@ export const timerGroup = new Elysia()
                 }
             },
             open(ws) {
-                console.log('open');
+                // console.log('open');
+                ws.send({
+                    time: MATCH_DURATION,
+                    isTotal: true
+                });
             },
         })
     );

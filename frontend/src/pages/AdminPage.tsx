@@ -80,6 +80,7 @@ export default function AdminPage() {
                     [`& .${accordionSummaryClasses.button}`]: {
                         paddingBlock: '1rem',
                     },
+                    overflowY: 'scroll'
                 }}
             >
                 <BasicAccordion disabled={disabled}/>

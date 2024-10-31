@@ -2,7 +2,7 @@ import {
     Accordion,
     AccordionDetails,
     AccordionSummary,
-    Avatar,
+    Avatar, Button,
     FormControl, FormHelperText, FormLabel, Input,
     ListItemContent,
     Table,
@@ -19,6 +19,10 @@ export default function BasicAccordion({
 }) {
     const [durationPerMatch, setDurationPerMatch] = useState(60);
 
+    function handleSave() {
+        
+    }
+
     return (
         <Accordion sx={{width: '100%'}}>
             <AccordionSummary>
@@ -31,6 +35,16 @@ export default function BasicAccordion({
                         Basic settings for a season
                     </Typography>
                 </ListItemContent>
+                <Button
+                    disabled={disabled}
+                    variant="outlined"
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        handleSave();
+                    }}
+                >
+                    Save
+                </Button>
             </AccordionSummary>
             <AccordionDetails sx={{pl: PAD, pr: PAD}}>
                 <Table borderAxis="none">

@@ -39,7 +39,7 @@ export const routes = [
     },
     {
         path: '/score',
-        name: "Score",
+        name: "Match",
         icon: <ScoreboardOutlinedIcon/>,
         element: <ScorePage/>
     },
