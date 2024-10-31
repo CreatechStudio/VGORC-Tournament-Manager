@@ -1,6 +1,5 @@
 {
   "tournamentName": "VGORC",
-  "tournamentPassword": "123456",
   "auth": [
     {
       "authRole": 0,
