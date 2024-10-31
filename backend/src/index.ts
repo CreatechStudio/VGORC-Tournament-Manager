@@ -16,6 +16,7 @@ import dotenv from "dotenv";
 import jwt from "@elysiajs/jwt";
 import {Auth} from "./runtime/Auth";
 import {timerGroup} from "./Groups/Timer";
+import {scheduleGroup} from "./Groups/Schedule";
 
 dotenv.config()
 export const BASE_URL = process.env.BASE_URL || 'http://localhost:3000';
@@ -97,14 +98,15 @@ new Elysia()
             cookie: t.String()
         })
     })
-    .use(timerGroup)
     .use(divisionGroup)
     .use(fieldSetGroup)
     .use(matchGroup)
     .use(periodGroup)
     .use(rankingGroup)
+    .use(scheduleGroup)
     .use(skillGroup)
     .use(teamGroup)
+    .use(timerGroup)
     .use(utilsGroup)
     .listen(3000);
 
