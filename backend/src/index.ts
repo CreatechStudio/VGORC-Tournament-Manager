@@ -85,7 +85,6 @@ new Elysia()
     })
     .post("/auth/check", async ({ jwt, body }) => {
         const token = await jwt.verify(body.cookie);
-        console.log(token)
         // @ts-ignore
         if (token.module === 'admin') {
             return true;
