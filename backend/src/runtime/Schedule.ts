@@ -8,10 +8,6 @@ export class Schedule {
     dataMatchWithDivision: MatchWithDivision[] = []
     db: Utils = new Utils();
 
-    _getRandomInt(max: number) {
-        return Math.floor(Math.random() * max);
-    }
-
     _indexOf(divisionName: string) {
         this.dataMatchWithDivision = this.db.getData().matches;
         for (let i = 0; i < this.dataMatchWithDivision.length; i++) {
@@ -19,14 +15,16 @@ export class Schedule {
                 return i;
             }
         }
+        return -1
     }
 
     _getAllDivision() {
         let allDivisions: string[] = [];
-        this.dataMatchWithDivision = this.db.getData().matches;
-        this.dataMatchWithDivision.forEach(matchWithDivision => {
-            allDivisions.push(matchWithDivision.divisionName);
+        let divisions = this.db.getData().settings.division
+        divisions.forEach(division => {
+            allDivisions.push(division.divisionName);
         })
+
         return allDivisions
     }
 
@@ -52,9 +50,9 @@ export class Schedule {
     }
 
     _getAllFieldsSets() {
-        let allFieldSets: string[] = [];
+        let allFieldSets: number[] = [];
         this.db.getData().settings.fieldSets.forEach(fieldSet => {
-            allFieldSets = allFieldSets.concat(fieldSet.fields);
+            allFieldSets = allFieldSets.concat(fieldSet.fieldSetId);
         });
         return allFieldSets
     }
@@ -77,19 +75,42 @@ export class Schedule {
         const periodEndTime = new Date(period.periodEndTime);
         const periodMatchDuration = period.periodMatchDuration;
 
-        const availableTime = (periodEndTime.getTime() - periodStartTime.getTime()) / (1000 * 60); // Convert to minutes
+        const availableTime = (periodEndTime.getTime() - periodStartTime.getTime()) / (1000 * 60);
         return Math.floor(availableTime / periodMatchDuration);
     }
 
-    _pairTeammatesInDivision(divisionName: string) {
+    _calcMatchCountInDivision(divisionName: string): number {
+        let allPeriods = this._getAllPeriods();
+        let matchCount = 0;
+        allPeriods.forEach(period => {
+            matchCount += this._calcMatchCountInPeriod(period);
+        })
+        return matchCount;
+    }
+
+    _pairTeammatesInDivision(divisionName: string): string[][] {
         let allTeams = this._getAllTeamsInDivision(divisionName);
-        let indexTeamOne: number = 0;
-        let indexTeamTwo: number = 0;
-        while (!(indexTeamOne = indexTeamTwo)) {
-            indexTeamOne =  this._getRandomInt(allTeams.length);
-            indexTeamTwo = this._getRandomInt(allTeams.length);
+        let matchCountInDivision = this._calcMatchCountInDivision(divisionName);
+
+        // Shuffle the teams
+        for (let i = allTeams.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [allTeams[i], allTeams[j]] = [allTeams[j], allTeams[i]];
         }
-        return [allTeams[indexTeamOne], allTeams[indexTeamTwo]];
+
+        // Create an array to hold the matches
+        let teams: string[][] = Array.from({ length: matchCountInDivision }, () => []);
+
+        // Distribute teams into matches ensuring each match has two different teams
+        let teamIndex = 0;
+        for (let i = 0; i < matchCountInDivision; i++) {
+            teams[i].push(allTeams[teamIndex]);
+            teamIndex = (teamIndex + 1) % allTeams.length;
+            teams[i].push(allTeams[teamIndex]);
+            teamIndex = (teamIndex + 1) % allTeams.length;
+        }
+
+        return teams;
     }
 
     get() {
@@ -97,47 +118,54 @@ export class Schedule {
     }
 
     add() {
-        const divisionName = this._getAllDivision()
-        const periodNumber = this._getAllPeriods()
+        const divisionName = this._getAllDivision();
+        const periodNumber = this._getAllPeriods();
+        const fieldSets = this._getAllFieldsSets();
+        this.dataMatchWithDivision = [];
+
+        // Initialize dataMatchWithDivision with empty matches for each division
         divisionName.forEach(division => {
+            let matchWithDivision: MatchWithDivision = {
+                divisionName: division,
+                matches: []
+            };
+            this.dataMatchWithDivision.push(matchWithDivision);
+        });
+        this._update();
+
+        // Initialize allMatches as a multidimensional array
+        let allMatches: MatchObject[][] = Array.from({ length: divisionName.length }, () => []);
+
+        // Iterate over each division and period to add matches
+        divisionName.forEach((division, divisionIndex) => {
+            let matchNumber = 1;
             periodNumber.forEach(period => {
-                this.dataMatchWithDivision = this.db.getData().matches;
-                let divisionIndex = this._indexOf(division);
-
-                if (divisionIndex === undefined) {
-                    this.dataMatchWithDivision.push({
-                        divisionName: division,
-                        matches: []
-                    });
-                    divisionIndex = this.dataMatchWithDivision.length - 1;
-                }
-
-                const matchCount = this._calcMatchCountInPeriod(period);
-                const fields = this._getAllFieldsInDivision(division);
-                let matchNumber = this.dataMatchWithDivision[divisionIndex].matches.length + 1;
-
-                for (let i = 0; i < matchCount; i++) {
-                    const matchTeams = this._pairTeammatesInDivision(division);
-                    const matchField = fields[i % fields.length];
-                    const fieldSet = +this._getAllFieldsSets()[i % this._getAllFieldsSets().length];
-
-                    const newMatch: MatchObject = {
+                let matchCountInPeriod = this._calcMatchCountInPeriod(period);
+                let teams = this._pairTeammatesInDivision(division);
+                let fields = this._getAllFieldsInDivision(division);
+                for (let i = 0; i < matchCountInPeriod; i++) {
+                    let match: MatchObject = {
                         matchNumber: matchNumber++,
                         matchType: "Qualification",
-                        matchField: matchField,
-                        matchFieldSet: fieldSet,
+                        matchField: fields[i % fields.length],
+                        matchFieldSet: fieldSets[i % fieldSets.length],
                         matchPeriod: period,
                         matchCountInPeriod: i + 1,
-                        matchTeam: matchTeams,
+                        matchTeam: teams[i],
                         hasScore: false,
                         matchScore: 0
                     };
-
-                    this.dataMatchWithDivision[divisionIndex].matches.push(newMatch);
+                    allMatches[divisionIndex].push(match);
                 }
-            })
-        })
+            });
+        });
 
+        // Push matches to dataMatchWithDivision
+        allMatches.forEach((matches, index) => {
+            this.dataMatchWithDivision[index].matches = matches;
+        });
+
+        // console.log(this.dataMatchWithDivision);
         this._update();
     }
 
