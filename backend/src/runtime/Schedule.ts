@@ -8,16 +8,6 @@ export class Schedule {
     dataMatchWithDivision: MatchWithDivision[] = []
     db: Utils = new Utils();
 
-    _indexOf(divisionName: string) {
-        this.dataMatchWithDivision = this.db.getData().matches;
-        for (let i = 0; i < this.dataMatchWithDivision.length; i++) {
-            if (this.dataMatchWithDivision[i].divisionName === divisionName) {
-                return i;
-            }
-        }
-        return -1
-    }
-
     _getAllDivision() {
         let allDivisions: string[] = [];
         let divisions = this.db.getData().settings.division
@@ -165,7 +155,6 @@ export class Schedule {
             this.dataMatchWithDivision[index].matches = matches;
         });
 
-        // console.log(this.dataMatchWithDivision);
         this._update();
     }
 
