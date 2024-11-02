@@ -1,0 +1,11 @@
+FROM ubuntu:latest
+
+WORKDIR /app
+
+COPY ./dist/backend-linux-arm64 /app
+
+EXPOSE 3000
+
+CMD ["./backend-linux-arm64"]
+
+USER nobody

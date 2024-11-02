@@ -1,0 +1,11 @@
+FROM ubuntu:latest
+
+WORKDIR /app
+
+COPY ./dist/backend-linux-x64 /app
+
+EXPOSE 3000
+
+CMD ["./backend-linux-x64"]
+
+USER nobody
