@@ -1,27 +1,30 @@
-name: Build Backend
+name: Build and Deploy Backend
 
 on:
-  workflow_dispatch:
+  workflow_dispatch: # 手动触发
 
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.config.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        arch: [x64, x64, arm64]
-        exclude:
-          - os: macos-latest
+        config:
+          - os: ubuntu-latest
+            platform: linux
             arch: x64
+          - os: ubuntu-latest
+            platform: linux
+            arch: arm64
+          - os: windows-latest
+            platform: windows
+            arch: x64
+          - os: macos-latest
+            platform: darwin
+            arch: arm64
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
-      - name: Set platform and architecture
-        run: |
-          echo "PLATFORM=${{ matrix.os }}" >> $GITHUB_ENV
-          echo "ARCH=${{ matrix.arch }}" >> $GITHUB_ENV
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
@@ -34,10 +37,11 @@ jobs:
 
       - name: Build the project
         working-directory: ./backend
-        run: bun build --minify --sourcemap src/index.ts --compile --target=bun-${{ matrix.os }}-${{ matrix.arch }} --outfile ./dist/backend-${{ matrix.os }}-${{ matrix.arch }}
+        run: |
+          bun build --minify --sourcemap src/index.ts --compile --target=bun-${{ matrix.config.platform }}-${{ matrix.config.arch }} --outfile ./dist/backend-${{ matrix.config.platform }}-${{ matrix.config.arch }}
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: backend-${{ matrix.os }}-${{ matrix.arch }}
-          path: ./backend/dist/backend-${{ matrix.os }}-${{ matrix.arch }}
+          name: backend-${{ matrix.config.os }}-${{ matrix.config.arch }}
+          path: ./backend/dist/backend-${{ matrix.config.platform }}-${{ matrix.config.arch }}
