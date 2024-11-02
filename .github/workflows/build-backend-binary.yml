@@ -1,0 +1,43 @@
+name: Build Backend
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        arch: [x64, x64, arm64]
+        exclude:
+          - os: macos-latest
+            arch: x64
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set platform and architecture
+        run: |
+          echo "PLATFORM=${{ matrix.os }}" >> $GITHUB_ENV
+          echo "ARCH=${{ matrix.arch }}" >> $GITHUB_ENV
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        working-directory: ./backend
+        run: bun install
+
+      - name: Build the project
+        working-directory: ./backend
+        run: bun build --minify --sourcemap src/index.ts --compile --target=bun-${{ matrix.os }}-${{ matrix.arch }} --outfile ./dist/backend-${{ matrix.os }}-${{ matrix.arch }}
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: backend-${{ matrix.os }}-${{ matrix.arch }}
+          path: ./backend/dist/backend-${{ matrix.os }}-${{ matrix.arch }}
