@@ -9,14 +9,14 @@ import {fieldSetGroup} from './Groups/FieldSet';
 import {matchGroup} from './Groups/Match';
 import {periodGroup} from "./Groups/Period";
 import {rankingGroup} from './Groups/Ranking';
+import {scheduleGroup} from "./Groups/Schedule";
 import {skillGroup} from './Groups/Skills';
 import {teamGroup} from './Groups/Team';
+import {timerGroup} from "./Groups/Timer";
 import {utilsGroup} from './Groups/Utils';
 import dotenv from "dotenv";
 import jwt from "@elysiajs/jwt";
 import {Auth} from "./runtime/Auth";
-import {timerGroup} from "./Groups/Timer";
-import {scheduleGroup} from "./Groups/Schedule";
 
 dotenv.config()
 export const BASE_URL = process.env.BASE_URL || 'http://localhost:3000';

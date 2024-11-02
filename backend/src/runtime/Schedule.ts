@@ -130,10 +130,10 @@ export class Schedule {
         divisionName.forEach((division, divisionIndex) => {
             let matchNumber = 1;
             periodNumber.forEach(period => {
-                let matchCountInPeriod = this._calcMatchCountInPeriod(period);
+                let totalMatchCountInPeriod = this._calcMatchCountInPeriod(period);
                 let teams = this._pairTeammatesInDivision(division);
                 let fields = this._getAllFieldsInDivision(division);
-                for (let i = 0; i < matchCountInPeriod; i++) {
+                for (let i = 0; i < totalMatchCountInPeriod; i++) {
                     let match: MatchObject = {
                         matchNumber: matchNumber++,
                         matchType: "Qualification",
