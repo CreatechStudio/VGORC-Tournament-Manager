@@ -35,21 +35,36 @@ export class Ranking {
         return teams;
     }
 
-    _calculateAvgScoreOfTeamInDivision(teamNumber: string, divisionName: string): number {
+    _calcAvgScoreOfTeamInDivision(teamNumber: string, divisionName: string): number {
         let decodedDivisionName = decodeURIComponent(divisionName);
         let matches = this._findTeamMatches(teamNumber, decodedDivisionName);
-        if (matches.length === 0) return 0;
+        let totalMatches = matches.length;
+        if (totalMatches === 0) return 0;
 
+        let excludeCount = 0;
+        if (totalMatches >= 4 && totalMatches <= 7) {
+            excludeCount = 1;
+        } else if (totalMatches >= 8 && totalMatches <= 11) {
+            excludeCount = 2;
+        } else if (totalMatches >= 12 && totalMatches <= 15) {
+            excludeCount = 3;
+        } else if (totalMatches >= 16) {
+            excludeCount = 4;
+        }
+
+        matches.sort((a, b) => a.matchScore - b.matchScore);
+
+        let validMatches = matches.slice(excludeCount);
         let totalScore = 0;
         let validMatchesCount = 0;
 
-        matches.forEach(match => {
+        validMatches.forEach(match => {
             if (match.hasScore) {
                 totalScore += match.matchScore;
                 validMatchesCount++;
             }
         });
-        
+
         if (validMatchesCount === 0) return 0;
         return totalScore / validMatchesCount;
     }
@@ -60,7 +75,7 @@ export class Ranking {
         let ranking: { teamNumber: string; teamAvgScore: number; }[] = [];
 
         teams.forEach(team => {
-            let avgScore = this._calculateAvgScoreOfTeamInDivision(team.teamNumber, decodedDivisionName);
+            let avgScore = this._calcAvgScoreOfTeamInDivision(team.teamNumber, decodedDivisionName);
             ranking.push({
                 teamNumber: team.teamNumber,
                 teamAvgScore: avgScore
