@@ -100,6 +100,24 @@ export class Schedule {
             teamIndex = (teamIndex + 1) % allTeams.length;
         }
 
+        // Shuffle the teams
+        for (let i = 0; i < teams.length; i++) {
+            const j = Math.floor(Math.random() * teams.length);
+            [teams[i][1], teams[j][1]] = [teams[j][1], teams[i][1]];
+        }
+
+        // Ensure no duplicate teams in the same match
+        for (let i = 0; i < teams.length; i++) {
+            if (teams[i][0] === teams[i][1]) {
+                for (let j = 0; j < teams.length; j++) {
+                    if (teams[j][0] !== teams[i][0] && teams[j][1] !== teams[i][0]) {
+                        [teams[i][1], teams[j][1]] = [teams[j][1], teams[i][1]];
+                        break;
+                    }
+                }
+            }
+        }
+
         return teams;
     }
 
