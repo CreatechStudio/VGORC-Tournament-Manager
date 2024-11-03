@@ -94,17 +94,15 @@ export class Schedule {
         // Distribute teams into matches ensuring each match has two different teams
         let teamIndex = 0;
         for (let i = 0; i < matchCountInDivision; i++) {
-            teams[i].push(allTeams[teamIndex]);
-            teamIndex = (teamIndex + 1) % allTeams.length;
-            teams[i].push(allTeams[teamIndex]);
-            teamIndex = (teamIndex + 1) % allTeams.length;
+            teams[i] = [allTeams[teamIndex], allTeams[(teamIndex + 1) % allTeams.length]];
+            teamIndex = (teamIndex + 2) % allTeams.length;
         }
 
         // Shuffle the teams
-        for (let i = 0; i < teams.length; i++) {
+        teams.forEach(match => {
             const j = Math.floor(Math.random() * teams.length);
-            [teams[i][1], teams[j][1]] = [teams[j][1], teams[i][1]];
-        }
+            [match[1], teams[j][1]] = [teams[j][1], match[1]];
+        });
 
         // Ensure no duplicate teams in the same match
         for (let i = 0; i < teams.length; i++) {
