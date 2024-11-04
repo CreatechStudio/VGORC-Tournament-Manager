@@ -157,20 +157,14 @@ export class Schedule {
         return true;
     }
 
-    getQualification() {
+    get(divisionName?: string) {
         let allMatches = this.db.getData().matches;
-        allMatches.forEach(matches => {
-            matches.matches = matches.matches.filter(match => match.matchType === "Qualification");
-        })
+        if (!divisionName) {
+            return allMatches;
+        }
+        let decodedDivisionName = decodeURIComponent(divisionName);
+        allMatches = allMatches.filter(matches => matches.divisionName === decodedDivisionName);
         return allMatches
-    }
-
-    getElimination() {
-        let allMatches = this.db.getData().matches;
-        allMatches.forEach(matches => {
-            matches.matches = matches.matches.filter(match => match.matchType === "Elimination");
-        })
-        return allMatches;
     }
 
     addQualification() {

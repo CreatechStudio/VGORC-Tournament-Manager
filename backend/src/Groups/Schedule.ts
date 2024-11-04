@@ -7,8 +7,16 @@ const MODULE_PERMISSION = "admin"
 export const scheduleGroup = new Elysia()
     .decorate('schedule', new Schedule())
     .group('/schedule', (app) => app
-        .get('qualification', ({ schedule }) => schedule.getQualification())
-        .get('elimination', ({ schedule }) => schedule.getElimination())
+        .get(':divisionName', ({ schedule, params }) =>
+        {
+            return schedule.get(params.divisionName)
+        }, {
+            params: t.Object(
+                {
+                    divisionName: t.String()
+                }
+            )
+        })
         .guard(
             {
                 async beforeHandle ({cookie: { permission }}) {
@@ -22,10 +30,10 @@ export const scheduleGroup = new Elysia()
                     try {
                         if (params.matchType === 'Qualification') {
                             schedule.addQualification();
-                            return schedule.getQualification();
+                            return schedule.get();
                         } else if (params.matchType === 'Elimination') {
                             schedule.addElimination();
-                            return schedule.getElimination();
+                            return schedule.get();
                         }
                     } catch (e) {
                         return error(406, e);
@@ -40,7 +48,7 @@ export const scheduleGroup = new Elysia()
                 .get('clear', ({ schedule, error }) => {
                     try {
                         schedule.clearAllSchedule();
-                        return schedule.getQualification();
+                        return schedule.get();
                     } catch (e) {
                         return error(406, e);
                     }
