@@ -154,14 +154,18 @@ export function rankTableScrollStep(
 }
 
 // eslint-disable-next-line react-refresh/only-export-components
-export async function generateRankList(endpoint: string) {
-    const res = await getReq(endpoint);
+export async function generateRankList(endpoint: string, solveData?: (data: []) => []) {
+    let res = await getReq(endpoint);
+    if (solveData) {
+        res = solveData(res);
+    }
     const newRanks = [];
     let pictureIndex = 0;
     for (let i = 0; i < res.length; i ++) {
         if (i % LOGO_INTERVAL_NUMBER === 0 && i !== 0) {
             newRanks.push(PICTURES[pictureIndex]);
             pictureIndex += 1;
+            pictureIndex %= PICTURES.length;
         }
         res[i].rank = i+1;
         newRanks.push(res[i]);
