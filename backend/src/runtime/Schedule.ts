@@ -2,6 +2,7 @@ import {Utils} from "../Utils";
 import {MatchObject, MatchWithDivision} from "../../../common/Match";
 import {TeamObject} from "../../../common/Team";
 import {Data} from "../../../common/Data";
+import {fieldSetGroup} from "../Groups/FieldSet";
 
 export class Schedule {
     dataTeam: TeamObject[] = [];
@@ -40,11 +41,7 @@ export class Schedule {
     }
 
     _getAllFieldsSets() {
-        let allFieldSets: number[] = [];
-        this.db.getData().settings.fieldSets.forEach(fieldSet => {
-            allFieldSets = allFieldSets.concat(fieldSet.fieldSetId);
-        });
-        return allFieldSets
+        return this.db.getData().settings.fieldSets;
     }
 
     _getAllPeriods() {
@@ -142,6 +139,14 @@ export class Schedule {
         // Initialize allMatches as a multidimensional array
         let allMatches: MatchObject[][] = Array.from({ length: divisionName.length }, () => []);
 
+        const matchCountInPeriodWithField: {[Key: string]: number} = {};
+
+        fieldSets.forEach((set, index) => {
+            set.fields.forEach((field) => {
+                matchCountInPeriodWithField[field] = index + 1;
+            });
+        });
+
         // Iterate over each division and period to add matches
         divisionName.forEach((division, divisionIndex) => {
             let matchNumber = 1;
@@ -154,13 +159,17 @@ export class Schedule {
                         matchNumber: matchNumber++,
                         matchType: "Qualification",
                         matchField: fields[i % fields.length],
-                        matchFieldSet: fieldSets[i % fieldSets.length],
+                        matchFieldSet: fieldSets[i % fieldSets.length].fieldSetId,
                         matchPeriod: period,
-                        matchCountInPeriod: i + 1,
+                        matchCountInPeriod: 0,
                         matchTeam: teams[i],
                         hasScore: false,
                         matchScore: 0
                     };
+
+                    match.matchCountInPeriod = matchCountInPeriodWithField[match.matchField];
+                    matchCountInPeriodWithField[match.matchField] += fieldSets.length;
+
                     allMatches[divisionIndex].push(match);
                 }
             });
@@ -179,5 +188,4 @@ export class Schedule {
         newData.matches = this.dataMatchWithDivision;
         this.db.updateData(newData);
     }
-
 }
