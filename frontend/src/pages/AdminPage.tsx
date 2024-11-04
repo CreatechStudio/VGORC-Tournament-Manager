@@ -17,12 +17,14 @@ import {DivisionObject} from "../../../common/Division";
 import MenuDrawer from "../components/MenuDrawer";
 import {TeamObject} from "../../../common/Team";
 import {FieldSetObject} from "../../../common/FieldSet";
+import {PeriodObject} from "../../../common/Period.ts";
 
 export default function AdminPage() {
     const [disabled, setDisabled] = useState(true);
     const [divisions, setDivisions] = useState<DivisionObject[]>([]);
     const [teams, setTeams] = useState<TeamObject[]>([]);
     const [fieldSets, setFieldSets] = useState<FieldSetObject[]>([]);
+    const [periods, setPeriods] = useState<PeriodObject[]>([]);
 
     useEffect(() => {
         getReq('/utils/database/existed').then((res) => {
@@ -44,6 +46,9 @@ export default function AdminPage() {
         });
         getReq('/fieldset').then((res) => {
             setFieldSets(res);
+        });
+        getReq('/period').then((res) => {
+            setPeriods(res);
         });
     }
 
@@ -90,6 +95,8 @@ export default function AdminPage() {
                     setDivisions={setDivisions}
                     teams={teams}
                     setTeams={setTeams}
+                    periods={periods}
+                    setPeriods={setPeriods}
                     fieldSets={fieldSets}
                     setFieldSets={setFieldSets}
                 />

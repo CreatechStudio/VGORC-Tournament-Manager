@@ -1,13 +1,19 @@
 import {useEffect, useState} from "react";
-import {Box, Button, ButtonGroup, IconButton, Input, Table, Typography} from "@mui/joy";
+import {Box, ButtonGroup, IconButton, Input, Table, Typography} from "@mui/joy";
 import AddIcon from "@mui/icons-material/Add";
 import UploadIcon from "@mui/icons-material/Upload";
 import ChipInput from "./ChipInput.tsx";
-import {PAD} from "../constants.ts";
+import {PAD, SMALL_PART} from "../constants.ts";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import {deleteReq, postReq} from "../net.ts";
 import toast from "react-hot-toast";
 import {includes} from "../../../common/utils.ts";
+import SaveIcon from '@mui/icons-material/Save';
+
+const DateAttributeNames = [
+    "periodStartTime",
+    "periodEndTime",
+]
 
 function TableInput({
     value,
@@ -24,11 +30,13 @@ function TableInput({
 }) {
     const [localValue, setLocalValue] = useState(value);
 
+    const isDate = type && type.includes("date");
+
     return (
         <Input
             value={localValue}
             sx={{
-                mb: PAD, mt: PAD
+                mb: PAD, mt: PAD, minWidth: isDate ? `${SMALL_PART/3}vw` : 0
             }}
             variant={variant || "soft"}
             disabled={disabled}
@@ -36,8 +44,8 @@ function TableInput({
             onChange={(e) => {
                 setLocalValue(e.target.value);
             }}
-            onBlur={() => {
-                setValue(localValue.toString());
+            onBlur={(e) => {
+                setValue(e.target.value);
             }}
         />
     );
@@ -79,14 +87,25 @@ export default function TournamentTable<T extends Record<keyof T, string | strin
     }) {
         // @ts-expect-error get value of an object using key
         const value = obj[objKey];
-        if (typeof value === "string") {
+        if (DateAttributeNames.includes(objKey)) {
+            return (
+                <TableInput
+                    value={value}
+                    setValue={(t: string) => {
+                        setValue(index, objKey, t);
+                    }}
+                    disabled={disabled}
+                    type="datetime-local"
+                />
+            );
+        } else if (typeof value === "string") {
             return (
                 <TableInput
                     value={value}
                     setValue={(v) => setValue(index, objKey, v)}
                     disabled={disabled}
                 />
-            )
+            );
         } else if (typeof value === "number") {
             return (
                 <TableInput
@@ -95,13 +114,13 @@ export default function TournamentTable<T extends Record<keyof T, string | strin
                     disabled={disabled}
                     type="number"
                 />
-            )
+            );
         } else {
             return (
                 <ChipInput chips={value} setChips={(chips) => {
                     setValue(index, objKey, chips);
                 }} disabled={disabled}/>
-            )
+            );
         }
     }
 
@@ -178,30 +197,24 @@ export default function TournamentTable<T extends Record<keyof T, string | strin
                         </th>
                     ))
                 }
-                <th style={{width: '25%'}}>
+                <th style={{width: '10%'}}>
                     <Box sx={{display: 'flex', flexDirection: 'row', justifyContent: 'flex-end'}}>
                         <ButtonGroup disabled={disabled}>
-                            <Button
+                            <IconButton
                                 onClick={() => handleNew()}
-                                startDecorator={
-                                    <AddIcon/>
-                                }
                             >
-                                New
-                            </Button>
-                            <Button
+                                <AddIcon/>
+                            </IconButton>
+                            <IconButton
                                 onClick={() => handleImport()}
-                                startDecorator={
-                                    <UploadIcon/>
-                                }
                             >
-                                Import
-                            </Button>
-                            <Button
+                                <UploadIcon/>
+                            </IconButton>
+                            <IconButton
                                 onClick={() => handleSave()}
                             >
-                                Save
-                            </Button>
+                                <SaveIcon/>
+                            </IconButton>
                         </ButtonGroup>
                     </Box>
                 </th>
@@ -214,7 +227,7 @@ export default function TournamentTable<T extends Record<keyof T, string | strin
                         {
                             Object.keys(obj).map((key) => (
                                 <td key={key}>
-                                    <Box sx={{p: PAD}}>
+                                    <Box sx={{p: PAD, width: '100%'}}>
                                         <ValuePresent obj={obj} index={i} objKey={key}/>
                                     </Box>
                                 </td>

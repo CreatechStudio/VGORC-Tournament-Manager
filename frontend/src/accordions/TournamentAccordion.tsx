@@ -8,16 +8,19 @@ import {
 } from "@mui/joy";
 import EditNotificationsRoundedIcon from '@mui/icons-material/EditNotificationsRounded';
 import {DivisionObject} from "../../../common/Division";
-import {DEFAULT_DIVISION, DEFAULT_FIELD_SET, DEFAULT_TEAM, LARGE_PART, PAD} from "../constants";
+import {DEFAULT_DIVISION, DEFAULT_FIELD_SET, DEFAULT_PERIOD, DEFAULT_TEAM, LARGE_PART, PAD} from "../constants";
 import {TeamObject} from "../../../common/Team";
 import TournamentTable from "../components/TournamentTable";
 import {FieldSetObject} from "../../../common/FieldSet.ts";
+import {PeriodObject} from "../../../common/Period.ts";
 
 export default function TournamentAccordion({
     divisions,
     setDivisions,
     teams,
     setTeams,
+    periods,
+    setPeriods,
     fieldSets,
     setFieldSets,
     disabled,
@@ -26,6 +29,8 @@ export default function TournamentAccordion({
     setDivisions: (divisions: DivisionObject[]) => void;
     teams: TeamObject[];
     setTeams: (teams: TeamObject[]) => void;
+    periods: PeriodObject[],
+    setPeriods: (periods: PeriodObject[]) => void;
     fieldSets: FieldSetObject[];
     setFieldSets: (sets: FieldSetObject[]) => void;
     disabled?: boolean;
@@ -69,6 +74,14 @@ export default function TournamentAccordion({
                             defaultValue={DEFAULT_TEAM}
                             getDeleteEndpoint={(obj) => `/team/delete/${obj.teamNumber}`}
                             updateEndpoint="/team/update"
+                        />
+                        <TournamentTable
+                            arr={periods}
+                            setArr={setPeriods}
+                            disabled={disabled}
+                            defaultValue={DEFAULT_PERIOD}
+                            getDeleteEndpoint={(obj) => `/period/delete/${obj.periodNumber}`}
+                            updateEndpoint="/period/update"
                         />
                     </Stack>
                 </Box>
