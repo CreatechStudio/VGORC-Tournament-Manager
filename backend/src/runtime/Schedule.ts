@@ -2,7 +2,7 @@ import {Utils} from "../Utils";
 import {MatchObject, MatchWithDivision} from "../../../common/Match";
 import {TeamObject} from "../../../common/Team";
 import {Data} from "../../../common/Data";
-import {fieldSetGroup} from "../Groups/FieldSet";
+import {Ranking} from "./Ranking";
 
 export class Schedule {
     dataTeam: TeamObject[] = [];
@@ -66,7 +66,7 @@ export class Schedule {
         return Math.floor(availableTime / periodMatchDuration);
     }
 
-    _calcMatchCountInDivision(divisionName: string): number {
+    _calcMatchCountInDivision(): number {
         let allPeriods = this._getAllPeriods();
         let matchCount = 0;
         allPeriods.forEach(period => {
@@ -77,7 +77,7 @@ export class Schedule {
 
     _pairTeammatesInDivision(divisionName: string): string[][] {
         let allTeams = this._getAllTeamsInDivision(divisionName);
-        let matchCountInDivision = this._calcMatchCountInDivision(divisionName);
+        let matchCountInDivision = this._calcMatchCountInDivision();
 
         // Shuffle the teams
         for (let i = allTeams.length - 1; i > 0; i--) {
@@ -116,11 +116,67 @@ export class Schedule {
         return teams;
     }
 
-    get() {
-        return this.db.getData().matches;
+    _getLeadingTeamInDivision(divisionName: string, first: number) {
+        let rank = new Ranking()
+        let rankingInDivision = rank.getQualRanking(divisionName);
+        let leadingTeams: string[] = [];
+        for (let i = 0; i < first; i++) {
+            leadingTeams.push(rankingInDivision[i].teamNumber);
+        }
+        return leadingTeams;
     }
 
-    add() {
+    _ensureMatchScheduleIsEmpty() {
+        let allMatches = this.db.getData().matches;
+        if (allMatches.length === 0) {
+            return true;
+        }
+        allMatches.forEach(matches => {
+            if (matches.matches.length > 0) {
+                return false;
+            }
+        });
+    }
+
+    _ensureAllQualificationIsScored(divisionName: string) {
+        let allMatches = this.db.getData().matches;
+        if (allMatches.length === 0) {
+            return false;
+        }
+        let matchesInDivision: MatchObject[] = [];
+        allMatches.forEach(matches => {
+            if (matches.divisionName === divisionName) {
+                matchesInDivision = matches.matches;
+            }
+        });
+        matchesInDivision.forEach(match => {
+            if (!match.hasScore) {
+                return false
+            }
+        })
+        return true;
+    }
+
+    getQualification() {
+        let allMatches = this.db.getData().matches;
+        allMatches.forEach(matches => {
+            matches.matches = matches.matches.filter(match => match.matchType === "Qualification");
+        })
+        return allMatches
+    }
+
+    getElimination() {
+        let allMatches = this.db.getData().matches;
+        allMatches.forEach(matches => {
+            matches.matches = matches.matches.filter(match => match.matchType === "Elimination");
+        })
+        return allMatches;
+    }
+
+    addQualification() {
+        if (!this._ensureMatchScheduleIsEmpty()) {
+            throw new Error("Match schedule is not empty");
+        }
         const divisionName = this._getAllDivision();
         const periodNumber = this._getAllPeriods();
         const fieldSets = this._getAllFieldsSets();
@@ -181,6 +237,44 @@ export class Schedule {
         });
 
         this._update();
+    }
+
+    addElimination() {
+        const divisionName = this._getAllDivision();
+        this.dataMatchWithDivision = this.db.getData().matches;
+        let allMatches: MatchObject[][] = Array.from({ length: divisionName.length }, () => []);
+        divisionName.forEach(division => {
+            if (!this._ensureAllQualificationIsScored(division)) {
+                throw new Error("Not all qualification matches are scored");
+            }
+            let matchNumber = 1;
+            let teams = this._getLeadingTeamInDivision(division, this.db.getData().settings.eliminationAllianceCount * 2);
+            let fields = this._getAllFieldsInDivision(division);
+            for (let i = 0; i < teams.length; i += 2) {
+                let match: MatchObject = {
+                    matchNumber: matchNumber++,
+                    matchType: "Elimination",
+                    matchField: fields[i % fields.length],
+                    matchFieldSet: 0,
+                    matchPeriod: 0,
+                    matchCountInPeriod: 0,
+                    matchTeam: [teams[teams.length - i - 1], teams[teams.length - (i + 1) - 1]],
+                    hasScore: false,
+                    matchScore: 0
+                };
+                allMatches[divisionName.indexOf(division)].push(match);
+            }
+        })
+        this.dataMatchWithDivision.forEach((matches, index) => {
+            matches.matches = matches.matches.concat(allMatches[index]);
+        })
+        this._update();
+    }
+
+    clearAllSchedule() {
+        let newData: Data = this.db.getData();
+        newData.matches = [];
+        this.db.updateData(newData);
     }
 
     _update() {
