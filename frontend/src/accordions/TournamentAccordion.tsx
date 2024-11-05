@@ -74,6 +74,7 @@ export default function TournamentAccordion({
                             defaultValue={DEFAULT_TEAM}
                             getDeleteEndpoint={(obj) => `/team/delete/${obj.teamNumber}`}
                             updateEndpoint="/team/update"
+                            allowUpload
                         />
                         <TournamentTable
                             arr={periods}

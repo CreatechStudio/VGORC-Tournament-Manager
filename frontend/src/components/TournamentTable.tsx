@@ -9,6 +9,7 @@ import {deleteReq, postReq} from "../net.ts";
 import toast from "react-hot-toast";
 import {includes} from "../../../common/utils.ts";
 import SaveIcon from '@mui/icons-material/Save';
+import UploadCsvModal from "./UploadCsvModal.tsx";
 
 const DateAttributeNames = [
     "periodStartTime",
@@ -58,6 +59,7 @@ export default function TournamentTable<T extends Record<keyof T, string | strin
     disabled,
     getDeleteEndpoint,
     updateEndpoint,
+    allowUpload,
 } : {
     arr: T[];
     setArr: (newArr: T[]) => void;
@@ -65,10 +67,12 @@ export default function TournamentTable<T extends Record<keyof T, string | strin
     disabled?: boolean;
     getDeleteEndpoint: (obj: T) => string;
     updateEndpoint: string;
+    allowUpload?: boolean;
 }) {
     const TKeys = Object.keys(defaultValue);
 
     const [localArr, setLocalArr] = useState<T[]>(arr || []);
+    const [openModal, setOpenModal] = useState(false);
 
     useEffect(() => {
         setLocalArr(arr);
@@ -131,18 +135,19 @@ export default function TournamentTable<T extends Record<keyof T, string | strin
         ]);
     }
 
-    function handleSave() {
+    function handleSave(data?: T[]) {
+        const newArr = data || localArr;
         let changeFlag = false;
         let successFlag = true;
         const promises: Promise<unknown>[] = [];
-        localArr.forEach((obj) => {
+        newArr.forEach((obj) => {
             // 如果本地存在但是远端不存在或与远端的不同，那就更新这条记录
             if (!includes(arr, obj)) {
                 changeFlag = true;
                 promises.push(postReq(updateEndpoint, {
                     data: obj
                 }).then((res) => {
-                    setLocalArr(res || localArr);
+                    setLocalArr(res || newArr);
                     setArr(res || arr);
                 }).catch(() => {
                     successFlag = false;
@@ -160,7 +165,7 @@ export default function TournamentTable<T extends Record<keyof T, string | strin
     }
 
     function handleImport() {
-
+        setOpenModal(true);
     }
 
     function handleDelete(index: number) {
@@ -205,11 +210,14 @@ export default function TournamentTable<T extends Record<keyof T, string | strin
                             >
                                 <AddIcon/>
                             </IconButton>
-                            <IconButton
-                                onClick={() => handleImport()}
-                            >
-                                <UploadIcon/>
-                            </IconButton>
+                            {
+                                allowUpload ?
+                                    <IconButton
+                                        onClick={() => handleImport()}
+                                    >
+                                        <UploadIcon/>
+                                    </IconButton> : <></>
+                            }
                             <IconButton
                                 onClick={() => handleSave()}
                             >
@@ -242,6 +250,15 @@ export default function TournamentTable<T extends Record<keyof T, string | strin
                 ))
             }
             </tbody>
+            <UploadCsvModal
+                open={openModal}
+                setOpen={setOpenModal}
+                header={TKeys}
+                onSubmit={async (value) => {
+                    setLocalArr(value);
+                    handleSave(value);
+                }}
+            />
         </Table>
     );
 }
