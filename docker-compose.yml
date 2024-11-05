@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  backend:
+    image: createchstudio/vgorc-tm-backend:${DOCKER_ARCH}
+    container_name: backend
+    environment:
+      - TM_BASE_URL=${TM_BASE_URL}
+      - TM_WEB_URL=${TM_WEB_URL}
+      - TM_DB_FILE=/etc/backend/${TM_DB_FILE}
+      - TM_LICENSE_FILE=/etc/backend/${TM_LICENSE_FILE}
+      - TM_JWT_SECRET=${TM_JWT_SECRET}
+      - TM_ADMIN_PASSWORD=${TM_ADMIN_PASSWORD}
+      - TM_REFEREE_PASSWORD=${TM_REFEREE_PASSWORD}
+      - TM_TOURNAMENT_NAME=${TM_TOURNAMENT_NAME}
+      - TM_VENDOR_LOGO=${TM_VENDOR_LOGO}
+      - TM_RANK_TABLE_SCROLL_SPEED=${TM_RANK_TABLE_SCROLL_SPEED}
+      - TM_LOGO_INTERVAL_NUMBER=${TM_LOGO_INTERVAL_NUMBER}
+    volumes:
+      - ${DOCKER_BACKEND_MOUNT_FOLDER}:/etc/backend
+    networks:
+      - vgorc-tm
+
+  frontend:
+    image: createchstudio/vgorc-tm-frontend
+    container_name: frontend
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+    networks:
+      - vgorc-tm
+
+networks:
+  vgorc-tm:
+    driver: bridge  # 创建私有网络

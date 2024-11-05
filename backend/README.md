@@ -1,4 +1,4 @@
-# VGORC Tournament Manager Frontend
+# VGORC Tournament Manager Backend
 
 ## Environment Variables
 | Name                              | Explain                | Example               |

@@ -34,11 +34,13 @@ if [ "$PLATFORM" == "docker" ]; then
     echo "Select Architecture:"
     echo "1) 64-bit"
     echo "2) ARM 64-bit"
+    echo "3) Push Both Docker"
     read -p "Enter choice [1-2]: " arch_choice
 
     case $arch_choice in
         1) ARCH="x64" ;;
         2) ARCH="arm64" ;;
+        3) docker push createchstudio/vgorc-tm-backend:x64; docker push createchstudio/vgorc-tm-backend:arm64; exit 0 ;;
         *) echo "Invalid choice"; exit 1 ;;
     esac
 
