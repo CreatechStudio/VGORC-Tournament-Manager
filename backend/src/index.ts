@@ -97,6 +97,20 @@ new Elysia()
             cookie: t.String()
         })
     })
+    .get('/env/:prefix', async ({params: {prefix}}) => {
+        let env: {[Keys: string]: string} = {};
+        const localEnv = process.env;
+        Object.keys(localEnv).forEach(key => {
+            if (key.startsWith(prefix)) {
+                env[key] = localEnv[key] || "";
+            }
+        });
+        return env;
+    }, {
+        params: t.Object({
+            prefix: t.String()
+        })
+    })
     .use(divisionGroup)
     .use(fieldSetGroup)
     .use(matchGroup)
