@@ -3,6 +3,7 @@
 import react from '@vitejs/plugin-react';
 import {loadEnv} from "vite";
 import topLevelAwait from "vite-plugin-top-level-await";
+import {viteSingleFile} from "vite-plugin-singlefile";
 
 // https://vitejs.dev/config/
 export default ({mode}) => {
@@ -11,8 +12,10 @@ export default ({mode}) => {
   return {
     plugins: [
         react(),
-        topLevelAwait()
+        topLevelAwait(),
+        viteSingleFile()
     ],
+    base: '/',
     env: env,
     build: {
       minify: true,
@@ -27,12 +30,12 @@ export default ({mode}) => {
     server: {
       proxy: {
         '/api': {
-          target: `http://${env.BACKEND_URL}` || "http://localhost:3000",
+          target: `http://${env.BACKEND_URL || "localhost:3000"}`,
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/api/, '')
         },
         '/socket': {
-          target: `ws://${env.TM_BACKEND_URL}`,
+          target: `ws://${env.BACKEND_URL}`,
           ws: true,
           rewriteWsOrigin: true,
           rewrite: (path) => path.replace(/^\/socket/, '')

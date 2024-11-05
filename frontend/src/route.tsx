@@ -15,50 +15,50 @@ import SkillsScorePage from "./pages/SkillsScorePage.tsx";
 
 export const routes = [
     {
-        path: '/',
+        path: '',
         name: "Dashboard",
         icon: <DashboardIcon/>,
-        element: <DashPage/>
+        element: DashPage
     },
     {
-        path: '/schedule',
+        path: 'schedule',
         name: "Schedule",
         icon: <ScheduleIcon/>,
-        element: <SchedulePage/>
+        element: SchedulePage
     },
     {
-        path: '/rank',
+        path: 'rank',
         name: "Rank",
         icon: <StarBorderIcon/>,
-        element: <RankPage/>
+        element: RankPage
     },
     {
-        path: '/srank',
+        path: 'srank',
         name: "Skills Rank",
-        element: <SkillsRankPage/>
+        element: SkillsRankPage
     },
     {
-        path: '/score',
+        path: 'score',
         name: "Match",
         icon: <ScoreboardOutlinedIcon/>,
-        element: <ScorePage/>
+        element: ScorePage
     },
     {
-        path: '/sscore',
+        path: 'sscore',
         name: 'Skills Score',
         icon: <ScoreboardOutlinedIcon/>,
-        element: <SkillsScorePage/>
+        element: SkillsScorePage
     },
     {
-        path: '/login',
+        path: 'login',
         name: "Login",
         icon: <LoginIcon/>,
-        element: <LoginPage/>
+        element: LoginPage
     },
     {
-        path: '/admin',
+        path: 'admin',
         name: "Admin",
         icon: <AdminPanelSettingsIcon/>,
-        element: <AdminPage/>
+        element: AdminPage
     }
 ];

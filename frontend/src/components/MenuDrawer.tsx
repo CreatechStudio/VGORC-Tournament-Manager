@@ -12,6 +12,7 @@ import {
 import {PAD1_5, PAD2, TOURNAMENT_NAME} from "../constants.ts";
 import TocIcon from '@mui/icons-material/Toc';
 import {routes} from "../route.tsx";
+import {toLocation} from "../net.ts";
 
 export default function MenuDrawer() {
     const [open, setOpen] = useState(false);
@@ -63,7 +64,7 @@ export default function MenuDrawer() {
                                         key={i}
                                         onClick={() => {
                                             setOpen(false);
-                                            window.location.href = route.path;
+                                            toLocation(route.path);
                                         }}
                                     >
                                         <Box sx={{

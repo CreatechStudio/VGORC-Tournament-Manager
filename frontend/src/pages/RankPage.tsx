@@ -52,7 +52,7 @@ export default function RankPage() {
                     divisionName === null
                     ? <ChooseDivisionPage
                         divisionNameKey={DIVISION_NAME_KEY}
-                        urlPrefix={"/rank"}
+                        urlPrefix={"#rank"}
                     />
                     : <div style={{
                         height: '100%', display: 'flex', flexDirection: 'column',

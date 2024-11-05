@@ -16,7 +16,10 @@ function solveErr(e: never) {
         toast.error("Unauthorized");
         setTimeout(() => {
             // 未认证回弹
-            window.location.href = `/login?${RETURN_URL_PARAM_KEY}=${Base64.encode(window.location.href)}`;
+            const params = {};
+            // @ts-ignore
+            params[RETURN_URL_PARAM_KEY] = Base64.encode(window.location.href);
+            toLocation('login', params);
         }, 1000);
     } else {
         toast.error(e.response.data || e.message || "Something went wrong");
@@ -72,8 +75,20 @@ export function handleReturn() {
     const urlParams = new URLSearchParams(window.location.search);
     const returnUrl = urlParams.get(RETURN_URL_PARAM_KEY);
     if (returnUrl) {
-        window.location.href = Base64.decode(returnUrl) || "/";
+        window.location.href = Base64.decode(returnUrl) || "#";
     } else {
-        window.location.href = "/";
+        window.location.href = "#";
     }
+}
+
+export function toLocation(hash: string, params: {[Keys: string]: any} = {}) {
+    const paramStrings = [];
+    Object.keys(params).forEach((key) => {
+        paramStrings.push(`${key}=${params[key]}`);
+    });
+    if (hash.startsWith('#')) {
+        hash = hash.substring(1);
+    }
+    window.location.hash = hash;
+    window.location.search = paramStrings.join('&');
 }

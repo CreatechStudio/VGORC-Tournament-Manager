@@ -15,7 +15,7 @@ import {generateSocketUrl, LARGE_PART, PAD, PAD2, SMALL_PART} from "../constants
 import MenuDrawer from "../components/MenuDrawer.tsx";
 import {useEffect, useState} from "react";
 import {DivisionObject} from "../../../common/Division.ts";
-import {getReq, logout, postReq} from "../net.ts";
+import {getReq, logout, postReq, toLocation} from "../net.ts";
 import {MatchObject} from "../../../common/Match.ts";
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
@@ -56,7 +56,10 @@ export function ChooseDivisionPage({
                             variant="soft"
                             size="lg"
                             onClick={() => {
-                                window.location.href = `${urlPrefix}?${divisionNameKey}=${d.divisionName}`;
+                                const params = {};
+                                // @ts-ignore
+                                params[divisionNameKey] = d.divisionName;
+                                toLocation(urlPrefix, params);
                             }}
                         >
                             {d.divisionName}
@@ -91,7 +94,12 @@ function ChooseMatchPage({
                             variant="soft"
                             size="lg"
                             onClick={() => {
-                                window.location.href = `/score?${DIVISION_NAME_KEY}=${divisionName}&${MATCH_NUMBER_KEY}=${m.matchNumber}`;
+                                const params = {};
+                                // @ts-ignore
+                                params[DIVISION_NAME_KEY] = divisionName;
+                                // @ts-ignore
+                                params[MATCH_NUMBER_KEY] = m.matchNumber;
+                                toLocation('score', params);
                             }}
                         >
                             {m.matchType} {m.matchNumber}
@@ -204,7 +212,12 @@ function SetScorePage({
     }
 
     function toMatch(newMatchNumber: string | number) {
-        window.location.href = `/score?${DIVISION_NAME_KEY}=${divisionName}&${MATCH_NUMBER_KEY}=${newMatchNumber}`;
+        const params = {};
+        // @ts-ignore
+        params[DIVISION_NAME_KEY] = divisionName;
+        // @ts-ignore
+        params[MATCH_NUMBER_KEY] = newMatchNumber;
+        toLocation('score', params);
     }
 
     function handleLast() {
@@ -423,7 +436,7 @@ export default function ScorePage() {
         } else {
             return <ChooseDivisionPage
                 divisionNameKey={DIVISION_NAME_KEY}
-                urlPrefix="/score"
+                urlPrefix="#score"
             />;
         }
     }

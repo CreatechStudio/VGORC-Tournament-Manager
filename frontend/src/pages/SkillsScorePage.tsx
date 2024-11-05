@@ -3,7 +3,7 @@ import {PAD, PAD2, SMALL_PART} from "../constants.ts";
 import MenuDrawer from "../components/MenuDrawer.tsx";
 import {useEffect, useState} from "react";
 import {TeamObject} from "../../../common/Team.ts";
-import {getReq, logout, postReq} from "../net.ts";
+import {getReq, logout, postReq, toLocation} from "../net.ts";
 import LogoutIcon from "@mui/icons-material/Logout";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
@@ -33,7 +33,10 @@ function ChooseTeam() {
                             variant="soft"
                             size="lg"
                             onClick={() => {
-                                window.location.href = `/sscore?${TEAM_NUMBER_KEY}=${t.teamNumber}`;
+                                const params = {};
+                                // @ts-ignore
+                                params[TEAM_NUMBER_KEY] = t.teamNumber;
+                                toLocation('sscore', params);
                             }}
                         >
                             {t.teamNumber}
@@ -51,7 +54,12 @@ function ChooseSkillType({
     teamNumber: string;
 }) {
     function handleSetType(t: SkillType) {
-        window.location.href = `/sscore?${TEAM_NUMBER_KEY}=${teamNumber}&${SKILL_TYPE_KEY}=${t}`;
+        const params = {};
+        // @ts-ignore
+        params[TEAM_NUMBER_KEY] = teamNumber;
+        // @ts-ignore
+        params[SKILL_TYPE_KEY] = t;
+        toLocation('sscore', params);
     }
 
     return (

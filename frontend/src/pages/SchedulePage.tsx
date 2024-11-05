@@ -84,7 +84,7 @@ export default function SchedulePage() {
                     divisionName === null
                         ? <ChooseDivisionPage
                             divisionNameKey={DIVISION_NAME_KEY}
-                            urlPrefix={"/schedule"}
+                            urlPrefix={"#schedule"}
                         />
                         : <div style={{
                             height: '100%', display: 'flex', flexDirection: 'column',
