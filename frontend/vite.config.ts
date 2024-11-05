@@ -2,13 +2,17 @@
 
 import react from '@vitejs/plugin-react';
 import {loadEnv} from "vite";
+import topLevelAwait from "vite-plugin-top-level-await";
 
 // https://vitejs.dev/config/
 export default ({mode}) => {
   const env = loadEnv(mode, process.cwd(), ['']);
 
   return {
-    plugins: [react()],
+    plugins: [
+        react(),
+        topLevelAwait()
+    ],
     env: env,
     build: {
       minify: true,
