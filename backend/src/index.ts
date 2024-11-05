@@ -19,9 +19,9 @@ import jwt from "@elysiajs/jwt";
 import {Auth} from "./runtime/Auth";
 
 dotenv.config()
-export const BASE_URL = process.env.BASE_URL || 'http://localhost:3000';
-export const WEB_URL = process.env.WEB_URL || 'http://localhost:5173';
-const JWT_SECRET = process.env.JWT_SECRET || 'Createch';
+export const BASE_URL = process.env.TM_BASE_URL || 'http://localhost:3000';
+export const WEB_URL = process.env.TM_WEB_URL || 'http://localhost:5173';
+const JWT_SECRET = process.env.TM_JWT_SECRET || 'Createch';
 
 function delay(ms: number) {
     return new Promise( resolve => setTimeout(resolve, ms) );

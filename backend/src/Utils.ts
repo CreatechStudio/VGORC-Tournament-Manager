@@ -4,15 +4,15 @@ import dotenv from 'dotenv';
 import {sha256} from "js-sha256";
 
 dotenv.config();
-const adminPasswordHash = sha256(process.env.ADMIN_PASSWORD || '123456');
-const refereePasswordHash = sha256(process.env.REFEREE_PASSWORD || '123456')
+const adminPasswordHash = sha256(process.env.TM_ADMIN_PASSWORD || '123456');
+const refereePasswordHash = sha256(process.env.TM_REFEREE_PASSWORD || '123456')
 
 export class Utils {
     private readonly dbFile: string;
     private data: Data = DEFAULT_DATA;
 
     constructor() {
-        this.dbFile = process.env.DB_FILE || '';
+        this.dbFile = process.env.TM_DB_FILE || '';
         if (!this.dbFile) {
             throw new Error('DB_FILE is not defined in the .env file');
         }
@@ -25,7 +25,7 @@ export class Utils {
     }
 
     isDatabaseExist() {
-        if (process.env.DEV_ALWAYS_UNLOCK) {
+        if (process.env.TM_DEV_ALWAYS_UNLOCK) {
             return false;
         }
         return this._isDatabaseExist();

@@ -7,7 +7,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const activationFilePath = process.env.LICENSE_FILE || 'license.license';
+const activationFilePath = process.env.TM_LICENSE_FILE || 'license.license';
 
 let isValid = false;
 let expireDate = null;

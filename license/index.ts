@@ -9,9 +9,9 @@ const key = new NodeRSA();
 key.importKey(privateKey, 'private');
 
 const licenseData = {
-    expireDate: process.env.EXPIRE_DATE,
-    organization: process.env.ORGANIZATION,
-    machineId: process.env.MACHINE_ID
+    expireDate: process.env.TM_EXPIRE_DATE,
+    organization: process.env.TM_ORGANIZATION,
+    machineId: process.env.TM_MACHINE_ID
 };
 
 const encryptedLicense = key.encryptPrivate(JSON.stringify(licenseData), 'base64');
