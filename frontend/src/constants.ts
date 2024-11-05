@@ -2,6 +2,10 @@ import {DivisionObject} from "../../common/Division.ts";
 import {TeamObject} from "../../common/Team.ts";
 import {FieldSetObject} from "../../common/FieldSet.ts";
 import {PeriodObject} from "../../common/Period.ts";
+import {getReq} from "./net.ts";
+
+// @ts-ignore
+export const env = await getReq('/env/TM');
 
 export const ASPECT_RATIO = 1/0.618;
 export const SMALL_PART = 38.2;
@@ -58,7 +62,7 @@ export const PICTURES: PictureObject[] = [
     },
 ];
 
-const logos: string[] = import.meta.env.TM_VENDOR_LOGO.split(',');
+const logos: string[] = env.TM_VENDOR_LOGO.split(',');
 logos.forEach((logo: string) => {
     if (logo.length > 0) {
         PICTURES.push({
@@ -68,9 +72,9 @@ logos.forEach((logo: string) => {
     }
 });
 
-export const RANK_TABLE_SCROLL_SPEED = parseFloat(import.meta.env.TM_RANK_TABLE_SCROLL_SPEED) || 0.03;
-export const TOURNAMENT_NAME = import.meta.env.TM_TOURNAMENT_NAME || "VGORC";
-export const LOGO_INTERVAL_NUMBER = parseInt(import.meta.env.TM_LOGO_INTERVAL_NUMBER) || 20;
+export const RANK_TABLE_SCROLL_SPEED = parseFloat(env.TM_RANK_TABLE_SCROLL_SPEED) || 0.03;
+export const TOURNAMENT_NAME = env.TM_TOURNAMENT_NAME || "VGORC";
+export const LOGO_INTERVAL_NUMBER = parseInt(env.TM_LOGO_INTERVAL_NUMBER) || 20;
 
 export const RETURN_URL_PARAM_KEY = "returnUrl";
 
