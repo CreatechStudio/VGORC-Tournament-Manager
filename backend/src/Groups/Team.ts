@@ -29,8 +29,7 @@ export const teamGroup = new Elysia()
                             teamNumber: t.String(),
                             teamName: t.String(),
                             teamOrganization: t.String(),
-                            teamDivision: t.String(),
-                            teamAvgScore: t.Integer()
+                            teamDivision: t.String()
                         })
                     })
                 })
