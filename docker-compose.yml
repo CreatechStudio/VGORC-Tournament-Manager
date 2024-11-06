@@ -21,7 +21,7 @@ services:
         ipv4_address: 172.30.0.20
 
   frontend:
-    image: createchstudio/vgorc-tm-frontend
+    image: createchstudio/vgorc-tm-frontend:${DOCKER_ARCH}
     container_name: frontend
     depends_on:
       - backend
