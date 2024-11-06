@@ -27,13 +27,13 @@ jobs:
 
       - name: Setup Yarn
         working-directory: ./frontend
-        uses: borales/actions-yarn@v5.0.0
+        uses: borales/actions-yarn@v4
         with:
           cmd: install
 
       - name: Build the project
         working-directory: ./frontend
-        uses: borales/actions-yarn@v5.0.0
+        uses: borales/actions-yarn@v4
         with:
           cmd: build
 
