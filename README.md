@@ -3,8 +3,6 @@
 ## Environment Variables
 | Name                              | Explain                | Example               |
 |-----------------------------------|------------------------|-----------------------|
-| TM_BASE_URL | 后端API地址                | http://localhost:3000 |
-| TM_WEB_URL | 前端地址                   | http://localhost:80   |
 | TM_DB_FILE | 数据库文件名                 | db.vgorc              |
 | TM_LICENSE_FILE | 授权文件名字                 | license.license       |
 | TM_JWT_SECRET | JWT密钥                  | Createch              |

@@ -5,4 +5,4 @@ WORKDIR /app
 
 COPY ./dist/backend-linux-x64 /app
 
-CMD ["./backend-linux-arm64"]
+CMD ["./backend-linux-x64"]

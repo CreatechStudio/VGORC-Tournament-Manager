@@ -1,4 +1,4 @@
-name: Build Backend Binary
+name: Build Backend Docker & Push
 
 on:
   workflow_dispatch:
@@ -15,16 +15,10 @@ jobs:
           - os: ubuntu-latest
             platform: linux
             arch: arm64
-          - os: windows-latest
-            platform: windows
-            arch: x64
-          - os: macos-latest
-            platform: darwin
-            arch: arm64
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
@@ -40,8 +34,16 @@ jobs:
         run: |
           bun build --minify --sourcemap src/index.ts --compile --target=bun-${{ matrix.config.platform }}-${{ matrix.config.arch }} --outfile ./dist/backend-${{ matrix.config.platform }}-${{ matrix.config.arch }}
 
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
         with:
-          name: backend-${{ matrix.config.os }}-${{ matrix.config.arch }}
-          path: ./backend/dist/backend-${{ matrix.config.platform }}-${{ matrix.config.arch }}
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build service
+        uses: docker/build-push-action@v6
+        with:
+          push: true
+          tags: createchstudio/vgorc-tm-backend:${{ matrix.config.arch }}
+          context: backend
+          file: backend/Dockerfile-${{ matrix.config.arch }}
