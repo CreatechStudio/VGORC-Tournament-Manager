@@ -7,6 +7,6 @@ COPY ./dist .
 
 COPY ./nginx.conf /etc/nginx/nginx.conf
 
-EXPOSE 80
+RUN rm /etc/nginx/conf.d/default.conf
 
-USER nobody
+EXPOSE 80

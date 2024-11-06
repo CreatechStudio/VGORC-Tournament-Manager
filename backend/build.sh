@@ -40,7 +40,7 @@ if [ "$PLATFORM" == "docker" ]; then
     case $arch_choice in
         1) ARCH="x64" ;;
         2) ARCH="arm64" ;;
-        3) docker push createchstudio/vgorc-tm-backend:x64; docker push createchstudio/vgorc-tm-backend:arm64; exit 0 ;;
+        3) docker push createchstudio/vgorc-tm-backend:x64; docker push createchstudio/vgorc-tm-backend:arm64 ;;
         *) echo "Invalid choice"; exit 1 ;;
     esac
 

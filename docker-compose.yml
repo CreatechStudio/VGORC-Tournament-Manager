@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   backend:
     image: createchstudio/vgorc-tm-backend:${DOCKER_ARCH}
@@ -19,7 +17,8 @@ services:
     volumes:
       - ${DOCKER_BACKEND_MOUNT_FOLDER}:/etc/backend
     networks:
-      - vgorc-tm
+      vgorctm:
+        ipv4_address: 172.30.0.20
 
   frontend:
     image: createchstudio/vgorc-tm-frontend
@@ -27,10 +26,14 @@ services:
     depends_on:
       - backend
     ports:
-      - "80:80"
+      - "8199:80"
     networks:
-      - vgorc-tm
+      vgorctm:
+        ipv4_address: 172.30.0.10
 
 networks:
-  vgorc-tm:
-    driver: bridge  # 创建私有网络
+  vgorctm:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.30.0.0/24
