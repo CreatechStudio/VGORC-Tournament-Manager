@@ -17,6 +17,7 @@ import {utilsGroup} from './Groups/Utils';
 import dotenv from "dotenv";
 import jwt from "@elysiajs/jwt";
 import {Auth} from "./runtime/Auth";
+import staticPlugin from "@elysiajs/static";
 
 dotenv.config()
 export const BASE_URL = process.env.TM_BASE_URL || 'http://localhost:3000';
@@ -121,6 +122,7 @@ new Elysia()
     .use(teamGroup)
     .use(timerGroup)
     .use(utilsGroup)
+    .use(staticPlugin())
     .listen(3000);
 
 console.log(
