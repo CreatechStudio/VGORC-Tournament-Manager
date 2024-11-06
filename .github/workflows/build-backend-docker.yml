@@ -1,7 +1,8 @@
 name: Build Backend Docker & Push
 
 on:
-  workflow_dispatch:
+  release:
+    types: [published]
 
 jobs:
   build:

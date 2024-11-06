@@ -1,7 +1,8 @@
 name: Build Frontend Docker & Push
 
 on:
-  workflow_dispatch:
+  release:
+    types: [published]
 
 jobs:
   build:
@@ -43,6 +44,6 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           push: true
-          tags: createchstudio/vgorc-tm-frontend:latest
+          tags: createchstudio/vgorc-tm-frontend:${{ matrix.config.arch }}
           context: frontend
           file: frontend/Dockerfile
