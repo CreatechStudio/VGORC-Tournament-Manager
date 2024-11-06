@@ -1,0 +1,52 @@
+name: Build Frontend Docker & Push
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ${{ matrix.config.os }}
+    strategy:
+      matrix:
+        config:
+          - os: ubuntu-latest
+            platform: linux
+            arch: x64
+          - os: ubuntu-latest
+            platform: linux
+            arch: arm64
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup NodeJs
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+
+      - name: Setup Yarn
+        working-directory: ./frontend
+        uses: borales/actions-yarn@5.0.0
+        with:
+          cmd: install
+
+      - name: Build the project
+        working-directory: ./frontend
+        uses: borales/actions-yarn@5.0.0
+        with:
+          cmd: build
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build service
+        uses: docker/build-push-action@v6
+        with:
+          push: true
+          tags: createchstudio/vgorc-tm-frontend:latest
+          context: frontend
+          file: frontend/Dockerfile
