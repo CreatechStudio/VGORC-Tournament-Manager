@@ -23,6 +23,7 @@ export const skillGroup = new Elysia()
                     return await checkJWT(permission.value || "", MODULE_PERMISSION, error)
                 }
             },(app) => app
+                .get('fields', ({ skill }) => skill.getAllSkillFields())
                 .post('/update', ({ skill, body }) =>
                     skill.setSkillScore(body.teamNumber, body.skillType as SkillType, body.scores), {
                     body: t.Object({

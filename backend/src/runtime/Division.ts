@@ -43,6 +43,17 @@ export class Division {
         return allExist;
     }
 
+    _hasMultipleSkillDivision() {
+        let allDivision: DivisionObject[] = this.db.getData().settings.division;
+        let skillDivisionCount: number = 0;
+        allDivision.forEach(division => {
+            if (division.isSkill) {
+                skillDivisionCount ++;
+            }
+        })
+        return skillDivisionCount >= 1;
+    }
+
     add(obj: DivisionObject) {
         if (obj.divisionName.length === 0) {
             throw "Division name should not be empty";
@@ -58,6 +69,10 @@ export class Division {
 
         if (!this._newFieldsExistInAnyFieldSets(obj.divisionFields) && !obj.isSkill) {
             throw "Field name does not exist in field sets";
+        }
+
+        if (obj.isSkill && this._hasMultipleSkillDivision()) {
+            throw "There can only be one skill division";
         }
 
         if (index === -1) {
