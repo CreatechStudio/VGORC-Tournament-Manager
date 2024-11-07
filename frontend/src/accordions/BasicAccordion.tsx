@@ -2,7 +2,7 @@ import {
     Accordion,
     AccordionDetails,
     AccordionSummary,
-    Avatar, Button,
+    Avatar,
     FormControl, FormHelperText, FormLabel, Input,
     ListItemContent,
     Table,
@@ -12,14 +12,8 @@ import TapAndPlayRoundedIcon from '@mui/icons-material/TapAndPlayRounded';
 import {useState} from "react";
 import {PAD} from "../constants.ts";
 
-export default function BasicAccordion({
-    disabled
-} : {
-    disabled?: boolean;
-}) {
+export default function BasicAccordion() {
     const [durationPerMatch, setDurationPerMatch] = useState(60);
-
-    function handleSave() {}
 
     return (
         <Accordion sx={{width: '100%'}}>
@@ -33,16 +27,6 @@ export default function BasicAccordion({
                         Basic settings for a season
                     </Typography>
                 </ListItemContent>
-                <Button
-                    disabled={disabled}
-                    variant="outlined"
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        handleSave();
-                    }}
-                >
-                    Save
-                </Button>
             </AccordionSummary>
             <AccordionDetails sx={{pl: PAD, pr: PAD}}>
                 <Table borderAxis="none">
