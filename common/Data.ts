@@ -8,6 +8,7 @@ import {FieldSetObject} from "./FieldSet";
 
 export interface Data {
     tournamentName: string,
+    locked: boolean,
     auth: AuthObject[],
     settings: {
         playerDuration: number,
@@ -23,6 +24,7 @@ export interface Data {
 
 export const DEFAULT_DATA: Data = {
     tournamentName: "",
+    locked: false,
     auth: [],
     settings: {
         playerDuration: 0,

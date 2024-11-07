@@ -4,5 +4,6 @@ import {Utils} from "../Utils";
 export const utilsGroup = new Elysia()
     .decorate('db', new Utils())
     .group('/utils', (app) => app
-        .get('database/existed', ({ db }) => db.isDatabaseExist())
+        .get('database/isLocked', ({ db }) => db.isDatabaseLocked())
+        .get('databse/lock', ({ db }) => db.setDatabaseLock())
     );

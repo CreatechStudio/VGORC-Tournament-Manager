@@ -24,11 +24,17 @@ export class Utils {
         return fs.existsSync(this.dbFile) && fs.readFileSync(this.dbFile).length !== 0;
     }
 
-    isDatabaseExist() {
+    isDatabaseLocked() {
         if (process.env.TM_DEV_ALWAYS_UNLOCK) {
             return false;
         }
-        return this._isDatabaseExist();
+        return this.getData().locked;
+    }
+
+    setDatabaseLock() {
+        let newData: Data = this.getData();
+        newData.locked = true;
+        this.updateData(newData);
     }
 
     initAuth(adminHash: string, refereeHash: string) {
