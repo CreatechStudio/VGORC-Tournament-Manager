@@ -56,7 +56,7 @@ export class Division {
             throw "Field name already exists";
         }
 
-        if (!this._newFieldsExistInAnyFieldSets(obj.divisionFields)) {
+        if (!this._newFieldsExistInAnyFieldSets(obj.divisionFields) && !obj.isSkill) {
             throw "Field name does not exist in field sets";
         }
 

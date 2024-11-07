@@ -12,6 +12,7 @@ export class Schedule {
     _getAllDivision() {
         let allDivisions: string[] = [];
         let divisions = this.db.getData().settings.division
+        divisions.filter(division => !division.isSkill);
         divisions.forEach(division => {
             allDivisions.push(division.divisionName);
         })

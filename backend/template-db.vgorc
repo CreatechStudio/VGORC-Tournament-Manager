@@ -16,6 +16,7 @@
     "division": [
       {
         "divisionName": "Division A",
+        "isSkills": false,
         "divisionFields": [
           "Field 1",
           "Field 2"
@@ -23,6 +24,7 @@
       },
       {
         "divisionName": "Division B",
+        "isSkills": false,
         "divisionFields": [
           "Field 3",
           "Field 4"

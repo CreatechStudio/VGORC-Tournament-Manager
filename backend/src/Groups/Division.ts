@@ -28,6 +28,7 @@ export const divisionGroup = new Elysia()
                 body: t.Object({
                     data: t.Object({
                         divisionName: t.String(),
+                        isSkill: t.Boolean(),
                         divisionFields: t.Array(t.String())
                     })
                 })
