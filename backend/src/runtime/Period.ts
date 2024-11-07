@@ -72,6 +72,10 @@ export class Period {
             throw new Error(`Period ${periodNumber} has time overlap with other periods`);
         }
 
+        if (periodMatchDuration < 1) {
+            throw new Error(`Period match duration must be greater than 0`);
+        }
+
         const newPeriod = {
             periodNumber,
             periodType,
