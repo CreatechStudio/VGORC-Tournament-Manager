@@ -10,9 +10,12 @@ import AddIcon from "@mui/icons-material/Add";
 import {SkillType} from "../../../common/Skill.ts";
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import toast from "react-hot-toast";
+import Timer from "../components/Timer.tsx";
 
 const TEAM_NUMBER_KEY = "teamNumber";
 const SKILL_TYPE_KEY = "skillType";
+const DISPLAY_MODE_KEY = "displayMode";
+const FIELD_NAME_KEY = "fieldName";
 
 function ChooseTeam() {
     const [teams, setTeams] = useState<TeamObject[]>([]);
@@ -82,10 +85,14 @@ function ChooseSkillType({
 
 function SetScorePage({
     teamNumber,
-    skillType
+    skillType,
+    displayMode,
+    fieldName
 } : {
     teamNumber: string;
     skillType: SkillType;
+    displayMode: boolean;
+    fieldName: string | null;
 }) {
     const [scores, setScores] = useState<number[]>([]);
 
@@ -148,15 +155,20 @@ function SetScorePage({
             <Box sx={{
                 display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'
             }}>
-                <Typography level="h2">
-                    Score - {teamNumber} {skillType}
-                </Typography>
-                <ButtonGroup size="lg">
-                    <MenuDrawer/>
-                    <IconButton onClick={() => logout()}>
-                        <LogoutIcon/>
-                    </IconButton>
-                </ButtonGroup>
+                {
+                    displayMode ? <></> :
+                    <>
+                        <Typography level="h2">
+                            Score - {teamNumber} {skillType}
+                        </Typography>
+                        <ButtonGroup size="lg">
+                            <MenuDrawer/>
+                            <IconButton onClick={() => logout()}>
+                                <LogoutIcon/>
+                            </IconButton>
+                        </ButtonGroup>
+                    </>
+                }
             </Box>
             <Box sx={{height: '100%', width: '100%'}}>
                 <Grid
@@ -176,7 +188,13 @@ function SetScorePage({
                             alignItems: "center",
                             gap: PAD2
                         }}>
+                            <Timer
+                                displayMode={displayMode}
+                                current={scores}
+                                fieldName={fieldName}
+                            />
                             {
+                                displayMode ? <></> :
                                 scores.map((score, index) => (
                                     <Box sx={{
                                         display: "flex",
@@ -216,7 +234,8 @@ function SetScorePage({
                                 ))
                             }
                             {
-                                scores.length < 3 ?
+                                displayMode ? <></> :
+                                    scores.length < 3 ?
                                     <Button
                                         variant="outlined"
                                         size="lg"
@@ -237,9 +256,12 @@ function SetScorePage({
                 </Grid>
             </Box>
             <Box>
-                <Button size="lg" fullWidth onClick={() => handleSave()}>
-                    Save
-                </Button>
+                {
+                    displayMode ? <></> :
+                        <Button size="lg" fullWidth onClick={() => handleSave()}>
+                            Save
+                        </Button>
+                }
             </Box>
         </Stack>
     );
@@ -249,18 +271,24 @@ export default function SkillsScorePage() {
     const urlParams = new URLSearchParams(window.location.search);
     const teamNumber = urlParams.get(TEAM_NUMBER_KEY);
     const skillType = urlParams.get(SKILL_TYPE_KEY);
+    const displayMode = urlParams.get(DISPLAY_MODE_KEY) !== null;
+    const fieldName = urlParams.get(FIELD_NAME_KEY);
+
+    const directDisplay = displayMode && fieldName !== null;
 
     function GetContent() {
-        if (teamNumber) {
-            if (skillType) {
+        if (teamNumber || directDisplay) {
+            if (skillType || directDisplay) {
                 return <SetScorePage
-                    teamNumber={teamNumber}
+                    teamNumber={teamNumber || ""}
+                    displayMode={displayMode}
+                    fieldName={fieldName}
                     // @ts-ignore
                     skillType={skillType}
                 />;
             } else {
                 return <ChooseSkillType
-                    teamNumber={teamNumber}
+                    teamNumber={teamNumber || ""}
                 />;
             }
         } else {
@@ -271,7 +299,7 @@ export default function SkillsScorePage() {
     return (
         <Box sx={{height: '90vh', display: 'flex', flexDirection: 'column', gap: PAD, overflow: 'hidden', width: '100%'}}>
             {
-                teamNumber && skillType ? <></> :
+                directDisplay || (teamNumber && skillType) ? <></> :
                     <Box sx={{
                         pl: PAD, pr: PAD, pb: PAD,
                         display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'
