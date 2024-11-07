@@ -10,6 +10,8 @@ import toast from "react-hot-toast";
 import {includes} from "../../../common/utils.ts";
 import SaveIcon from '@mui/icons-material/Save';
 import UploadCsvModal from "./UploadCsvModal.tsx";
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 const DateAttributeNames = [
     "periodStartTime",
@@ -73,6 +75,7 @@ export default function TournamentTable<T extends Record<keyof T, string | strin
 
     const [localArr, setLocalArr] = useState<T[]>(arr || []);
     const [openModal, setOpenModal] = useState(false);
+    const [collaped, setCollaped] = useState(true);
 
     useEffect(() => {
         setLocalArr(arr);
@@ -193,6 +196,13 @@ export default function TournamentTable<T extends Record<keyof T, string | strin
         >
             <thead>
             <tr>
+                <th style={{width: '2.5%'}}>
+                    <IconButton onClick={() => setCollaped(!collaped)}>
+                        {
+                            collaped ? <KeyboardArrowDownIcon/> : <KeyboardArrowUpIcon/>
+                        }
+                    </IconButton>
+                </th>
                 {
                     TKeys.map((key, index) => (
                         <th key={index}>
@@ -230,8 +240,10 @@ export default function TournamentTable<T extends Record<keyof T, string | strin
             </thead>
             <tbody>
             {
+                collaped ? <></> :
                 localArr.map((obj, i) => (
                     <tr key={i}>
+                        <td></td>
                         {
                             Object.keys(obj).map((key) => (
                                 <td key={key}>
