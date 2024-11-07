@@ -4,6 +4,7 @@ import react from '@vitejs/plugin-react';
 import {loadEnv} from "vite";
 import topLevelAwait from "vite-plugin-top-level-await";
 import obfuscatorPlugin from "vite-plugin-javascript-obfuscator";
+import {viteSingleFile} from "vite-plugin-singlefile";
 
 // https://vitejs.dev/config/
 export default ({mode}) => {
@@ -46,6 +47,7 @@ export default ({mode}) => {
             unicodeEscapeSequence: false
           }
         }),
+        viteSingleFile(),
         topLevelAwait()
     ],
     base: '/',
