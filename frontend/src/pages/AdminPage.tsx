@@ -18,6 +18,9 @@ import MenuDrawer from "../components/MenuDrawer";
 import {TeamObject} from "../../../common/Team";
 import {FieldSetObject} from "../../../common/FieldSet";
 import {PeriodObject} from "../../../common/Period.ts";
+import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import toast from "react-hot-toast";
 
 export default function AdminPage() {
     const [disabled, setDisabled] = useState(true);
@@ -27,7 +30,7 @@ export default function AdminPage() {
     const [periods, setPeriods] = useState<PeriodObject[]>([]);
 
     useEffect(() => {
-        getReq('/utils/database/existed').then((res) => {
+        getReq('/utils/database/isLocked').then((res) => {
             setDisabled(res);
         }).catch();
         handleRefresh();
@@ -52,6 +55,20 @@ export default function AdminPage() {
         });
     }
 
+    function handleLock() {
+        if (disabled) {
+            toast.error("Cannot unlock database");
+        } else {
+            const sure = confirm("You cannot unlock database again. Are you sure about that?");
+            if (sure) {
+                getReq('/utils/database/lock').then(() => {
+                    setDisabled(true);
+                    toast.success("Database locked");
+                }).catch();
+            }
+        }
+    }
+
     return (
         <Box sx={{height: '90vh', display: 'flex', flexDirection: 'column', gap: PAD, overflow: 'hidden', width: '100%'}}>
             <Box sx={{
@@ -64,6 +81,11 @@ export default function AdminPage() {
                 <ButtonGroup>
                     <IconButton onClick={() => handleRefresh()}>
                         <RefreshIcon/>
+                    </IconButton>
+                    <IconButton onClick={() => handleLock()}>
+                        {
+                            disabled ? <LockOutlinedIcon/> : <LockOpenOutlinedIcon/>
+                        }
                     </IconButton>
                     <MenuDrawer/>
                     <IconButton onClick={() => handleLogout()}>

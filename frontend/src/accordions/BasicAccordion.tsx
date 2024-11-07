@@ -19,9 +19,7 @@ export default function BasicAccordion({
 }) {
     const [durationPerMatch, setDurationPerMatch] = useState(60);
 
-    function handleSave() {
-        
-    }
+    function handleSave() {}
 
     return (
         <Accordion sx={{width: '100%'}}>
@@ -65,7 +63,7 @@ export default function BasicAccordion({
                                 type="number"
                                 onChange={(e) => setDurationPerMatch(+e.target.value)}
                                 sx={{flexGrow: 1}}
-                                disabled={disabled}
+                                disabled
                             />
                         </td>
                     </tr>
