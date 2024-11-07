@@ -5,5 +5,5 @@ export const utilsGroup = new Elysia()
     .decorate('db', new Utils())
     .group('/utils', (app) => app
         .get('database/isLocked', ({ db }) => db.isDatabaseLocked())
-        .get('databse/lock', ({ db }) => db.setDatabaseLock())
+        .get('database/lock', ({ db }) => db.setDatabaseLock())
     );
