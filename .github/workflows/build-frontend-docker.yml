@@ -3,19 +3,11 @@ name: Build Frontend Docker & Push
 on:
   release:
     types: [published]
+  workflow_dispatch:
 
 jobs:
-  build:
-    runs-on: ${{ matrix.config.os }}
-    strategy:
-      matrix:
-        config:
-          - os: ubuntu-latest
-            platform: linux
-            arch: x64
-          - os: ubuntu-latest
-            platform: linux
-            arch: arm64
+  docker:
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
@@ -34,6 +26,12 @@ jobs:
         run: npm run build
         working-directory: ./frontend
 
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
@@ -43,7 +41,8 @@ jobs:
       - name: Build service
         uses: docker/build-push-action@v6
         with:
+          platforms: linux/amd64,linux/arm64
           push: true
-          tags: createchstudio/vgorc-tm-frontend:${{ matrix.config.arch }}
+          tags: createchstudio/vgorc-tm-frontend:latest
           context: frontend
           file: frontend/Dockerfile
