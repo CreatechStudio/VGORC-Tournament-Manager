@@ -3,7 +3,7 @@
 import react from '@vitejs/plugin-react';
 import {loadEnv} from "vite";
 import topLevelAwait from "vite-plugin-top-level-await";
-import {viteSingleFile} from "vite-plugin-singlefile";
+import obfuscatorPlugin from "vite-plugin-javascript-obfuscator";
 
 // https://vitejs.dev/config/
 export default ({mode}) => {
@@ -12,8 +12,13 @@ export default ({mode}) => {
   return {
     plugins: [
         react(),
-        topLevelAwait(),
-        viteSingleFile()
+        obfuscatorPlugin({
+          apply: "build",
+          options: {
+            debugProtection: true
+          }
+        }),
+        topLevelAwait()
     ],
     base: '/',
     env: env,
