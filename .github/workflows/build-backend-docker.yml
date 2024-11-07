@@ -58,4 +58,4 @@ jobs:
           push: true
           tags: createchstudio/vgorc-tm-backend:${{ matrix.config.arch }}
           context: backend
-          file: backend/Dockerfile-${{ matrix.config.arch }}
+          file: backend/Dockerfile-${{ matrix.config.bun_arch }}
