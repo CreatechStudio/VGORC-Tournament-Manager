@@ -14,7 +14,7 @@ export class Utils {
     constructor() {
         this.dbFile = process.env.TM_DB_FILE || '';
         if (!this.dbFile) {
-            throw new Error('DB_FILE is not defined in the .env file');
+            throw new Error('TM_DB_FILE is not defined in the .env file');
         }
         // console.log(`Database file: ${this.dbFile}`);
         this.initDatabaseConnection();
