@@ -51,16 +51,7 @@ export interface PictureObject {
     name: string;
 }
 
-export const PICTURES: PictureObject[] = [
-    {
-        url: "/api//public/VEX GO Logo_Full Color.png",
-        name: "VEX GO"
-    },
-    {
-        url: "/api//public/CreatechStudio.png",
-        name: "CreatechStudio"
-    },
-];
+export const PICTURES: PictureObject[] = [];
 
 const logos: string[] = env.TM_VENDOR_LOGO.split(',');
 logos.forEach((logo: string) => {

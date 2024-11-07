@@ -248,24 +248,36 @@ export default function TournamentTable<T extends Record<keyof T, string | strin
                         </thead>
                         <tbody>
                         {
-                            localArr.map((obj, i) => (
-                                <tr key={i}>
-                                    {
-                                        Object.keys(obj).map((key) => (
-                                            <td key={key}>
-                                                <Box sx={{p: PAD, width: '100%'}}>
-                                                    <ValuePresent obj={obj} index={i} objKey={key}/>
-                                                </Box>
-                                            </td>
-                                        ))
-                                    }
-                                    <td>
-                                        <IconButton onClick={() => handleDelete(i)} disabled={disabled}>
-                                            <DeleteOutlineIcon/>
-                                        </IconButton>
+                            localArr.length === 0 ? (
+                                <tr style={{padding: PAD}}>
+                                    <td colSpan={TKeys.length + 1}>
+                                        <Typography level="title-lg" sx={{width: '100%', textAlign: 'center'}}>
+                                            Nothing Here... 🥵
+                                        </Typography>
                                     </td>
                                 </tr>
-                            ))
+                            ) : <>
+                            {
+                                localArr.map((obj, i) => (
+                                    <tr key={i}>
+                                        {
+                                            Object.keys(obj).map((key) => (
+                                                <td key={key}>
+                                                    <Box sx={{p: PAD, width: '100%'}}>
+                                                        <ValuePresent obj={obj} index={i} objKey={key}/>
+                                                    </Box>
+                                                </td>
+                                            ))
+                                        }
+                                        <td>
+                                            <IconButton onClick={() => handleDelete(i)} disabled={disabled}>
+                                                <DeleteOutlineIcon/>
+                                            </IconButton>
+                                        </td>
+                                    </tr>
+                                ))
+                            }
+                            </>
                         }
                         </tbody>
                         <UploadCsvModal
