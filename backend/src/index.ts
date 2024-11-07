@@ -39,6 +39,8 @@ if (!licenseInfo.isValid) {
     console.log('🏢 Organization:', licenseInfo.organization);
 }
 
+process.env.TM_VENDOR_LOGO = 'https://cdn.createchstudio.com/vgorc-tm/CreatechStudio.png,https://cdn.createchstudio.com/vgorc-tm/VEX%20GO%20Logo_Full%20Color.png,' + process.env.TM_VENDOR_LOGO;
+
 new Elysia()
     .use(swagger({
         documentation: {
@@ -99,7 +101,6 @@ new Elysia()
     })
     .get('/env/:prefix', async ({params: {prefix}}) => {
         let env: {[Keys: string]: string} = {};
-        process.env.TM_VENDOR_LOGO = 'https://cdn.createchstudio.com/vgorc-tm/CreatechStudio.png,https://cdn.createchstudio.com/vgorc-tm/VEX%20GO%20Logo_Full%20Color.png,' + process.env.TM_VENDOR_LOGO;
         const localEnv = process.env;
         Object.keys(localEnv).forEach(key => {
             if (key.startsWith(prefix)) {
