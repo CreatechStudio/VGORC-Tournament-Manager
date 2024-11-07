@@ -22,7 +22,8 @@ export const PAD1_5 = PAD * 1.5;
 
 export const DEFAULT_DIVISION: DivisionObject = {
     divisionName: "",
-    divisionFields: []
+    divisionFields: [],
+    isSkill: false
 }
 
 export const DEFAULT_TEAM: TeamObject = {

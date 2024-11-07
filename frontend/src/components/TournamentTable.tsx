@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {Box, ButtonGroup, IconButton, Input, Sheet, Table, Typography} from "@mui/joy";
+import {Box, ButtonGroup, IconButton, Input, Sheet, Switch, Table, Typography} from "@mui/joy";
 import AddIcon from "@mui/icons-material/Add";
 import UploadIcon from "@mui/icons-material/Upload";
 import ChipInput from "./ChipInput.tsx";
@@ -105,6 +105,18 @@ export default function TournamentTable<T extends Record<keyof T, string | strin
                     }}
                     disabled={disabled}
                     type="datetime-local"
+                />
+            );
+        } else if (typeof value === "boolean") {
+            return (
+                <Switch
+                    checked={value}
+                    disabled={disabled}
+                    onChange={(e) => {
+                        setValue(index, objKey, e.target.checked);
+                    }}
+                    size="lg"
+                    variant="outlined"
                 />
             );
         } else if (typeof value === "string") {
