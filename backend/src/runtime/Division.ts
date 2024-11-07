@@ -87,6 +87,10 @@ export class Division {
         return this.db.getData().settings.division;
     }
 
+    getMatch() {
+        return this.db.getData().settings.division.filter(division => !division.isSkill);
+    }
+
     delete(divisionName: string) {
         let index = this._indexOf(divisionName);
         if (index > -1) {

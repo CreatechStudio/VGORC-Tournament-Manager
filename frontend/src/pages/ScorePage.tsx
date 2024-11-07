@@ -39,7 +39,7 @@ export function ChooseDivisionPage({
     const [divisions, setDivisions] = useState<DivisionObject[]>([]);
 
     useEffect(() => {
-        getReq('/division').then((res) => {
+        getReq('/division/match').then((res) => {
             setDivisions(res);
         }).catch();
     }, []);

@@ -42,7 +42,7 @@ export default function AdminPage() {
     }
 
     function handleRefresh() {
-        getReq('/division').then((res) => {
+        getReq('/division/all').then((res) => {
             setDivisions(res);
         });
         getReq('/team').then((res) => {
