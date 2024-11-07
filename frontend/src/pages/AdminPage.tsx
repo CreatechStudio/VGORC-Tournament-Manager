@@ -21,6 +21,7 @@ import {PeriodObject} from "../../../common/Period.ts";
 import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import toast from "react-hot-toast";
+import TournamentActionAccordion from "../accordions/TournamentActionAccordion.tsx";
 
 export default function AdminPage() {
     const [disabled, setDisabled] = useState(true);
@@ -110,7 +111,7 @@ export default function AdminPage() {
                     overflowY: 'scroll'
                 }}
             >
-                <BasicAccordion disabled={disabled}/>
+                <BasicAccordion/>
                 <TournamentAccordion
                     disabled={disabled}
                     divisions={divisions}
@@ -122,6 +123,7 @@ export default function AdminPage() {
                     fieldSets={fieldSets}
                     setFieldSets={setFieldSets}
                 />
+                <TournamentActionAccordion/>
             </AccordionGroup>
         </Box>
     );
