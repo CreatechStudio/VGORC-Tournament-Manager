@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {Box, ButtonGroup, IconButton, Input, Table, Typography} from "@mui/joy";
+import {Box, ButtonGroup, IconButton, Input, Sheet, Table, Typography} from "@mui/joy";
 import AddIcon from "@mui/icons-material/Add";
 import UploadIcon from "@mui/icons-material/Upload";
 import ChipInput from "./ChipInput.tsx";
@@ -62,6 +62,7 @@ export default function TournamentTable<T extends Record<keyof T, string | strin
     getDeleteEndpoint,
     updateEndpoint,
     allowUpload,
+    title
 } : {
     arr: T[];
     setArr: (newArr: T[]) => void;
@@ -70,6 +71,7 @@ export default function TournamentTable<T extends Record<keyof T, string | strin
     getDeleteEndpoint: (obj: T) => string;
     updateEndpoint: string;
     allowUpload?: boolean;
+    title: string;
 }) {
     const TKeys = Object.keys(defaultValue);
 
@@ -189,88 +191,95 @@ export default function TournamentTable<T extends Record<keyof T, string | strin
     }
 
     return (
-        <Table
-            sx={{
-                '& tr > :last-child': { textAlign: 'right' }
-            }}
-        >
-            <thead>
-            <tr>
-                <th style={{width: '2.5%'}}>
-                    <IconButton onClick={() => setCollaped(!collaped)}>
-                        {
-                            collaped ? <KeyboardArrowDownIcon/> : <KeyboardArrowUpIcon/>
-                        }
-                    </IconButton>
-                </th>
-                {
-                    TKeys.map((key, index) => (
-                        <th key={index}>
-                            <Typography sx={{pl: PAD}}>
-                                {key}
-                            </Typography>
-                        </th>
-                    ))
-                }
-                <th style={{width: '10%'}}>
-                    <Box sx={{display: 'flex', flexDirection: 'row', justifyContent: 'flex-end'}}>
-                        <ButtonGroup disabled={disabled}>
-                            <IconButton
-                                onClick={() => handleNew()}
-                            >
-                                <AddIcon/>
-                            </IconButton>
-                            {
-                                allowUpload ?
-                                    <IconButton
-                                        onClick={() => handleImport()}
-                                    >
-                                        <UploadIcon/>
-                                    </IconButton> : <></>
-                            }
-                            <IconButton
-                                onClick={() => handleSave()}
-                            >
-                                <SaveIcon/>
-                            </IconButton>
-                        </ButtonGroup>
-                    </Box>
-                </th>
-            </tr>
-            </thead>
-            <tbody>
+        <Sheet sx={{p: PAD / 2}}>
+            <Box sx={{display: 'flex', flexDirection: 'row', alignItems: 'center', gap: PAD}}>
+                <IconButton onClick={() => setCollaped(!collaped)}>
+                    {
+                        collaped ? <KeyboardArrowDownIcon/> : <KeyboardArrowUpIcon/>
+                    }
+                </IconButton>
+                <Typography level="title-lg">
+                    {title}
+                </Typography>
+            </Box>
             {
-                collaped ? <></> :
-                localArr.map((obj, i) => (
-                    <tr key={i}>
-                        <td></td>
+                collaped ? <></> : (
+                    <Table
+                        sx={{
+                            '& tr > :last-child': { textAlign: 'right' }
+                        }}
+                    >
+                        <thead>
+                        <tr>
+                            {
+                                TKeys.map((key, index) => (
+                                    <th key={index}>
+                                        <Typography sx={{pl: PAD}}>
+                                            {key}
+                                        </Typography>
+                                    </th>
+                                ))
+                            }
+                            <th style={{width: '10%'}}>
+                                <Box sx={{display: 'flex', flexDirection: 'row', justifyContent: 'flex-end'}}>
+                                    <ButtonGroup disabled={disabled}>
+                                        <IconButton
+                                            onClick={() => handleNew()}
+                                        >
+                                            <AddIcon/>
+                                        </IconButton>
+                                        {
+                                            allowUpload ?
+                                                <IconButton
+                                                    onClick={() => handleImport()}
+                                                >
+                                                    <UploadIcon/>
+                                                </IconButton> : <></>
+                                        }
+                                        <IconButton
+                                            onClick={() => handleSave()}
+                                        >
+                                            <SaveIcon/>
+                                        </IconButton>
+                                    </ButtonGroup>
+                                </Box>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
                         {
-                            Object.keys(obj).map((key) => (
-                                <td key={key}>
-                                    <Box sx={{p: PAD, width: '100%'}}>
-                                        <ValuePresent obj={obj} index={i} objKey={key}/>
-                                    </Box>
-                                </td>
+                            localArr.map((obj, i) => (
+                                <tr key={i}>
+                                    {
+                                        Object.keys(obj).map((key) => (
+                                            <td key={key}>
+                                                <Box sx={{p: PAD, width: '100%'}}>
+                                                    <ValuePresent obj={obj} index={i} objKey={key}/>
+                                                </Box>
+                                            </td>
+                                        ))
+                                    }
+                                    <td>
+                                        <IconButton onClick={() => handleDelete(i)} disabled={disabled}>
+                                            <DeleteOutlineIcon/>
+                                        </IconButton>
+                                    </td>
+                                </tr>
                             ))
                         }
-                        <td>
-                            <IconButton onClick={() => handleDelete(i)} disabled={disabled}>
-                                <DeleteOutlineIcon/>
-                            </IconButton>
-                        </td>
-                    </tr>
-                ))
+                        </tbody>
+                        <UploadCsvModal
+                            open={openModal}
+                            setOpen={setOpenModal}
+                            header={TKeys}
+                            onSubmit={async (value) => {
+                                setLocalArr(value);
+                                handleSave(value);
+                            }}
+                        />
+                    </Table>
+                )
             }
-            </tbody>
-            <UploadCsvModal
-                open={openModal}
-                setOpen={setOpenModal}
-                header={TKeys}
-                onSubmit={async (value) => {
-                    setLocalArr(value);
-                    handleSave(value);
-                }}
-            />
-        </Table>
+        </Sheet>
     );
 }

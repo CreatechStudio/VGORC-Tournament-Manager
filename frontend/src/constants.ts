@@ -33,16 +33,16 @@ export const DEFAULT_TEAM: TeamObject = {
 }
 
 export const DEFAULT_FIELD_SET: FieldSetObject = {
-    fieldSetId: 0,
+    fieldSetId: 1,
     fields: []
 }
 
 export const DEFAULT_PERIOD: PeriodObject = {
-    periodNumber: 0,
+    periodNumber: 1,
     periodType: "",
     periodStartTime: "",
     periodEndTime: "",
-    periodMatchDuration: 0
+    periodMatchDuration: 1
 }
 
 

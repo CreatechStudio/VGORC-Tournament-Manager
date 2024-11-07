@@ -58,6 +58,7 @@ export default function TournamentAccordion({
                             defaultValue={DEFAULT_FIELD_SET}
                             getDeleteEndpoint={(obj) => `/fieldset/delete/${obj.fieldSetId}`}
                             updateEndpoint="/fieldset/update"
+                            title="Field Set"
                         />
                         <TournamentTable
                             arr={divisions}
@@ -66,6 +67,7 @@ export default function TournamentAccordion({
                             defaultValue={DEFAULT_DIVISION}
                             getDeleteEndpoint={(obj) => `/division/delete/${obj.divisionName}`}
                             updateEndpoint="/division/update"
+                            title="Division"
                         />
                         <TournamentTable
                             arr={teams}
@@ -75,6 +77,7 @@ export default function TournamentAccordion({
                             getDeleteEndpoint={(obj) => `/team/delete/${obj.teamNumber}`}
                             updateEndpoint="/team/update"
                             allowUpload
+                            title="Team"
                         />
                         <TournamentTable
                             arr={periods}
@@ -83,6 +86,7 @@ export default function TournamentAccordion({
                             defaultValue={DEFAULT_PERIOD}
                             getDeleteEndpoint={(obj) => `/period/delete/${obj.periodNumber}`}
                             updateEndpoint="/period/update"
+                            title="Period"
                         />
                     </Stack>
                 </Box>
