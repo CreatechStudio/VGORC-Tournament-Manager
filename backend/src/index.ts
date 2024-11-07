@@ -11,7 +11,6 @@ import {periodGroup} from "./Groups/Period";
 import {rankingGroup} from './Groups/Ranking';
 import {scheduleGroup} from "./Groups/Schedule";
 import {skillGroup} from './Groups/Skills';
-import {staticGroup} from "./Groups/Static";
 import {teamGroup} from './Groups/Team';
 import {timerGroup} from "./Groups/Timer";
 import {utilsGroup} from './Groups/Utils';
@@ -100,6 +99,7 @@ new Elysia()
     })
     .get('/env/:prefix', async ({params: {prefix}}) => {
         let env: {[Keys: string]: string} = {};
+        process.env.TM_VENDOR_LOGO = 'https://cdn.createchstudio.com/vgorc-tm/CreatechStudio.png,https://cdn.createchstudio.com/vgorc-tm/VEX%20GO%20Logo_Full%20Color.png,' + process.env.TM_VENDOR_LOGO;
         const localEnv = process.env;
         Object.keys(localEnv).forEach(key => {
             if (key.startsWith(prefix)) {
@@ -119,7 +119,6 @@ new Elysia()
     .use(rankingGroup)
     .use(scheduleGroup)
     .use(skillGroup)
-    .use(staticGroup)
     .use(teamGroup)
     .use(timerGroup)
     .use(utilsGroup)
