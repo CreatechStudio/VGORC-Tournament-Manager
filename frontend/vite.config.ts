@@ -70,7 +70,7 @@ export default ({mode}) => {
           rewrite: (path) => path.replace(/^\/api/, '')
         },
         '/socket': {
-          target: `ws://${env.BACKEND_URL}`,
+          target: `ws://${env.BACKEND_URL || "localhost:3000"}`,
           ws: true,
           rewriteWsOrigin: true,
           rewrite: (path) => path.replace(/^\/socket/, '')

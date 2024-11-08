@@ -27,7 +27,7 @@ export const DEFAULT_DATA: Data = {
     locked: false,
     auth: [],
     settings: {
-        playerDuration: 0,
+        playerDuration: 60,
         division: [],
         fieldSets: [],
         eliminationAllianceCount: 0,
