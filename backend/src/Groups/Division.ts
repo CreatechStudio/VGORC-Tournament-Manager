@@ -7,7 +7,8 @@ const MODULE_PERMISSION = "admin"
 export const divisionGroup = new Elysia()
     .decorate('division', new Division())
     .group('/division', (app) => app
-        .get('', ({ division }) => division.get())
+        .get('all', ({ division }) => division.get())
+        .get('match', ({ division }) => division.getMatch())
         .guard(
             {
             async beforeHandle ({cookie: { permission }}) {

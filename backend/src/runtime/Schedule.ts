@@ -9,12 +9,13 @@ export class Schedule {
     dataMatchWithDivision: MatchWithDivision[] = []
     db: Utils = new Utils();
 
-    _getAllDivision() {
+    _getAllMatchDivision() {
         let allDivisions: string[] = [];
         let divisions = this.db.getData().settings.division
-        divisions.filter(division => !division.isSkill);
         divisions.forEach(division => {
-            allDivisions.push(division.divisionName);
+            if (!division.isSkill) {
+                allDivisions.push(division.divisionName);
+            }
         })
 
         return allDivisions
@@ -172,7 +173,7 @@ export class Schedule {
         if (!this._ensureMatchScheduleIsEmpty()) {
             throw new Error("Match schedule is not empty");
         }
-        const divisionName = this._getAllDivision();
+        const divisionName = this._getAllMatchDivision()
         const periodNumber = this._getAllPeriods();
         const fieldSets = this._getAllFieldsSets();
         this.dataMatchWithDivision = [];
@@ -235,14 +236,15 @@ export class Schedule {
     }
 
     addElimination() {
-        const divisionName = this._getAllDivision();
+        const divisionName = this._getAllMatchDivision();
         this.dataMatchWithDivision = this.db.getData().matches;
         let allMatches: MatchObject[][] = Array.from({ length: divisionName.length }, () => []);
         divisionName.forEach(division => {
             if (!this._ensureAllQualificationIsScored(division)) {
                 throw new Error("Not all qualification matches are scored");
             }
-            let matchNumber = 1;
+            let allQMatches = this.dataMatchWithDivision[divisionName.indexOf(division)].matches.filter(match => match.matchType === "Qualification");
+            let matchNumber = allQMatches[allQMatches.length-1].matchNumber + 1;
             let teams = this._getLeadingTeamInDivision(division, this.db.getData().settings.eliminationAllianceCount * 2);
             let fields = this._getAllFieldsInDivision(division);
             for (let i = 0; i < teams.length; i += 2) {

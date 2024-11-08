@@ -1,6 +1,7 @@
 import {Utils} from "../Utils";
 import {Data} from "../../../common/Data";
 import {SkillType, SkillWithTeam} from "../../../common/Skill";
+import {DivisionObject} from "../../../common/Division";
 
 export class Skill {
     data: SkillWithTeam[] = [];
@@ -16,7 +17,24 @@ export class Skill {
         return -1;
     }
 
-
+    getAllSkillFields(): string[] {
+        let fields: string[] = [];
+        let allDivision: DivisionObject[] = this.db.getData().settings.division;
+        let skillDivisions: DivisionObject[] = []
+        allDivision.forEach(division => {
+            if (division.isSkill) {
+                skillDivisions.push(division);
+            }
+        });
+        if (skillDivisions.length > 1) {
+            throw "There should be only one skill division";
+        } else {
+            skillDivisions.forEach(division => {
+                fields.push(...division.divisionFields);
+            })
+        }
+        return fields
+    }
 
     setSkillScore(teamNumber: string, skillType: SkillType, scores: number[]) {
         let index = this._indexOf(teamNumber);
