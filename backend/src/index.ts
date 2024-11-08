@@ -39,7 +39,7 @@ if (!licenseInfo.isValid) {
     console.log('🏢 Organization:', licenseInfo.organization);
 }
 
-process.env.TM_VENDOR_LOGO = 'https://cdn.createchstudio.com/vgorc-tm/CreatechStudio.png,https://cdn.createchstudio.com/vgorc-tm/VEX%20GO%20Logo_Full%20Color.png,' + process.env.TM_VENDOR_LOGO;
+process.env.TM_VENDOR_LOGO = 'https://cdn.createchstudio.com/vgorc-tm/VEX%20GO%20Logo_Full%20Color.png,https://cdn.createchstudio.com/vgorc-tm/CreatechStudio.png,' + process.env.TM_VENDOR_LOGO;
 
 new Elysia()
     .use(swagger({

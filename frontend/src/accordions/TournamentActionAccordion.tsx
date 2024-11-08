@@ -127,7 +127,7 @@ export default function TournamentActionAccordion() {
                             <Button sx={{width: '100%'}} onClick={() => {
                                 handleDoSchedule();
                             }}>
-                                Do!
+                                Do it!
                             </Button>
                         </td>
                     </tr>
