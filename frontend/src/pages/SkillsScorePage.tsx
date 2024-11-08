@@ -1,4 +1,16 @@
-import {Box, Button, ButtonGroup, Grid, IconButton, Input, List, ListItem, Stack, Typography} from "@mui/joy";
+import {
+    Autocomplete,
+    Box,
+    Button,
+    ButtonGroup,
+    Grid,
+    IconButton,
+    Input,
+    List,
+    ListItem,
+    Stack,
+    Typography
+} from "@mui/joy";
 import {PAD, PAD2, SMALL_PART} from "../constants.ts";
 import MenuDrawer from "../components/MenuDrawer.tsx";
 import {useEffect, useState} from "react";
@@ -95,6 +107,8 @@ function SetScorePage({
     fieldName: string | null;
 }) {
     const [scores, setScores] = useState<number[]>([]);
+    const [field, setField] = useState(fieldName);
+    const [fields, setFields] = useState([]);
 
     useEffect(() => {
         getReq(`/skill/${teamNumber}`).then((res) => {
@@ -193,6 +207,15 @@ function SetScorePage({
                                 current={scores}
                                 fieldName={fieldName}
                             />
+                            {
+                                displayMode ? <></> :
+                                    <Autocomplete
+                                        options={fields}
+                                        value={field}
+                                        onChange={(_e, v) => setField(v)}
+                                        placeholder="Field"
+                                    />
+                            }
                             {
                                 displayMode ? <></> :
                                 scores.map((score, index) => (

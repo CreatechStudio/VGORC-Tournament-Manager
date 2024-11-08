@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {Box, ButtonGroup, IconButton, Input, Sheet, Switch, Table, Typography} from "@mui/joy";
+import {Autocomplete, Box, ButtonGroup, IconButton, Input, Sheet, Switch, Table, Typography} from "@mui/joy";
 import AddIcon from "@mui/icons-material/Add";
 import UploadIcon from "@mui/icons-material/Upload";
 import ChipInput from "./ChipInput.tsx";
@@ -17,6 +17,16 @@ const DateAttributeNames = [
     "periodStartTime",
     "periodEndTime",
 ]
+
+const EnumAttributeNames = [
+    "periodType"
+]
+
+const EnumAttributeKeys = {
+    "periodType": [
+        "Qualification"
+    ]
+}
 
 function TableInput({
     value,
@@ -54,7 +64,7 @@ function TableInput({
     );
 }
 
-export default function TournamentTable<T extends Record<keyof T, string | string[] | number>>({
+export default function TournamentTable<T extends Record<keyof T, string | string[] | number | boolean>>({
     arr,
     setArr,
     defaultValue,
@@ -96,7 +106,20 @@ export default function TournamentTable<T extends Record<keyof T, string | strin
     }) {
         // @ts-expect-error get value of an object using key
         const value = obj[objKey];
-        if (DateAttributeNames.includes(objKey)) {
+        if (EnumAttributeNames.includes(objKey)) {
+            return (
+                <Autocomplete
+                    // @ts-ignore
+                    options={EnumAttributeKeys[objKey] || []}
+                    // @ts-ignore
+                    value={obj[objKey]}
+                    onChange={(_e, v) => {
+                        setValue(index, objKey, v);
+                    }}
+                    variant="soft"
+                />
+            )
+        } else if (DateAttributeNames.includes(objKey)) {
             return (
                 <TableInput
                     value={value}
@@ -178,7 +201,7 @@ export default function TournamentTable<T extends Record<keyof T, string | strin
             if (successFlag) {
                 toast.success("Save successfully");
             }
-        });
+        }).catch();
     }
 
     function handleImport() {
