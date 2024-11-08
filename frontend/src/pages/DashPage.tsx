@@ -16,6 +16,12 @@ export default function DashPage() {
                     <MenuDrawer/>
                 </ButtonGroup>
             </Box>
+            <Box sx={{flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center'}}>
+                <img src="/TM.jpg" alt="VEX GO Logo" style={{maxWidth: '100%', height: 'auto', maxHeight: '30%'}} />
+                <Typography level="h3" sx={{mt: 2}}>
+                    VGORC Tournament Manager
+                </Typography>
+            </Box>
         </Box>
     );
 }
