@@ -111,12 +111,14 @@ function SetScorePage({
     const [fields, setFields] = useState([]);
 
     useEffect(() => {
-        getReq(`/skill/${teamNumber}`).then((res) => {
-            setScores(res[skillType]);
-        }).catch();
-        getReq('/skill/fields').then((res) => {
-            setFields(res);
-        }).catch();
+        if (!displayMode) {
+            getReq(`/skill/${teamNumber}`).then((res) => {
+                setScores(res[skillType]);
+            }).catch();
+            getReq('/skill/fields').then((res) => {
+                setFields(res);
+            }).catch();
+        }
     }, []);
 
     function setScore(index: number, score: number) {
