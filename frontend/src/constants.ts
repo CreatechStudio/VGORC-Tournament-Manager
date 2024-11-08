@@ -66,7 +66,7 @@ logos.forEach((logo: string) => {
 
 export const RANK_TABLE_SCROLL_SPEED = parseFloat(env.TM_RANK_TABLE_SCROLL_SPEED) || 0.03;
 export const TOURNAMENT_NAME = env.TM_TOURNAMENT_NAME || "VGORC";
-export const LOGO_INTERVAL_NUMBER = parseInt(env.TM_LOGO_INTERVAL_NUMBER) || 20;
+export const LOGO_INTERVAL_NUMBER = Math.max((parseInt(env.TM_LOGO_INTERVAL_NUMBER) || 20), 1);
 
 export const RETURN_URL_PARAM_KEY = "returnUrl";
 
