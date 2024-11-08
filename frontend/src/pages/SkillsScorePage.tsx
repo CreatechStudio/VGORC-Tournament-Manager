@@ -114,6 +114,9 @@ function SetScorePage({
         getReq(`/skill/${teamNumber}`).then((res) => {
             setScores(res[skillType]);
         }).catch();
+        getReq('/skill/fields').then((res) => {
+            setFields(res);
+        }).catch();
     }, []);
 
     function setScore(index: number, score: number) {
@@ -204,7 +207,7 @@ function SetScorePage({
                         }}>
                             <Timer
                                 displayMode={displayMode}
-                                current={scores}
+                                current={{matchField: field}}
                                 fieldName={fieldName}
                             />
                             {
