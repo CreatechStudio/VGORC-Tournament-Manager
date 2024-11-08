@@ -1,8 +1,9 @@
 import {Box, Button, CircularProgress} from "@mui/joy";
 import {generateSocketUrl, LARGE_PART, PAD, PAD2, SMALL_PART} from "../constants.ts";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {Websocket, WebsocketBuilder, WebsocketEvent} from "websocket-ts";
 import {TimerAction} from "../../../common/Timer.ts";
+import toast from "react-hot-toast";
 
 export default function Timer({
     displayMode,
@@ -16,6 +17,10 @@ export default function Timer({
     const [totalTime, setTotalTime] = useState<number | null>(null);
     const [time, setTime] = useState<number | null>(null);
     const [timerWs, setTimerWs] = useState<Websocket | null>(null);
+    const [localTime, setLocalTime] = useState<number>(0);
+    const [useLocal, setUseLocal] = useState<boolean>(false);
+    const [isActive, setIsActive] = useState<boolean>(false);
+    const localTimerRef = useRef<NodeJS.Timeout | null>(null);
 
     useEffect(() => {
         if (displayMode && fieldName) {
@@ -24,6 +29,21 @@ export default function Timer({
         }
     }, []);
 
+    useEffect(() => {
+        if (isActive && localTime > 0) {
+            localTimerRef.current = setTimeout(() => {
+                setLocalTime(localTime - 1);
+            }, 1000);
+        } else if (localTime === 0) {
+            setIsActive(false);
+        }
+        return () => {
+            if (localTimerRef.current) {
+                clearTimeout(localTimerRef.current);
+            }
+        };
+    }, [isActive, localTime]);
+
     function connectTimer(matchField: string, start?: boolean) {
         const ws = new WebsocketBuilder(generateSocketUrl('/timer/match')).build();
         ws.addEventListener(WebsocketEvent.message, (_instance, ev) => {
@@ -31,6 +51,9 @@ export default function Timer({
             if (data.time !== undefined) {
                 if (data.isTotal) {
                     setTotalTime(data.time);
+                    setUseLocal(false);
+                    setIsActive(true);
+                    setLocalTime(data.time);
                 } else {
                     setTime(data.time);
                 }
@@ -40,8 +63,16 @@ export default function Timer({
             }
         });
         ws.addEventListener(WebsocketEvent.close, (_instance) => {
-            // toast.error("Lost connection");
-            setTime(0);
+            toast.error("Connection closed");
+            setUseLocal(true);
+        });
+        ws.addEventListener(WebsocketEvent.error, (_instance) => {
+            toast.error("Connection lost");
+            setUseLocal(true);
+        });
+        ws.addEventListener(WebsocketEvent.reconnect, (_instance) => {
+            toast.success("Reconnect");
+            setUseLocal(false);
         });
         ws.addEventListener(WebsocketEvent.open, (instance) => {
             // toast.success("Websocket Connected Successfully");
@@ -64,6 +95,9 @@ export default function Timer({
     }
 
     function stopTimer(ws?: Websocket) {
+        setUseLocal(false);
+        setIsActive(false);
+        setTime(0);
         const instance = ws || timerWs;
         if (instance && current) {
             instance.send(JSON.stringify({
@@ -82,9 +116,10 @@ export default function Timer({
     }
 
     function getTimeString() {
-        if (time !== null) {
-            const seconds = time % 60;
-            const minutes = (time - seconds) / 60;
+        const t = useLocal ? localTime : time
+        if (t !== null && t >= 0) {
+            const seconds = t % 60;
+            const minutes = (t - seconds) / 60;
             let secondPrefix = "";
             if (seconds < 10) {
                 secondPrefix = "0";
@@ -101,7 +136,7 @@ export default function Timer({
             gap: PAD2
         }}>
             <CircularProgress
-                value={(time || 0) / (totalTime || 0) * 100}
+                value={(useLocal ? localTime : time || 0) / (totalTime || 0) * 100}
                 determinate
                 sx={{
                     "--CircularProgress-size": `${displayMode ? LARGE_PART : SMALL_PART}vh`,
