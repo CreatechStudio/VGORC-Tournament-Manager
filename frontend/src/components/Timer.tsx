@@ -1,9 +1,9 @@
+import { useEffect, useRef, useState } from "react";
+import { Websocket, WebsocketBuilder, WebsocketEvent } from "websocket-ts";
+import { TimerAction } from "../../../common/Timer.ts";
+import toast from "react-hot-toast";
 import {Box, Button, CircularProgress} from "@mui/joy";
 import {generateSocketUrl, LARGE_PART, PAD, PAD2, SMALL_PART} from "../constants.ts";
-import {useEffect, useRef, useState} from "react";
-import {Websocket, WebsocketBuilder, WebsocketEvent} from "websocket-ts";
-import {TimerAction} from "../../../common/Timer.ts";
-import toast from "react-hot-toast";
 
 export default function Timer({
     displayMode,
@@ -20,12 +20,12 @@ export default function Timer({
     const [localTime, setLocalTime] = useState<number>(0);
     const [useLocal, setUseLocal] = useState<boolean>(false);
     const [isActive, setIsActive] = useState<boolean>(false);
+    const [isConnected, setIsConnected] = useState<boolean>(false);
     const localTimerRef = useRef<NodeJS.Timeout | null>(null);
 
     useEffect(() => {
         if (displayMode && fieldName) {
-            const ws = connectTimer(fieldName);
-            setTimerWs(ws);
+            retryConnectTimer(fieldName);
         }
     }, []);
 
@@ -37,7 +37,7 @@ export default function Timer({
         } else if (localTime === 0) {
             setIsActive(false);
             if (displayMode && fieldName) {
-                setTimerWs(connectTimer(fieldName));
+                retryConnectTimer(fieldName);
             }
         }
         return () => {
@@ -46,6 +46,19 @@ export default function Timer({
             }
         };
     }, [isActive, localTime]);
+
+    function retryConnectTimer(matchField: string) {
+        if (isConnected) {
+            return;
+        }
+        const ws = connectTimer(matchField);
+        ws.addEventListener(WebsocketEvent.close, () => {
+            setTimeout(() => {
+                retryConnectTimer(matchField);
+            }, 1000);
+        });
+        setTimerWs(ws);
+    }
 
     function connectTimer(matchField: string, start?: boolean) {
         const ws = new WebsocketBuilder(generateSocketUrl('/timer/match')).build();
@@ -71,17 +84,21 @@ export default function Timer({
         ws.addEventListener(WebsocketEvent.close, (_instance) => {
             toast.error("Connection closed", {id: "wsclosed"});
             setUseLocal(true);
+            setIsConnected(false);
         });
         ws.addEventListener(WebsocketEvent.error, (_instance) => {
             toast.error("Connection lost", {id: "wslost"});
             setUseLocal(true);
+            setIsConnected(false);
         });
         ws.addEventListener(WebsocketEvent.reconnect, (_instance) => {
             toast.success("Reconnect");
             setUseLocal(false);
+            setIsConnected(true);
         });
         ws.addEventListener(WebsocketEvent.open, (instance) => {
             toast.success("Websocket Connected Successfully", {id: "wsconnect"});
+            setIsConnected(true);
             instance.send(JSON.stringify({
                 fieldName: matchField,
                 action: TimerAction.start,
