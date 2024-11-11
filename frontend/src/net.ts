@@ -3,7 +3,7 @@
 
 import * as axios from "axios";
 import toast from "react-hot-toast";
-import {RETURN_URL_PARAM_KEY} from "./constants.ts";
+import {RETURN_URL_KEY} from "./constants.ts";
 // @ts-expect-error no type declare
 import Base64 from "base-64";
 
@@ -16,10 +16,7 @@ function solveErr(e: never) {
         toast.error("Unauthorized");
         setTimeout(() => {
             // 未认证回弹
-            const params = {};
-            // @ts-ignore
-            params[RETURN_URL_PARAM_KEY] = Base64.encode(window.location.href);
-            toLocation('login', params);
+            toLogin();
         }, 1000);
     } else {
         toast.error(e.response.data || e.message || "Something went wrong");
@@ -71,24 +68,49 @@ export function logout() {
     }, 1000);
 }
 
+interface ReturnUrl {
+    params: string,
+    hash: string
+}
+
 export function handleReturn() {
     const urlParams = new URLSearchParams(window.location.search);
-    const returnUrl = urlParams.get(RETURN_URL_PARAM_KEY);
-    if (returnUrl) {
-        window.location.href = Base64.decode(returnUrl) || "#";
+    const returnUrlEncoded = urlParams.get(RETURN_URL_KEY);
+    let returnUrl: ReturnUrl = {
+        params: "",
+        hash: "#"
+    };
+    if (returnUrlEncoded) {
+        try {
+            returnUrl = JSON.parse(Base64.decode(returnUrlEncoded));
+        } catch {}
+    }
+    toLocation(returnUrl.hash, returnUrl.params);
+}
+
+export function toLocation(hash: string, params: {[Keys: string]: any} | string = {}) {
+    if (hash.startsWith('#') || hash.startsWith('/')) {
+        hash = hash.substring(1);
+    }
+
+    if (typeof params === "string") {
+        window.location.href = `/?${params}#${hash}`;
     } else {
-        window.location.href = "#";
+        const paramStrings = [];
+        Object.keys(params).forEach((key) => {
+            paramStrings.push(`${key}=${params[key]}`);
+        });
+        window.location.href = `/?${paramStrings.join('&')}#${hash}`;
     }
 }
 
-export function toLocation(hash: string, params: {[Keys: string]: any} = {}) {
-    const paramStrings = [];
-    Object.keys(params).forEach((key) => {
-        paramStrings.push(`${key}=${params[key]}`);
-    });
-    if (hash.startsWith('#')) {
-        hash = hash.substring(1);
+export function toLogin() {
+    const url: ReturnUrl = {
+        params: window.location.search,
+        hash: window.location.hash
     }
-    window.location.hash = hash;
-    window.location.search = paramStrings.join('&');
+
+    const params = {};
+    params[RETURN_URL_KEY] = Base64.encode(JSON.stringify(url));
+    toLocation("login", params);
 }
