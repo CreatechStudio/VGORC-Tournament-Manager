@@ -22,6 +22,12 @@ export class Ranking {
         return matches;
     }
 
+    _findTeamScoredMatches(teamNumber: string, divisionName: string): MatchObject[] {
+        let decodedDivisionName = decodeURIComponent(divisionName);
+        let allMatches: MatchObject[] = this._findTeamMatches(teamNumber, decodedDivisionName);
+        return allMatches.filter(match => match.hasScore);
+    }
+
     _findTeamsInDivision(divisionName: string) {
         let decodedDivisionName = decodeURIComponent(divisionName);
         let data = this.db.getData();
@@ -72,12 +78,14 @@ export class Ranking {
     getQualRanking(divisionName: string) {
         let decodedDivisionName = decodeURIComponent(divisionName);
         let teams = this._findTeamsInDivision(decodedDivisionName);
-        let ranking: { teamNumber: string; teamAvgScore: number; }[] = [];
+        let ranking: { teamNumber: string; teamMatchCount: number; teamAvgScore: number; }[] = [];
 
         teams.forEach(team => {
             let avgScore = this._calcAvgScoreOfTeamInDivision(team.teamNumber, decodedDivisionName);
+            let teamScoredMatchCount = this._findTeamScoredMatches(team.teamNumber, decodedDivisionName).length;
             ranking.push({
                 teamNumber: team.teamNumber,
+                teamMatchCount: teamScoredMatchCount,
                 teamAvgScore: avgScore
             });
         });
