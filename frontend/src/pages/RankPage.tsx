@@ -8,6 +8,7 @@ import {useEffect, useState} from "react";
 import {getReq} from "../net.ts";
 import {ChooseDivisionPage} from "./ScorePage.tsx";
 import ScrollTable from "../components/ScrollTable.tsx";
+import PrintTable from "../components/PrintTable.tsx";
 
 interface RankObject {
     teamNumber: string;
@@ -17,15 +18,39 @@ interface RankObject {
 
 const DIVISION_NAME_KEY = "division";
 
+const HEAD  = [
+    "RANK",
+    "TEAM NUMBER",
+    "NUMBER OF PLAYED",
+    "AVERAGE SCORE",
+]
+
 export default function RankPage() {
     const urlParams = new URLSearchParams(window.location.search);
     const divisionName = urlParams.get(DIVISION_NAME_KEY);
 
     const [ranks, setRanks] = useState<RankObject[] | PictureObject[]>([]);
+    const [data, setData] = useState<any[][]>([]);
 
     useEffect(() => {
         handleRefresh();
     }, []);
+
+    useEffect(() => {
+        const newData = [];
+        for (let i = 0; i < ranks.length; i ++) {
+            const r = ranks[i];
+            if (!r) continue;
+            if (r.url) continue;
+            newData.push([
+                r.rank || index + 1,
+                r.teamNumber,
+                r.teamMatchCount,
+                r.teamAvgScore
+            ]);
+        }
+        setData(newData);
+    }, [ranks, setRanks]);
 
     function handleRefresh() {
         generateRankList(`/rank/qualification/${divisionName}`).then((res) => {
@@ -43,6 +68,11 @@ export default function RankPage() {
                     QUALIFICATION RANKING {divisionName ? `- ${divisionName}` : ""}
                 </Typography>
                 <ButtonGroup>
+                    <PrintTable
+                        head={HEAD}
+                        body={data}
+                        title={`QUALIFICATION RANKING - ${divisionName}`}
+                    />
                     <MenuDrawer/>
                 </ButtonGroup>
             </Box>
@@ -60,9 +90,13 @@ export default function RankPage() {
                         <Table>
                             <thead>
                             <tr>
-                                <th style={{textAlign: 'center'}}><h1>RANK</h1></th>
-                                <th style={{textAlign: 'center'}}><h1>TEAM NUMBER</h1></th>
-                                <th style={{textAlign: 'center'}}><h1>AVERAGE SCORE</h1></th>
+                                {
+                                    HEAD.map((h, i) => (
+                                        <th key={i} style={{textAlign: 'center'}}>
+                                            <h1>{h}</h1>
+                                        </th>
+                                    ))
+                                }
                             </tr>
                             </thead>
                         </Table>
@@ -75,7 +109,7 @@ export default function RankPage() {
                                     ranks.map((r, i) => (
                                         r !== undefined ? (
                                             r.url ? <tr key={i}>
-                                                <td colSpan={3}>
+                                                <td colSpan={HEAD.length}>
                                                 <Box sx={{
                                                     display: 'flex', flexDirection: 'column', justifyContent: 'center',
                                                     alignItems: 'center', p: PAD
@@ -86,7 +120,7 @@ export default function RankPage() {
                                         </tr> : <tr key={i}>
                                             <td>
                                                 <Typography level="h2" sx={{textAlign: 'center'}}>
-                                                    {r.rank || i+1}
+                                                    {r.rank || i + 1}
                                                 </Typography>
                                             </td>
                                             <td>
@@ -96,16 +130,21 @@ export default function RankPage() {
                                             </td>
                                             <td>
                                                 <Typography level="h2" sx={{textAlign: 'center'}}>
+                                                    {r.teamMatchCount}
+                                                </Typography>
+                                            </td>
+                                            <td>
+                                                <Typography level="h2" sx={{textAlign: 'center'}}>
                                                     {r.teamAvgScore}
                                                 </Typography>
                                             </td>
                                         </tr>
-                                    ) : <></> ))
+                                        ) : <></>))
                                 }
                                 </tbody>
                             </Table>
                         </ScrollTable>
-                    </div>
+                        </div>
                 }
             </Sheet>
         </Box>

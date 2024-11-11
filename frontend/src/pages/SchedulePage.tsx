@@ -4,14 +4,21 @@ import {Box, ButtonGroup, Sheet, Table, Typography} from "@mui/joy";
 import {PAD, PAD2, PictureObject} from "../constants.ts";
 import MenuDrawer from "../components/MenuDrawer.tsx";
 import {ChooseDivisionPage} from "./ScorePage.tsx";
-import {MutableRefObject, useEffect, useRef, useState} from "react";
+import {useEffect, useState} from "react";
 import {MatchObject} from "../../../common/Match.ts";
 import {generateRankList} from "./RankPage.tsx";
 import {PeriodObject} from "../../../common/Period.ts";
 import {getReq} from "../net.ts";
 import ScrollTable from "../components/ScrollTable.tsx";
+import PrintTable from "../components/PrintTable.tsx";
 
 const DIVISION_NAME_KEY = "division";
+const HEAD = [
+    "Match Number",
+    "Team",
+    "Start Time",
+    "Field Name"
+];
 
 export default function SchedulePage() {
     const urlParams = new URLSearchParams(window.location.search);
@@ -19,13 +26,29 @@ export default function SchedulePage() {
 
     const [schedules, setSchedules] = useState<MatchObject[] | PictureObject[]>([]);
     const [periods, setPeriods] = useState<PeriodObject[]>([]);
-    const tableRef: MutableRefObject<HTMLDivElement | null> = useRef(null);
+    const [data, setData] = useState<any[][]>([]);
 
     useEffect(() => {
         if (divisionName) {
             handleRefreshSchedule();
         }
     }, []);
+
+    useEffect(() => {
+        const newData = [];
+        for (let i = 0; i < schedules.length; i ++) {
+            const r = schedules[i];
+            if (!r) continue;
+            if (r.url) continue;
+            newData.push([
+                `${r.matchType[0].toUpperCase()}${r.matchNumber}`,
+                r.matchTeam.join(', '),
+                getStartTime(r) || "",
+                r.matchField
+            ]);
+        }
+        setData(newData);
+    }, [schedules, setSchedules]);
 
     function handleRefreshSchedule() {
         getReq('/period').then((res) => {
@@ -77,6 +100,11 @@ export default function SchedulePage() {
                     SCHEDULE {divisionName ? `- ${divisionName}` : ""}
                 </Typography>
                 <ButtonGroup>
+                    <PrintTable
+                        head={HEAD}
+                        body={data}
+                        title={`SCHEDULE - ${divisionName}`}
+                    />
                     <MenuDrawer/>
                 </ButtonGroup>
             </Box>
@@ -90,14 +118,17 @@ export default function SchedulePage() {
                         : <div style={{
                             height: '100%', display: 'flex', flexDirection: 'column',
                             overflowY: "scroll"
-                        }} ref={tableRef}>
+                        }}>
                             <Table>
                                 <thead>
                                 <tr>
-                                    <th style={{textAlign: 'center'}}><h1>Match Number</h1></th>
-                                    <th style={{textAlign: 'center'}}><h1>Team</h1></th>
-                                    <th style={{textAlign: 'center'}}><h1>Start Time</h1></th>
-                                    <th style={{textAlign: 'center'}}><h1>Field Name</h1></th>
+                                    {
+                                        HEAD.map((h, i) => (
+                                            <th key={i} style={{textAlign: 'center'}}>
+                                                <h1>{h}</h1>
+                                            </th>
+                                        ))
+                                    }
                                 </tr>
                                 </thead>
                             </Table>
@@ -110,7 +141,7 @@ export default function SchedulePage() {
                                         schedules.map((r, i) => (
                                             r !== undefined ? (
                                                 r.url ? <tr key={i}>
-                                                    <td colSpan={4}>
+                                                    <td colSpan={HEAD.length}>
                                                         <Box sx={{
                                                             display: 'flex', flexDirection: 'column', justifyContent: 'center',
                                                             alignItems: 'center', p: PAD

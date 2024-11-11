@@ -1,12 +1,13 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 
-import {MutableRefObject, useEffect, useRef, useState} from "react";
+import {useEffect, useState} from "react";
 import {Box, ButtonGroup, Sheet, Table, Typography} from "@mui/joy";
 import {PAD, PictureObject} from "../constants.ts";
 import MenuDrawer from "../components/MenuDrawer.tsx";
 import {generateRankList} from "./RankPage.tsx";
 import ScrollTable from "../components/ScrollTable.tsx";
+import PrintTable from "../components/PrintTable.tsx";
 
 interface RankObject {
     teamNumber: string;
@@ -16,13 +17,38 @@ interface RankObject {
     rank: number;
 }
 
+const HEAD = [
+    "RANK",
+    "TEAM NUMBER",
+    "DRIVER SCORE",
+    "AUTON SCORE",
+    "TOTAL SCORE"
+];
+
 export default function SkillsRankPage() {
     const [ranks, setRanks] = useState<RankObject[] | PictureObject[]>([]);
-    const tableRef: MutableRefObject<HTMLElement | null> = useRef(null);
+    const [data, setData] = useState<any[][]>([]);
 
     useEffect(() => {
         handleRefresh();
     }, []);
+
+    useEffect(() => {
+        const newData = [];
+        for (let i = 0; i < ranks.length; i ++) {
+            const r = ranks[i];
+            if (!r) continue;
+            if (r.url) continue;
+            newData.push([
+                r.rank || index + 1,
+                r.teamNumber,
+                r.DriverScore,
+                r.AutoScore,
+                r.TotalScore
+            ]);
+        }
+        setData(newData);
+    }, [ranks, setRanks]);
 
     function handleRefresh() {
         generateRankList(`/rank/skill`).then((res) => {
@@ -40,6 +66,11 @@ export default function SkillsRankPage() {
                     SKILLS RANKING
                 </Typography>
                 <ButtonGroup>
+                    <PrintTable
+                        head={HEAD}
+                        body={data}
+                        title="SKILLS RANKING"
+                    />
                     <MenuDrawer/>
                 </ButtonGroup>
             </Box>
@@ -47,15 +78,17 @@ export default function SkillsRankPage() {
                 <Box sx={{
                     height: '100%', display: 'flex', flexDirection: 'column',
                     overflowY: "scroll"
-                }} ref={tableRef}>
+                }}>
                     <Table>
                         <thead>
                         <tr>
-                            <th style={{textAlign: 'center'}}><h1>RANK</h1></th>
-                            <th style={{textAlign: 'center'}}><h1>TEAM NUMBER</h1></th>
-                            <th style={{textAlign: 'center'}}><h1>DRIVER SCORE</h1></th>
-                            <th style={{textAlign: 'center'}}><h1>AUTON SCORE</h1></th>
-                            <th style={{textAlign: 'center'}}><h1>TOTAL SCORE</h1></th>
+                            {
+                                HEAD.map((h, i) => (
+                                    <th key={i} style={{textAlign: 'center'}}>
+                                        <h1>{h}</h1>
+                                    </th>
+                                ))
+                            }
                         </tr>
                         </thead>
                     </Table>
@@ -68,7 +101,7 @@ export default function SkillsRankPage() {
                                 ranks.map((r, i) => (
                                     r !== undefined ? (
                                         r.url ? <tr key={i}>
-                                            <td colSpan={5}>
+                                            <td colSpan={HEAD.length}>
                                                 <Box sx={{
                                                     display: 'flex', flexDirection: 'column', justifyContent: 'center',
                                                     alignItems: 'center', p: PAD
