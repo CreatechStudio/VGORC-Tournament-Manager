@@ -5,7 +5,7 @@ import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import ScoreboardOutlinedIcon from '@mui/icons-material/ScoreboardOutlined';
 import DashPage from "./pages/DashPage.tsx";
 import SchedulePage from "./pages/SchedulePage.tsx";
-import RankPage from "./pages/RankPage.tsx";
+import { QualificationRankPage, EliminationRankPage } from "./pages/RankPage.tsx";
 import SkillsRankPage from "./pages/SkillsRankPage.tsx";
 import ScorePage from "./pages/ScorePage.tsx";
 import AdminPage from "./pages/AdminPage.tsx";
@@ -27,10 +27,16 @@ export const routes = [
         element: SchedulePage
     },
     {
-        path: 'rank',
-        name: "Rank",
+        path: 'qrank',
+        name: "Qualification Rank",
         icon: <StarBorderIcon/>,
-        element: RankPage
+        element: QualificationRankPage
+    },
+    {
+        path: 'erank',
+        name: "Elimination Rank",
+        icon: <StarBorderIcon/>,
+        element: EliminationRankPage
     },
     {
         path: 'srank',
