@@ -36,6 +36,9 @@ export default function Timer({
             }, 1000);
         } else if (localTime === 0) {
             setIsActive(false);
+            if (displayMode && fieldName) {
+                setTimerWs(connectTimer(fieldName));
+            }
         }
         return () => {
             if (localTimerRef.current) {
@@ -71,11 +74,6 @@ export default function Timer({
         });
         ws.addEventListener(WebsocketEvent.error, (_instance) => {
             toast.error("Connection lost", {id: "wslost"});
-            if (displayMode) {
-                setTimeout(() => {
-                    connectTimer(matchField, start);
-                }, 1000);
-            }
             setUseLocal(true);
         });
         ws.addEventListener(WebsocketEvent.reconnect, (_instance) => {
