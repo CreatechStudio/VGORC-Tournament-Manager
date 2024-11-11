@@ -8,7 +8,8 @@ import {RETURN_URL_KEY} from "./constants.ts";
 import Base64 from "base-64";
 
 const axiosInstance = axios.default.create({
-    withCredentials: true
+    withCredentials: true,
+    timeout: 5000
 });
 
 function solveErr(e: never) {
@@ -119,8 +120,10 @@ export function PingPongTest(
     onSuccess?: () => void,
     onFailed?: () => void
 ) {
-    getReq('/ping').then((res) => {
-        if (res === "Pong!") {
+    axiosInstance.get('/api//ping', {
+        timeout: 1000
+    }).then((res) => {
+        if (res.data === "Pong!") {
             if (onSuccess) {
                 onSuccess();
             }

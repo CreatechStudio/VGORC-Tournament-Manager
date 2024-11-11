@@ -25,11 +25,16 @@ export default function Timer({
     const localTimerRef = useRef<NodeJS.Timeout | null>(null);
 
     useEffect(() => {
+        PingPongTest(undefined, () => {
+            toast.error("Switch to local countdown!", {id: "switch-to-local"});
+            setUseLocal(true);
+            setIsActive(true);
+            timerWs?.close();
+            setTimerWs(null);
+            setIsConnected(false);
+        });
+
         if (displayMode && fieldName) {
-            PingPongTest(undefined, () => {
-                setUseLocal(true);
-                setIsActive(true);
-            });
             retryConnectTimer(fieldName);
         }
     }, []);
