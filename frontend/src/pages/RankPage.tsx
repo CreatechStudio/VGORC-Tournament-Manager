@@ -4,9 +4,10 @@
 import {Box, ButtonGroup, Sheet, Table, Typography} from "@mui/joy";
 import {LOGO_INTERVAL_NUMBER, PAD, PictureObject, PICTURES, RANK_TABLE_SCROLL_SPEED} from "../constants.ts";
 import MenuDrawer from "../components/MenuDrawer.tsx";
-import {MutableRefObject, useEffect, useRef, useState} from "react";
+import {useEffect, useState} from "react";
 import {getReq} from "../net.ts";
 import {ChooseDivisionPage} from "./ScorePage.tsx";
+import ScrollTable from "../components/ScrollTable.tsx";
 
 interface RankObject {
     teamNumber: string;
@@ -21,7 +22,6 @@ export default function RankPage() {
     const divisionName = urlParams.get(DIVISION_NAME_KEY);
 
     const [ranks, setRanks] = useState<RankObject[] | PictureObject[]>([]);
-    const tableRef: MutableRefObject<HTMLDivElement | null> = useRef(null);
 
     useEffect(() => {
         handleRefresh();
@@ -30,7 +30,6 @@ export default function RankPage() {
     function handleRefresh() {
         generateRankList(`/rank/qualification/${divisionName}`).then((res) => {
             setRanks(res);
-            rankTableScrollStep(tableRef, handleRefresh);
         });
     }
 
@@ -57,8 +56,8 @@ export default function RankPage() {
                     : <div style={{
                         height: '100%', display: 'flex', flexDirection: 'column',
                         overflowY: "scroll"
-                    }} ref={tableRef}>
-                        <Table stickyHeader stickyFooter sx={{p: PAD}}>
+                    }}>
+                        <Table>
                             <thead>
                             <tr>
                                 <th style={{textAlign: 'center'}}><h1>RANK</h1></th>
@@ -66,12 +65,15 @@ export default function RankPage() {
                                 <th style={{textAlign: 'center'}}><h1>AVERAGE SCORE</h1></th>
                             </tr>
                             </thead>
-                            <tbody>
-                            {
-                                ranks.map((r, i) => (
-                                    r !== undefined ? (
-                                        r.url ? <tr key={i}>
-                                            <td colSpan={3}>
+                        </Table>
+                        <ScrollTable>
+                            <Table stickyHeader stickyFooter sx={{p: PAD}}>
+                                <tbody>
+                                {
+                                    ranks.map((r, i) => (
+                                        r !== undefined ? (
+                                            r.url ? <tr key={i}>
+                                                <td colSpan={3}>
                                                 <Box sx={{
                                                     display: 'flex', flexDirection: 'column', justifyContent: 'center',
                                                     alignItems: 'center', p: PAD
@@ -96,61 +98,16 @@ export default function RankPage() {
                                                 </Typography>
                                             </td>
                                         </tr>
-                                    ) : <></>
-                                ))
-                            }
-                            </tbody>
-                            <tfoot>
-                            <tr>
-                                {/*占位*/}
-                                <td colSpan={3} style={{textAlign: 'center'}}></td>
-                            </tr>
-                            </tfoot>
-                        </Table>
+                                    ) : <></> ))
+                                }
+                                </tbody>
+                            </Table>
+                        </ScrollTable>
                     </div>
                 }
             </Sheet>
         </Box>
     );
-}
-
-// eslint-disable-next-line react-refresh/only-export-components
-export function rankTableScrollStep(
-    tableRef: MutableRefObject<HTMLElement | null>,
-    handleRefresh: () => void,
-    startTime?: number
-) {
-    const cur = new Date().getTime();
-    if (startTime === undefined) {
-        startTime = cur;
-    }
-    const timeEscaped = cur - startTime;
-    try {
-        if (tableRef.current) {
-            const offsetTop = RANK_TABLE_SCROLL_SPEED * timeEscaped;
-            const totalHeight = (tableRef.current.scrollHeight - tableRef.current.querySelector('thead').clientHeight) / 3;
-            if (offsetTop >= totalHeight) {
-                handleRefresh();
-                tableRef.current.scrollTo({
-                    left: 0,
-                    top: -RANK_TABLE_SCROLL_SPEED,
-                    behavior: 'instant'
-                });
-                startTime = cur;
-            } else {
-                tableRef.current.scrollTo({
-                    left: 0,
-                    top: offsetTop
-                });
-            }
-        }
-    } catch (e) {
-        console.error(e);
-    }
-
-    requestAnimationFrame(() => {
-        rankTableScrollStep(tableRef, handleRefresh, startTime);
-    })
 }
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -173,5 +130,5 @@ export async function generateRankList(endpoint: string, solveData?: (data: []) 
     for (let j = pictureIndex; j <= PICTURES.length; j ++) {
         newRanks.push(PICTURES[j]);
     }
-    return [...newRanks, ...newRanks, ...newRanks];
+    return newRanks;
 }

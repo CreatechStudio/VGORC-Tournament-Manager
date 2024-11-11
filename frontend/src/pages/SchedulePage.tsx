@@ -6,9 +6,10 @@ import MenuDrawer from "../components/MenuDrawer.tsx";
 import {ChooseDivisionPage} from "./ScorePage.tsx";
 import {MutableRefObject, useEffect, useRef, useState} from "react";
 import {MatchObject} from "../../../common/Match.ts";
-import {generateRankList, rankTableScrollStep} from "./RankPage.tsx";
+import {generateRankList} from "./RankPage.tsx";
 import {PeriodObject} from "../../../common/Period.ts";
 import {getReq} from "../net.ts";
+import ScrollTable from "../components/ScrollTable.tsx";
 
 const DIVISION_NAME_KEY = "division";
 
@@ -90,7 +91,7 @@ export default function SchedulePage() {
                             height: '100%', display: 'flex', flexDirection: 'column',
                             overflowY: "scroll"
                         }} ref={tableRef}>
-                            <Table stickyHeader stickyFooter sx={{p: PAD}}>
+                            <Table>
                                 <thead>
                                 <tr>
                                     <th style={{textAlign: 'center'}}><h1>Match Number</h1></th>
@@ -99,62 +100,60 @@ export default function SchedulePage() {
                                     <th style={{textAlign: 'center'}}><h1>Field Name</h1></th>
                                 </tr>
                                 </thead>
-                                <tbody>
-                                {
-                                    schedules.map((r, i) => (
-                                        r !== undefined ? (
-                                            r.url ? <tr key={i}>
-                                                <td colSpan={4}>
-                                                    <Box sx={{
-                                                        display: 'flex', flexDirection: 'column', justifyContent: 'center',
-                                                        alignItems: 'center', p: PAD
-                                                    }}>
-                                                        <img src={r.url} alt={r.name} height={100}/>
-                                                    </Box>
-                                                </td>
-                                            </tr> : r.hasScore ? <></> : <tr key={i}>
-                                                <td>
-                                                    <Typography level="h2" sx={{textAlign: 'center'}}>
-                                                        {r.matchType[0].toUpperCase()}{r.matchNumber}
-                                                    </Typography>
-                                                </td>
-                                                <td>
-                                                    <Box sx={{
-                                                        display: 'flex', flexDirection: 'row',
-                                                        justifyContent: 'center', alignItems: 'center',
-                                                        gap: PAD2
-                                                    }}>
-                                                        {
-                                                            r.matchTeam.map((team, index) => (
-                                                                <Typography key={index} level="h2" sx={{textAlign: 'center'}}>
-                                                                    {team}
-                                                                </Typography>
-                                                            ))
-                                                        }
-                                                    </Box>
-                                                </td>
-                                                <td>
-                                                    <Typography level="h2" sx={{textAlign: 'center'}}>
-                                                        {getStartTime(r) || ""}
-                                                    </Typography>
-                                                </td>
-                                                <td>
-                                                    <Typography level="h2" sx={{textAlign: 'center'}}>
-                                                        {r.matchField}
-                                                    </Typography>
-                                                </td>
-                                            </tr>
-                                        ) : <></>
-                                    ))
-                                }
-                                </tbody>
-                                <tfoot>
-                                <tr>
-                                    {/*占位*/}
-                                    <td colSpan={3} style={{textAlign: 'center'}}></td>
-                                </tr>
-                                </tfoot>
                             </Table>
+                            <ScrollTable>
+                                <Table stickyHeader stickyFooter sx={{p: PAD}}>
+                                    <tbody>
+                                    {
+                                        schedules.map((r, i) => (
+                                            r !== undefined ? (
+                                                r.url ? <tr key={i}>
+                                                    <td colSpan={4}>
+                                                        <Box sx={{
+                                                            display: 'flex', flexDirection: 'column', justifyContent: 'center',
+                                                            alignItems: 'center', p: PAD
+                                                        }}>
+                                                            <img src={r.url} alt={r.name} height={100}/>
+                                                        </Box>
+                                                    </td>
+                                                </tr> : r.hasScore ? <></> : <tr key={i}>
+                                                    <td>
+                                                        <Typography level="h2" sx={{textAlign: 'center'}}>
+                                                            {r.matchType[0].toUpperCase()}{r.matchNumber}
+                                                        </Typography>
+                                                    </td>
+                                                    <td>
+                                                        <Box sx={{
+                                                            display: 'flex', flexDirection: 'row',
+                                                            justifyContent: 'center', alignItems: 'center',
+                                                            gap: PAD2
+                                                        }}>
+                                                            {
+                                                                r.matchTeam.map((team, index) => (
+                                                                    <Typography key={index} level="h2" sx={{textAlign: 'center'}}>
+                                                                        {team}
+                                                                    </Typography>
+                                                                ))
+                                                            }
+                                                        </Box>
+                                                    </td>
+                                                    <td>
+                                                        <Typography level="h2" sx={{textAlign: 'center'}}>
+                                                            {getStartTime(r) || ""}
+                                                        </Typography>
+                                                    </td>
+                                                    <td>
+                                                        <Typography level="h2" sx={{textAlign: 'center'}}>
+                                                            {r.matchField}
+                                                        </Typography>
+                                                    </td>
+                                                </tr>
+                                            ) : <></>
+                                        ))
+                                    }
+                                    </tbody>
+                                </Table>
+                            </ScrollTable>
                         </div>
                 }
             </Sheet>

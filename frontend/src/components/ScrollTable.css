@@ -1,0 +1,21 @@
+@keyframes scroll {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-100%);
+    }
+}
+
+.scroll-table {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+
+    --scroll-period: 0s;
+
+    .ctx {
+        animation: scroll var(--scroll-period) infinite linear; // 指定滚动动画
+    }
+}

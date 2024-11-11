@@ -5,7 +5,8 @@ import {MutableRefObject, useEffect, useRef, useState} from "react";
 import {Box, ButtonGroup, Sheet, Table, Typography} from "@mui/joy";
 import {PAD, PictureObject} from "../constants.ts";
 import MenuDrawer from "../components/MenuDrawer.tsx";
-import {generateRankList, rankTableScrollStep} from "./RankPage.tsx";
+import {generateRankList} from "./RankPage.tsx";
+import ScrollTable from "../components/ScrollTable.tsx";
 
 interface RankObject {
     teamNumber: string;
@@ -21,7 +22,6 @@ export default function SkillsRankPage() {
 
     useEffect(() => {
         handleRefresh();
-        rankTableScrollStep(tableRef, handleRefresh);
     }, []);
 
     function handleRefresh() {
@@ -48,7 +48,7 @@ export default function SkillsRankPage() {
                     height: '100%', display: 'flex', flexDirection: 'column',
                     overflowY: "scroll"
                 }} ref={tableRef}>
-                    <Table stickyHeader stickyFooter sx={{p: PAD}}>
+                    <Table>
                         <thead>
                         <tr>
                             <th style={{textAlign: 'center'}}><h1>RANK</h1></th>
@@ -58,57 +58,55 @@ export default function SkillsRankPage() {
                             <th style={{textAlign: 'center'}}><h1>TOTAL SCORE</h1></th>
                         </tr>
                         </thead>
-                        <tbody>
-                        {
-                            ranks.map((r, i) => (
-                                r !== undefined ? (
-                                    r.url ? <tr key={i}>
-                                        <td colSpan={5}>
-                                            <Box sx={{
-                                                display: 'flex', flexDirection: 'column', justifyContent: 'center',
-                                                alignItems: 'center', p: PAD
-                                            }}>
-                                                <img src={r.url} alt={r.name} height={100}/>
-                                            </Box>
-                                        </td>
-                                    </tr> : <tr key={i}>
-                                        <td>
-                                            <Typography level="h2" sx={{textAlign: 'center'}}>
-                                                {r.rank || i+1}
-                                            </Typography>
-                                        </td>
-                                        <td>
-                                            <Typography level="h2" sx={{textAlign: 'center'}}>
-                                                {r.teamNumber}
-                                            </Typography>
-                                        </td>
-                                        <td>
-                                            <Typography level="h2" sx={{textAlign: 'center'}}>
-                                                {r.DriverScore}
-                                            </Typography>
-                                        </td>
-                                        <td>
-                                            <Typography level="h2" sx={{textAlign: 'center'}}>
-                                                {r.AutoScore}
-                                            </Typography>
-                                        </td>
-                                        <td>
-                                            <Typography level="h2" sx={{textAlign: 'center'}}>
-                                                {r.TotalScore}
-                                            </Typography>
-                                        </td>
-                                    </tr>
-                                ) : <></>
-                            ))
-                        }
-                        </tbody>
-                        <tfoot>
-                        <tr>
-                            {/*占位*/}
-                            <td colSpan={5} style={{textAlign: 'center'}}></td>
-                        </tr>
-                        </tfoot>
                     </Table>
+                    <ScrollTable>
+                        <Table stickyHeader stickyFooter sx={{p: PAD}}>
+                            <tbody>
+                            {
+                                ranks.map((r, i) => (
+                                    r !== undefined ? (
+                                        r.url ? <tr key={i}>
+                                            <td colSpan={5}>
+                                                <Box sx={{
+                                                    display: 'flex', flexDirection: 'column', justifyContent: 'center',
+                                                    alignItems: 'center', p: PAD
+                                                }}>
+                                                    <img src={r.url} alt={r.name} height={100}/>
+                                                </Box>
+                                            </td>
+                                        </tr> : <tr key={i}>
+                                            <td>
+                                                <Typography level="h2" sx={{textAlign: 'center'}}>
+                                                    {r.rank || i+1}
+                                                </Typography>
+                                            </td>
+                                            <td>
+                                                <Typography level="h2" sx={{textAlign: 'center'}}>
+                                                    {r.teamNumber}
+                                                </Typography>
+                                            </td>
+                                            <td>
+                                                <Typography level="h2" sx={{textAlign: 'center'}}>
+                                                    {r.DriverScore}
+                                                </Typography>
+                                            </td>
+                                            <td>
+                                                <Typography level="h2" sx={{textAlign: 'center'}}>
+                                                    {r.AutoScore}
+                                                </Typography>
+                                            </td>
+                                            <td>
+                                                <Typography level="h2" sx={{textAlign: 'center'}}>
+                                                    {r.TotalScore}
+                                                </Typography>
+                                            </td>
+                                        </tr>
+                                    ) : <></>
+                                ))
+                            }
+                            </tbody>
+                        </Table>
+                    </ScrollTable>
                 </Box>
             </Sheet>
         </Box>
