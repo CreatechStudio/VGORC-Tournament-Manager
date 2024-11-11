@@ -4,6 +4,7 @@ import { TimerAction } from "../../../common/Timer.ts";
 import toast from "react-hot-toast";
 import {Box, Button, CircularProgress} from "@mui/joy";
 import {generateSocketUrl, LARGE_PART, PAD, PAD2, SMALL_PART} from "../constants.ts";
+import {PingPongTest} from "../net.ts";
 
 export default function Timer({
     displayMode,
@@ -25,6 +26,10 @@ export default function Timer({
 
     useEffect(() => {
         if (displayMode && fieldName) {
+            PingPongTest(undefined, () => {
+                setUseLocal(true);
+                setIsActive(true);
+            });
             retryConnectTimer(fieldName);
         }
     }, []);

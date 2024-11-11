@@ -114,3 +114,28 @@ export function toLogin() {
     params[RETURN_URL_KEY] = Base64.encode(JSON.stringify(url));
     toLocation("login", params);
 }
+
+export function PingPongTest(
+    onSuccess?: () => void,
+    onFailed?: () => void
+) {
+    getReq('/ping').then((res) => {
+        if (res === "Pong!") {
+            if (onSuccess) {
+                onSuccess();
+            }
+        } else {
+            if (onFailed) {
+                onFailed();
+            }
+        }
+    }).catch(() => {
+        if (onFailed) {
+            onFailed();
+        }
+    }).finally(() => {
+        setTimeout(() => {
+            PingPongTest(onSuccess, onFailed);
+        }, 1000);
+    });
+}
