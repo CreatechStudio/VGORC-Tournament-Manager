@@ -45,7 +45,9 @@ export function QualificationRankPage() {
     const [data, setData] = useState<any[][]>([]);
 
     useEffect(() => {
-        handleRefresh();
+        if (divisionName) {
+            handleRefresh();
+        }
     }, []);
 
     useEffect(() => {
@@ -171,7 +173,9 @@ export function EliminationRankPage() {
     const [data, setData] = useState<any[][]>([]);
 
     useEffect(() => {
-        handleRefresh();
+        if (divisionName) {
+            handleRefresh();
+        }
     }, []);
 
     useEffect(() => {
@@ -285,7 +289,10 @@ export function EliminationRankPage() {
 
 // eslint-disable-next-line react-refresh/only-export-components
 export async function generateRankList(endpoint: string, solveData?: (data: []) => []) {
-    let res = await getReq(endpoint);
+    let res = [];
+    try {
+        res = await getReq(endpoint);
+    } catch {}
     if (solveData) {
         res = solveData(res);
     }
