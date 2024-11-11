@@ -1,30 +1,39 @@
 import {Utils} from "../Utils";
-import {MatchObject} from "../../../common/Match";
+import {MatchObject, MatchWithDivision} from "../../../common/Match";
 import {TeamObject} from "../../../common/Team";
 
 export class Ranking {
     db: Utils = new Utils();
 
-    _findTeamMatches(teamNumber: string, divisionName: string): MatchObject[] {
+    _findTeamMatches(teamNumber: string, divisionName: string, matchType: string): MatchObject[] {
         let decodedDivisionName = decodeURIComponent(divisionName);
         let data = this.db.getData();
-        let matches: MatchObject[] = [];
+        let allMatches: MatchWithDivision[] = data.matches;
+        allMatches = allMatches.filter(match => match.divisionName === decodedDivisionName);
+        let allMatchesInDivision: MatchObject[] = allMatches[0].matches;
+        let matches: MatchObject[] = []
 
-        data.matches.forEach(division => {
-            if (division.divisionName === decodedDivisionName) {
-                division.matches.forEach(match => {
-                    if (match.matchTeam.includes(teamNumber)) {
-                        matches.push(match);
-                    }
-                });
-            }
-        });
+        if (matchType === 'Qualification') {
+            allMatchesInDivision.forEach(match => {
+                if (match.matchTeam.includes(teamNumber) && match.matchType === 'Qualification') {
+                    matches.push(match);
+                }
+            });
+        } else if (matchType === 'Elimination') {
+            allMatchesInDivision.forEach(match => {
+                if (match.matchTeam.includes(teamNumber) && match.matchType === 'Elimination') {
+                    matches.push(match);
+                }
+            });
+        } else {
+            throw ('Invalid match type');
+        }
         return matches;
     }
 
-    _findTeamScoredMatches(teamNumber: string, divisionName: string): MatchObject[] {
+    _findTeamScoredMatchesInQualification(teamNumber: string, divisionName: string): MatchObject[] {
         let decodedDivisionName = decodeURIComponent(divisionName);
-        let allMatches: MatchObject[] = this._findTeamMatches(teamNumber, decodedDivisionName);
+        let allMatches: MatchObject[] = this._findTeamMatches(teamNumber, decodedDivisionName, 'Qualification');
         return allMatches.filter(match => match.hasScore);
     }
 
@@ -43,7 +52,7 @@ export class Ranking {
 
     _calcAvgScoreOfTeamInDivision(teamNumber: string, divisionName: string): number {
         let decodedDivisionName = decodeURIComponent(divisionName);
-        let matches = this._findTeamMatches(teamNumber, decodedDivisionName);
+        let matches = this._findTeamMatches(teamNumber, decodedDivisionName, 'Qualification');
         let totalMatches = matches.length;
         if (totalMatches === 0) return 0;
 
@@ -82,7 +91,7 @@ export class Ranking {
 
         teams.forEach(team => {
             let avgScore = this._calcAvgScoreOfTeamInDivision(team.teamNumber, decodedDivisionName);
-            let teamScoredMatchCount = this._findTeamScoredMatches(team.teamNumber, decodedDivisionName).length;
+            let teamScoredMatchCount = this._findTeamScoredMatchesInQualification(team.teamNumber, decodedDivisionName).length;
             ranking.push({
                 teamNumber: team.teamNumber,
                 teamMatchCount: teamScoredMatchCount,
@@ -112,6 +121,41 @@ export class Ranking {
         });
 
         ranking.sort((a, b) => b.TotalScore - a.TotalScore);
+        return ranking;
+    }
+
+    getElimRanking(divisionName: string) {
+        let decodedDivisionName = decodeURIComponent(divisionName);
+        let data = this.db.getData();
+        let allMatchesInDivision: MatchWithDivision[] = data.matches;
+        allMatchesInDivision = allMatchesInDivision.filter(match => match.divisionName === decodedDivisionName);
+        let eliminationMatches: MatchObject[] = [];
+        allMatchesInDivision[0].matches.forEach(match => {
+            if (match.matchType === 'Elimination') {
+                eliminationMatches.push(match);
+            }
+        })
+        let ranking: { rank: number, teams: string[], score:number }[] = [];
+        eliminationMatches = eliminationMatches.filter(match => match.hasScore);
+        eliminationMatches.sort((a, b) => b.matchScore - a.matchScore);
+        eliminationMatches.forEach(match => {
+            ranking.push({
+                rank: 0,
+                teams: match.matchTeam,
+                score: match.matchScore
+            });
+        });
+        ranking.forEach((rank, index) => {
+            if (index === 0) {
+                rank.rank = 1;
+            } else {
+                if (rank.score === ranking[index - 1].score) {
+                    rank.rank = ranking[index - 1].rank;
+                } else {
+                    rank.rank = index + 1;
+                }
+            }
+        })
         return ranking;
     }
 }

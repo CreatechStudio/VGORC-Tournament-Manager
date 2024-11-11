@@ -13,4 +13,10 @@ export const rankingGroup = new Elysia()
         .get('/skill', ({ rank }) =>
             rank.getSkillRanking()
         )
+        .get('/elimination/:divisionName', ({ rank, params }) =>
+            rank.getElimRanking(params.divisionName), {
+            params: t.Object({
+                divisionName: t.String()
+            })
+        })
     );
