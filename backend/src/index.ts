@@ -65,7 +65,8 @@ new Elysia()
             secret: JWT_SECRET,
         })
     )
-    .get('/', 'Welcome to VGORC TM API Backend')
+    .get('/', () => {return  'Welcome to VGORC TM API Backend'})
+    .get('/ping', () => {return 'Pong!'})
     .decorate('auth', new Auth())
     .post('/auth/:module', async ({ auth, jwt, cookie: { permission }, params ,body: {authRole, authPassword}}) => {
         if (auth.checkAuth(authRole, authPassword)) {
