@@ -49,12 +49,15 @@ export default function Timer({
         ws.addEventListener(WebsocketEvent.message, (_instance, ev) => {
             const data = JSON.parse(ev.data);
             if (data.time !== undefined) {
-                if (data.isTotal) {
-                    setTotalTime(data.time);
+                if (data.isTotal && !useLocal) {
                     setUseLocal(false);
                     setIsActive(true);
                     setLocalTime(data.time);
+                    setTotalTime(data.time);
                 } else {
+                    setUseLocal(false);
+                    setIsActive(true);
+                    setLocalTime(data.time);
                     setTime(data.time);
                 }
                 if (data.time <= 0) {
@@ -63,11 +66,16 @@ export default function Timer({
             }
         });
         ws.addEventListener(WebsocketEvent.close, (_instance) => {
-            toast.error("Connection closed");
+            toast.error("Connection closed", {id: "wsclosed"});
             setUseLocal(true);
         });
         ws.addEventListener(WebsocketEvent.error, (_instance) => {
-            toast.error("Connection lost");
+            toast.error("Connection lost", {id: "wslost"});
+            if (displayMode) {
+                setTimeout(() => {
+                    connectTimer(matchField, start);
+                }, 1000);
+            }
             setUseLocal(true);
         });
         ws.addEventListener(WebsocketEvent.reconnect, (_instance) => {
@@ -75,7 +83,7 @@ export default function Timer({
             setUseLocal(false);
         });
         ws.addEventListener(WebsocketEvent.open, (instance) => {
-            // toast.success("Websocket Connected Successfully");
+            toast.success("Websocket Connected Successfully", {id: "wsconnect"});
             instance.send(JSON.stringify({
                 fieldName: matchField,
                 action: TimerAction.start,
