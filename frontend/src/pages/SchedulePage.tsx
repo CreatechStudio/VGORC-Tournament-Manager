@@ -101,7 +101,9 @@ export default function SchedulePage() {
                                 </tr>
                                 </thead>
                             </Table>
-                            <ScrollTable>
+                            <ScrollTable
+                                onRefresh={handleRefreshSchedule}
+                            >
                                 <Table stickyHeader stickyFooter sx={{p: PAD}}>
                                     <tbody>
                                     {

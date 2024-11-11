@@ -59,7 +59,9 @@ export default function SkillsRankPage() {
                         </tr>
                         </thead>
                     </Table>
-                    <ScrollTable>
+                    <ScrollTable
+                        onRefresh={handleRefresh}
+                    >
                         <Table stickyHeader stickyFooter sx={{p: PAD}}>
                             <tbody>
                             {

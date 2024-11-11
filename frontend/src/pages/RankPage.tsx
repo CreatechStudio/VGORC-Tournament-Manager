@@ -66,7 +66,9 @@ export default function RankPage() {
                             </tr>
                             </thead>
                         </Table>
-                        <ScrollTable>
+                        <ScrollTable
+                            onRefresh={handleRefresh}
+                        >
                             <Table stickyHeader stickyFooter sx={{p: PAD}}>
                                 <tbody>
                                 {
