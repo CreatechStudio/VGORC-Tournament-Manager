@@ -111,7 +111,7 @@ export default function AdminPage() {
                     overflowY: 'scroll'
                 }}
             >
-                <BasicAccordion/>
+                <BasicAccordion disabled={disabled}/>
                 <TournamentAccordion
                     disabled={disabled}
                     divisions={divisions}
