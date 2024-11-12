@@ -23,6 +23,7 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import ListAltOutlinedIcon from '@mui/icons-material/ListAltOutlined';
 import LogoutIcon from "@mui/icons-material/Logout";
 import Timer from "../components/Timer.tsx";
+import toast from "react-hot-toast";
 
 const DIVISION_NAME_KEY = "division";
 const MATCH_NUMBER_KEY = "match";
@@ -196,6 +197,7 @@ function SetScorePage({
             score: current?.matchScore || 0
         }).then((res) => {
             setCurrent(res);
+            toast.success("Save successfully");
         }).catch();
     }
 
