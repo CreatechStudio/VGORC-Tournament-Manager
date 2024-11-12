@@ -296,7 +296,7 @@ export default function TournamentTable<T extends Record<keyof T, string | strin
                                 localArr.map((obj, i) => (
                                     <tr key={i}>
                                         {
-                                            Object.keys(obj).map((key) => (
+                                            TKeys.map((key) => (
                                                 <td key={key}>
                                                     <Box sx={{p: PAD, width: '100%'}}>
                                                         <ValuePresent obj={obj} index={i} objKey={key}/>
