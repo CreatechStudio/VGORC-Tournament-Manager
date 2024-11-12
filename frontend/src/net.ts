@@ -115,6 +115,7 @@ function generateReturnUrlString() {
 }
 
 export function toLogin() {
+    const params = {};
     params[RETURN_URL_KEY] = generateReturnUrlString();
     toLocation("login", params);
 }
