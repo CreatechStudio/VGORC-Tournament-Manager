@@ -2,7 +2,7 @@
 // @ts-nocheck
 
 import {Box, ButtonGroup, Sheet, Table, Typography} from "@mui/joy";
-import {LOGO_INTERVAL_NUMBER, PAD, PictureObject, PICTURES, RANK_TABLE_SCROLL_SPEED} from "../constants.ts";
+import {LOGO_INTERVAL_NUMBER, PAD, PAD2, PictureObject, PICTURES, RANK_TABLE_SCROLL_SPEED} from "../constants.ts";
 import MenuDrawer from "../components/MenuDrawer.tsx";
 import {useEffect, useState} from "react";
 import {getReq} from "../net.ts";
@@ -186,7 +186,7 @@ export function EliminationRankPage() {
             if (r.url) continue;
             newData.push([
                 r.rank,
-                r.teams.join('  '),
+                r.teams.join(', '),
                 r.score
             ]);
         }
@@ -265,9 +265,20 @@ export function EliminationRankPage() {
                                                         </Typography>
                                                     </td>
                                                     <td>
-                                                        <Typography level="h2" sx={{textAlign: 'center'}}>
-                                                            {r.teams}
-                                                        </Typography>
+                                                        <Box sx={{
+                                                            display: 'flex', flexDirection: 'row',
+                                                            justifyContent: 'center', alignItems: 'center',
+                                                            gap: PAD2
+                                                        }}>
+                                                            {
+                                                                r.teams.map((team, index) => (
+                                                                    <Typography key={index} level="h2"
+                                                                                sx={{textAlign: 'center'}}>
+                                                                        {team}
+                                                                    </Typography>
+                                                                ))
+                                                            }
+                                                        </Box>
                                                     </td>
                                                     <td>
                                                         <Typography level="h2" sx={{textAlign: 'center'}}>
@@ -292,7 +303,8 @@ export async function generateRankList(endpoint: string, solveData?: (data: []) 
     let res = [];
     try {
         res = await getReq(endpoint);
-    } catch {}
+    } catch {
+    }
     if (solveData) {
         res = solveData(res);
     }
