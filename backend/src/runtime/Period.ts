@@ -105,6 +105,7 @@ export class Period {
 
     _update() {
         let newData: Data = this.db.getData();
+        this.data.sort((x, y) => x.periodNumber - y.periodNumber);
         newData.periods = this.data;
         this.db.updateData(newData);
     }
