@@ -6,13 +6,13 @@ import {
     ListItemContent, Stack,
     Typography
 } from "@mui/joy";
-import EditNotificationsRoundedIcon from '@mui/icons-material/EditNotificationsRounded';
 import {DivisionObject} from "../../../common/Division";
 import {DEFAULT_DIVISION, DEFAULT_FIELD_SET, DEFAULT_PERIOD, DEFAULT_TEAM, LARGE_PART, PAD} from "../constants";
 import {TeamObject} from "../../../common/Team";
 import TournamentTable from "../components/TournamentTable";
 import {FieldSetObject} from "../../../common/FieldSet.ts";
 import {PeriodObject} from "../../../common/Period.ts";
+import PlaylistAddCheckRoundedIcon from '@mui/icons-material/PlaylistAddCheckRounded';
 
 export default function TournamentAccordion({
     divisions,
@@ -39,7 +39,7 @@ export default function TournamentAccordion({
         <Accordion>
             <AccordionSummary>
                 <Avatar color="success">
-                    <EditNotificationsRoundedIcon />
+                    <PlaylistAddCheckRoundedIcon />
                 </Avatar>
                 <ListItemContent>
                     <Typography level="title-md">Tournament Settings</Typography>

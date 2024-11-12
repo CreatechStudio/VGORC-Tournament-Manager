@@ -8,12 +8,12 @@ import {
     Table,
     Typography
 } from "@mui/joy";
-import TapAndPlayRoundedIcon from '@mui/icons-material/TapAndPlayRounded';
 import {useEffect, useState} from "react";
 import {PAD} from "../constants.ts";
 import {AdminObject} from "../../../common/Admin.ts";
 import {getReq, postReq} from "../net.ts";
 import toast from "react-hot-toast";
+import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
 
 export default function BasicAccordion({
     disabled
@@ -57,7 +57,7 @@ export default function BasicAccordion({
         <Accordion sx={{width: '100%'}}>
             <AccordionSummary>
                 <Avatar color="primary">
-                    <TapAndPlayRoundedIcon />
+                    <SettingsRoundedIcon />
                 </Avatar>
                 <ListItemContent>
                     <Typography level="title-md">General Settings</Typography>

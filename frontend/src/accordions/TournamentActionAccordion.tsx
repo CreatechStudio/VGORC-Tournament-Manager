@@ -8,11 +8,11 @@ import {
     Table,
     Typography
 } from "@mui/joy";
-import AccessibilityNewRoundedIcon from '@mui/icons-material/AccessibilityNewRounded';
 import {useState} from "react";
 import toast from "react-hot-toast";
 import {getReq} from "../net.ts";
 import {PAD} from "../constants.ts";
+import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
 
 enum ScheduleAction {
     Clear,
@@ -83,7 +83,7 @@ export default function TournamentActionAccordion() {
         <Accordion>
             <AccordionSummary>
                 <Avatar color="danger">
-                    <AccessibilityNewRoundedIcon />
+                    <PlayArrowRoundedIcon />
                 </Avatar>
                 <ListItemContent>
                     <Typography level="title-md">Tournament Actions</Typography>
