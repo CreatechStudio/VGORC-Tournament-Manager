@@ -105,14 +105,17 @@ export function toLocation(hash: string, params: {[Keys: string]: any} | string 
     }
 }
 
-export function toLogin() {
+function generateReturnUrlString() {
     const url: ReturnUrl = {
         params: window.location.search,
         hash: window.location.hash
     }
 
-    const params = {};
-    params[RETURN_URL_KEY] = Base64.encode(JSON.stringify(url));
+    return Base64.encode(JSON.stringify(url));
+}
+
+export function toLogin() {
+    params[RETURN_URL_KEY] = generateReturnUrlString();
     toLocation("login", params);
 }
 
