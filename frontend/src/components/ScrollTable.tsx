@@ -1,6 +1,6 @@
 // @ts-nocheck
 
-import {ReactNode, useEffect, useRef} from "react";
+import {ReactNode, useEffect, useRef, useState} from "react";
 import "./ScrollTable.css";
 import {RANK_TABLE_SCROLL_SPEED} from "../constants.ts";
 
@@ -17,26 +17,11 @@ export default function ScrollTable({children, onRefresh} : {
             const duration = height / RANK_TABLE_SCROLL_SPEED;
             tableRef1.current.style.setProperty("--scroll-period", `${duration}ms`);
             tableRef2.current.style.setProperty("--scroll-period", `${duration}ms`);
+            setTimeout(() => {
+                onRefresh();
+            }, duration);
         }
     }, [children]);
-
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.isIntersecting) {
-                    onRefresh();
-                }
-            },
-            {
-                root: null,
-                rootMargin: "0px",
-                threshold: 1,
-            }
-        );
-        if (tableRef2.current) {
-            observer.observe(tableRef2.current);
-        }
-    }, []);
 
     return (
         <div className="scroll-table">
