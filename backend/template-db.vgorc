@@ -12,7 +12,10 @@
     }
   ],
   "settings": {
-    "playerDuration": 60,
+    "adminData": {
+      "playerDuration": 60,
+      "eliminationAllianceCount": 5
+    },
     "division": [
       {
         "divisionName": "Division A",
@@ -39,8 +42,7 @@
           "Field 3"
         ]
       }
-    ],
-    "eliminationAllianceCount": 10
+    ]
   },
   "teams": [
     {

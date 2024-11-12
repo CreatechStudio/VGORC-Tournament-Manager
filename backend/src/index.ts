@@ -4,6 +4,7 @@ import {Elysia, t} from 'elysia';
 import {swagger} from '@elysiajs/swagger';
 import {cors} from "@elysiajs/cors";
 import {logger} from '@bogeychan/elysia-logger';
+import {adminGroup} from "./Groups/Admin";
 import {divisionGroup} from './Groups/Division';
 import {fieldSetGroup} from './Groups/FieldSet';
 import {matchGroup} from './Groups/Match';
@@ -119,6 +120,7 @@ new Elysia()
             prefix: t.String()
         })
     })
+    .use(adminGroup)
     .use(divisionGroup)
     .use(fieldSetGroup)
     .use(matchGroup)

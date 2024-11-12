@@ -5,16 +5,16 @@ import {SkillWithTeam} from "./Skill";
 import {TeamObject} from "./Team";
 import {AuthObject} from "./Auth";
 import {FieldSetObject} from "./FieldSet";
+import {AdminObject} from "./Admin";
 
 export interface Data {
     tournamentName: string,
     locked: boolean,
     auth: AuthObject[],
     settings: {
-        playerDuration: number,
+        adminData: AdminObject,
         division: DivisionObject[],
         fieldSets: FieldSetObject[],
-        eliminationAllianceCount: number
     },
     teams: TeamObject[],
     periods: PeriodObject[],
@@ -27,10 +27,9 @@ export const DEFAULT_DATA: Data = {
     locked: false,
     auth: [],
     settings: {
-        playerDuration: 60,
+        adminData: {playerDuration: 0, eliminationAllianceCount: 0},
         division: [],
         fieldSets: [],
-        eliminationAllianceCount: 0,
     },
     teams: [],
     periods: [],
