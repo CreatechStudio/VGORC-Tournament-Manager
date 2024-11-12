@@ -245,7 +245,7 @@ export class Schedule {
             }
             let allQMatches = this.dataMatchWithDivision[divisionName.indexOf(division)].matches.filter(match => match.matchType === "Qualification");
             let matchNumber = allQMatches[allQMatches.length-1].matchNumber + 1;
-            let teams = this._getLeadingTeamInDivision(division, this.db.getData().settings.eliminationAllianceCount * 2);
+            let teams = this._getLeadingTeamInDivision(division, this.db.getData().settings.adminData.eliminationAllianceCount * 2);
             let fields = this._getAllFieldsInDivision(division);
             for (let i = 0; i < teams.length; i += 2) {
                 let match: MatchObject = {

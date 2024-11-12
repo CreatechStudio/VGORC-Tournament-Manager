@@ -15,7 +15,7 @@ let timers: {[key: string]: Time | undefined} = {}
 
 export function getMatchDuration(){
     const db = new Utils();
-    return  db.getData().settings.playerDuration;
+    return  db.getData().settings.adminData.playerDuration;
 }
 
 export function getTime(key: string) {
