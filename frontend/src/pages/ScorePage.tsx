@@ -101,7 +101,9 @@ function ChooseMatchPage({
                                 toLocation('score', params);
                             }}
                         >
-                            {m.matchType} {m.matchNumber}
+                            {m.matchType} {m.matchNumber} {
+                                m.hasScore ? "✅" : "❌"
+                            }
                         </Button>
                     </ListItem>
                 ))
