@@ -50,7 +50,18 @@ export default function BasicAccordion({
         const newData: AdminObject = JSON.parse(JSON.stringify(data));
         // @ts-ignore
         newData[k] = value;
+        console.log(newData);
         setData(newData);
+    }
+
+    function parseIntegerResult(data: string, oldValue: number) {
+        const d = data.trim();
+        const value = parseInt(d);
+        if (value === 0 && d === "0") {
+            return 0;
+        } else {
+            return value || oldValue;
+        }
     }
 
     return (
@@ -89,8 +100,9 @@ export default function BasicAccordion({
                             <Input
                                 variant="soft"
                                 value={data.playerDuration}
-                                type="number"
-                                onChange={(e) => handleChangeData("playerDuration", +e.target.value)}
+                                onChange={(e) =>
+                                    handleChangeData("playerDuration", parseIntegerResult(e.target.value, data.playerDuration))
+                                }
                                 sx={{flexGrow: 1}}
                                 disabled={disabled}
                             />
@@ -109,8 +121,9 @@ export default function BasicAccordion({
                             <Input
                                 variant="soft"
                                 value={data.eliminationAllianceCount}
-                                type="number"
-                                onChange={(e) => handleChangeData("eliminationAllianceCount", +e.target.value)}
+                                onChange={(e) =>
+                                    handleChangeData("eliminationAllianceCount", parseIntegerResult(e.target.value, data.eliminationAllianceCount))
+                                }
                                 sx={{flexGrow: 1}}
                                 disabled={disabled}
                             />
