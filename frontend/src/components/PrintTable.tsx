@@ -69,6 +69,7 @@ export default function PrintTable({
                         </Button>
                         <Table
                             ref={tableRef}
+                            stripe="odd"
                         >
                             <thead>
                             <tr>
