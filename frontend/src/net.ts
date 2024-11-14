@@ -100,7 +100,7 @@ export async function postReq(url: string, data = {}) {
 }
 
 export async function deleteReq(url: string) {
-    const k = getTempKey(url, data);
+    const k = getTempKey(url);
     const d = getTempData(k);
     if (d !== undefined) return d;
 
