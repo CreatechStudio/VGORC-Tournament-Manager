@@ -2,8 +2,6 @@ import {Elysia, t} from "elysia";
 import {getMatchDuration, pauseTimer, repeatGetTime, startTimer, stopTimer} from "../runtime/Timer";
 import {TimerAction} from "../../../common/Timer";
 
-let MATCH_DURATION = getMatchDuration()
-
 export const timerGroup = new Elysia()
     .group('/timer', (app) => app
         .ws('/match', {
@@ -20,6 +18,7 @@ export const timerGroup = new Elysia()
                             // 如果没有挂起，才需要创建计时器
                             startTimer(fieldName);
                         }
+                        let MATCH_DURATION = getMatchDuration()
                         repeatGetTime(MATCH_DURATION, fieldName, (data) => {
                             ws.send(data);
                         }, holding);
@@ -33,7 +32,7 @@ export const timerGroup = new Elysia()
                 }
             },
             open(ws) {
-                // console.log('open');
+                let MATCH_DURATION = getMatchDuration()
                 ws.send({
                     time: MATCH_DURATION,
                     isTotal: true
