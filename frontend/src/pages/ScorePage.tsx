@@ -211,7 +211,7 @@ function SetScorePage({
                         display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'
                     }}>
                         <Typography level="h2">
-                            Score - {current?.matchType} {current?.matchNumber}
+                            Score - {current?.matchType} {current?.matchNumber} {current?.hasScore ? " ✅" : " ❌"}
                         </Typography>
                         <ButtonGroup size="lg">
                             <IconButton onClick={() => handleLast()}>
@@ -231,6 +231,9 @@ function SetScorePage({
                     </Box>
                 )
             }
+            <Typography level="h3">
+                {current?.matchField} - {current?.matchTeam.join(' & ')}
+            </Typography>
             <Box sx={{height: '100%', width: '100%'}}>
                 <Grid
                     container

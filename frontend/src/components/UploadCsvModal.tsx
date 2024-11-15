@@ -209,7 +209,7 @@ export default function UploadCsvModal({
                     justifyContent: 'space-between', alignItems: 'center', gap: PAD2
                 }}>
                     <Typography>
-                        {header.join(',')}
+                        CSV Header: {header.join(',')}
                     </Typography>
                     <Uploader
                         solveResult={solveResult}

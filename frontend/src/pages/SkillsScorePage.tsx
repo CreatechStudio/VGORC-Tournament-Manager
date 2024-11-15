@@ -178,7 +178,7 @@ function SetScorePage({
                     displayMode ? <></> :
                     <>
                         <Typography level="h2">
-                            Score - {teamNumber} {skillType}
+                            Score - {teamNumber}: {skillType === SkillType.autoSkill ? "Autonomous" : "Drivers"}
                         </Typography>
                         <ButtonGroup size="lg">
                             <MenuDrawer/>

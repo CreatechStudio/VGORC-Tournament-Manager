@@ -107,13 +107,17 @@ export default function Timer({
             setIsConnected(true);
         });
         ws.addEventListener(WebsocketEvent.open, (instance) => {
-            toast.success("Websocket Connected Successfully", {id: "wsconnect"});
-            setIsConnected(true);
-            instance.send(JSON.stringify({
-                fieldName: matchField,
-                action: TimerAction.start,
-                holding: !start
-            }));
+            if (matchField) {
+                toast.success("Websocket Connected Successfully", {id: "wsconnect"});
+                setIsConnected(true);
+                instance.send(JSON.stringify({
+                    fieldName: matchField,
+                    action: TimerAction.start,
+                    holding: !start
+                }));
+            } else {
+                toast.error("No field name provided", {id: "no-timer-field"});
+            }
         });
         return ws;
     }

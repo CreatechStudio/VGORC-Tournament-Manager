@@ -87,7 +87,7 @@ export default function TournamentTable<T extends Record<keyof T, string | strin
 
     const [localArr, setLocalArr] = useState<T[]>(arr || []);
     const [openModal, setOpenModal] = useState(false);
-    const [collaped, setCollaped] = useState(true);
+    const [collapsed, setCollapsed] = useState(true);
 
     useEffect(() => {
         setLocalArr(arr);
@@ -228,9 +228,9 @@ export default function TournamentTable<T extends Record<keyof T, string | strin
     return (
         <Sheet sx={{p: PAD / 2}}>
             <Box sx={{display: 'flex', flexDirection: 'row', alignItems: 'center', gap: PAD}}>
-                <IconButton onClick={() => setCollaped(!collaped)}>
+                <IconButton onClick={() => setCollapsed(!collapsed)}>
                     {
-                        collaped ? <KeyboardArrowDownIcon/> : <KeyboardArrowUpIcon/>
+                        collapsed ? <KeyboardArrowDownIcon/> : <KeyboardArrowUpIcon/>
                     }
                 </IconButton>
                 <Typography level="title-lg">
@@ -238,7 +238,7 @@ export default function TournamentTable<T extends Record<keyof T, string | strin
                 </Typography>
             </Box>
             {
-                collaped ? <></> : (
+                collapsed ? <></> : (
                     <Table
                         sx={{
                             '& tr > :last-child': { textAlign: 'right' }
