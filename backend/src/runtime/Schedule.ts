@@ -58,7 +58,7 @@ export class Schedule {
         const periods = this.db.getData().periods;
         const period = periods.find(p => p.periodNumber === periodNumber);
         if (!period) {
-            throw new Error(`Period ${periodNumber} not found`);
+            throw `Period ${periodNumber} not found`;
         }
         const periodStartTime = new Date(period.periodStartTime);
         const periodEndTime = new Date(period.periodEndTime);
@@ -77,41 +77,73 @@ export class Schedule {
         return matchCount;
     }
 
-    _pairTeammatesInDivision(divisionName: string): string[][] {
+    _shuffleTeams(divisionName: string) {
         let allTeams = this._getAllTeamsInDivision(divisionName);
-        let matchCountInDivision = this._calcMatchCountInDivision();
-
-        // Shuffle the teams
         for (let i = allTeams.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [allTeams[i], allTeams[j]] = [allTeams[j], allTeams[i]];
         }
+        return allTeams;
+    }
+
+    _pairTeammatesInDivision(divisionName: string): string[][] {
+        let allTeams = this._getAllTeamsInDivision(divisionName);
+        let matchCountInDivision = this._calcMatchCountInDivision();
+        let isTeamCountOdd = allTeams.length % 2 !== 0;
 
         // Create an array to hold the matches
-        let teams: string[][] = Array.from({ length: matchCountInDivision }, () => []);
+        let teams: string[][] = [];
+        let count: {[Keys: string]: number} = {};
 
-        // Distribute teams into matches ensuring each match has two different teams
-        let teamIndex = 0;
-        for (let i = 0; i < matchCountInDivision; i++) {
-            teams[i] = [allTeams[teamIndex], allTeams[(teamIndex + 1) % allTeams.length]];
-            teamIndex = (teamIndex + 2) % allTeams.length;
+        while (teams.length < matchCountInDivision) {
+            allTeams = this._shuffleTeams(divisionName);
+            if (isTeamCountOdd) {
+                allTeams.push(...allTeams);
+            }
+            for (let i = 0; i < allTeams.length - 1; i+=2) {
+                if (count[allTeams[i]]) {
+                    count[allTeams[i]] += 1;
+                } else {
+                    count[allTeams[i]] = 1;
+                }
+                if (count[allTeams[i+1]]) {
+                    count[allTeams[i+1]] += 1;
+                } else {
+                    count[allTeams[i+1]] = 1;
+                }
+                teams.push([allTeams[i], allTeams[i + 1]]);
+            }
         }
 
-        // Shuffle the teams
-        teams.forEach(match => {
-            const j = Math.floor(Math.random() * teams.length);
-            [match[1], teams[j][1]] = [teams[j][1], match[1]];
-        });
-
-        // Ensure no duplicate teams in the same match
-        for (let i = 0; i < teams.length; i++) {
-            if (teams[i][0] === teams[i][1]) {
-                for (let j = 0; j < teams.length; j++) {
-                    if (teams[j][0] !== teams[i][0] && teams[j][1] !== teams[i][0]) {
-                        [teams[i][1], teams[j][1]] = [teams[j][1], teams[i][1]];
+        while (1) {
+            const values = Object.values(count);
+            const c = new Set(values);
+            if (teams.length <= matchCountInDivision) {
+                if (c.size === 1) {
+                    break;
+                }
+                if (isTeamCountOdd) {
+                    const data: {[Keys: number]: number} = {};
+                    values.forEach(v => {
+                        if (data[v]) {
+                            data[v] += 1;
+                        } else {
+                            data[v] = 1;
+                        }
+                    });
+                    const largerOneKey = Math.max(...c);
+                    if (data[largerOneKey] === 1 && c.size === 2) {
                         break;
                     }
                 }
+            }
+            const last = teams.pop();
+            if (last) {
+                last.forEach(i => {
+                    count[i] -= 1;
+                });
+            } else {
+                break;
             }
         }
 
@@ -171,7 +203,7 @@ export class Schedule {
 
     addQualification() {
         if (!this._ensureMatchScheduleIsEmpty()) {
-            throw new Error("Match schedule is not empty");
+            throw "Match schedule is not empty";
         }
         const divisionName = this._getAllMatchDivision()
         const periodNumber = this._getAllPeriods();
@@ -203,10 +235,9 @@ export class Schedule {
         divisionName.forEach((division, divisionIndex) => {
             let matchNumber = 1;
             periodNumber.forEach(period => {
-                let totalMatchCountInPeriod = this._calcMatchCountInPeriod(period);
                 let teams = this._pairTeammatesInDivision(division);
                 let fields = this._getAllFieldsInDivision(division);
-                for (let i = 0; i < totalMatchCountInPeriod; i++) {
+                for (let i = 0; i < teams.length; i++) {
                     let match: MatchObject = {
                         matchNumber: matchNumber++,
                         matchType: "Qualification",
@@ -265,6 +296,7 @@ export class Schedule {
         this.dataMatchWithDivision.forEach((matches, index) => {
             matches.matches = matches.matches.concat(allMatches[index]);
         })
+
         this._update();
     }
 
