@@ -20,7 +20,7 @@ export class Match {
             }
         });
         if (!foundMatch) {
-            throw new Error(`Match with number ${matchNumber} not found in division ${decodedDivisionName}`);
+            throw `Match with number ${matchNumber} not found in division ${decodedDivisionName}`;
         }
         return foundMatch;
     }

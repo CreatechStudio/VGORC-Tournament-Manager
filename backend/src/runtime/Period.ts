@@ -64,16 +64,16 @@ export class Period {
         for (const division of divisions) {
             const divisionName = division.divisionName;
             if (this._hasMatchesInPeriod(periodNumber, divisionName)) {
-                throw new Error(`Division ${divisionName} already has matches in period ${periodNumber}`);
+                throw `Division ${divisionName} already has matches in period ${periodNumber}`;
             }
         }
 
         if (this._hasPeriodTimeOverlap(periodNumber, periodStartTime, periodEndTime)) {
-            throw new Error(`Period ${periodNumber} has time overlap with other periods`);
+            throw `Period ${periodNumber} has time overlap with other periods`;
         }
 
         if (periodMatchDuration < 1) {
-            throw new Error(`Period match duration must be greater than 0`);
+            throw "Period match duration must be greater than 0";
         }
 
         const newPeriod = {
