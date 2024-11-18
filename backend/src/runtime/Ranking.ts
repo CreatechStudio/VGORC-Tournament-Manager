@@ -81,7 +81,7 @@ export class Ranking {
         });
 
         if (validMatchesCount === 0) return 0;
-        return Math.round((totalScore / validMatchesCount) * 10) / 10;
+        return Math.round((totalScore / validMatchesCount) * 100) / 100;
     }
 
     getQualRanking(divisionName: string) {

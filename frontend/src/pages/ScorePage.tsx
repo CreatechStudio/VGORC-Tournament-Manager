@@ -232,7 +232,7 @@ function SetScorePage({
                 )
             }
             <Typography level="h3">
-                {current?.matchField} - {current?.matchTeam.join(' & ')}
+                {displayMode ? "" : `${current?.matchField} - ${current?.matchTeam.join(' & ')}`}
             </Typography>
             <Box sx={{height: '100%', width: '100%'}}>
                 <Grid
@@ -342,8 +342,8 @@ export default function ScorePage() {
                         pl: PAD, pr: PAD, pb: PAD,
                         display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'
                     }}>
-                        <Typography level="title-lg">
-                            Match
+                        <Typography level="h2">
+                            {fieldName ? "Match - {fieldName}" : "Match"}
                         </Typography>
                         <ButtonGroup>
                             <MenuDrawer/>
