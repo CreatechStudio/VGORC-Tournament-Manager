@@ -6,6 +6,7 @@ import {cors} from "@elysiajs/cors";
 import {logger} from '@bogeychan/elysia-logger';
 import {adminGroup} from "./Groups/Admin";
 import {divisionGroup} from './Groups/Division';
+import {displayGroup} from "./Groups/Display";
 import {fieldSetGroup} from './Groups/FieldSet';
 import {matchGroup} from './Groups/Match';
 import {periodGroup} from "./Groups/Period";
@@ -58,7 +59,7 @@ new Elysia()
     }))
     .use(logger({
         stream: process.stdout,
-        // level: "error",
+        level: "error",
     }))
     .use(
         jwt({
@@ -121,6 +122,7 @@ new Elysia()
         })
     })
     .use(adminGroup)
+    .use(displayGroup)
     .use(divisionGroup)
     .use(fieldSetGroup)
     .use(matchGroup)

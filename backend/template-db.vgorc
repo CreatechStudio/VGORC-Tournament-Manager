@@ -42,6 +42,18 @@
           "Field 3"
         ]
       }
+    ],
+    "display": [
+      {
+        "displaySerial": "ABCD",
+        "displayPath": "fieldName=1#score",
+        "displayEnabled": true
+      },
+      {
+        "displaySerial": "1234",
+        "displayPath": "divisionName=Division%20A#qrank",
+        "displayEnabled": true
+      }
     ]
   },
   "teams": [

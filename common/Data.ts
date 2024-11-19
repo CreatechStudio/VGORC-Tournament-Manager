@@ -6,6 +6,7 @@ import {TeamObject} from "./Team";
 import {AuthObject} from "./Auth";
 import {FieldSetObject} from "./FieldSet";
 import {AdminObject} from "./Admin";
+import {DisplayObject} from "./Display";
 
 export interface Data {
     tournamentName: string,
@@ -15,6 +16,7 @@ export interface Data {
         adminData: AdminObject,
         division: DivisionObject[],
         fieldSets: FieldSetObject[],
+        display: DisplayObject[]
     },
     teams: TeamObject[],
     periods: PeriodObject[],
@@ -30,6 +32,7 @@ export const DEFAULT_DATA: Data = {
         adminData: {playerDuration: 0, eliminationAllianceCount: 0},
         division: [],
         fieldSets: [],
+        display: []
     },
     teams: [],
     periods: [],
