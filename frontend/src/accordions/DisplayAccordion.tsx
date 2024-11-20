@@ -2,7 +2,7 @@ import {
     Accordion,
     AccordionDetails,
     AccordionSummary,
-    Avatar, IconButton, Input,
+    Avatar, Button, IconButton, Input,
     ListItemContent, Switch,
     Table,
     Typography
@@ -13,6 +13,7 @@ import DisplaySettingsIcon from '@mui/icons-material/DisplaySettings';
 import {DisplayObject} from "../../../common/Display.ts";
 import SaveIcon from '@mui/icons-material/Save';
 import toast from "react-hot-toast";
+import {copyToClipboard, PAD2} from "../constants.ts";
 
 export default function DisplayAccordion() {
     const [displayData, setDisplayData] = useState<DisplayObject[]>([]);
@@ -71,19 +72,22 @@ export default function DisplayAccordion() {
                         displayData.map((d, i) => (
                             <tr key={i}>
                                 <td>
-                                    <Input
-                                        value={d.displaySerial}
-                                        onChange={(e) => {
-                                            handleChange(i, "displaySerial", e.target.value || d.displaySerial);
-                                        }}
-                                    />
+                                    <Button
+                                        variant="outlined"
+                                        color="neutral"
+                                        sx={{width: '100%'}}
+                                        onClick={() => copyToClipboard(d.displaySerial)}
+                                    >
+                                        {d.displaySerial}
+                                    </Button>
                                 </td>
                                 <td>
                                     <Input
                                         value={d.displayPath}
                                         onChange={(e) => {
-                                            handleChange(i, "displayPath", e.target.value || d.displaySerial);
+                                            handleChange(i, "displayPath", e.target.value);
                                         }}
+                                        sx={{mr: `${PAD2}%`}}
                                     />
                                 </td>
                                 <td>

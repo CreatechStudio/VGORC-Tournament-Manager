@@ -3,6 +3,7 @@ import {TeamObject} from "../../common/Team.ts";
 import {FieldSetObject} from "../../common/FieldSet.ts";
 import {PeriodObject} from "../../common/Period.ts";
 import {getReq} from "./net.ts";
+import toast from "react-hot-toast";
 
 // @ts-ignore
 export const env = await getReq('/env/TM');
@@ -74,4 +75,12 @@ export const RETURN_URL_KEY = "returnUrl";
 
 export function generateSocketUrl(endpoint: string) {
     return `/socket/${endpoint}`;
+}
+
+export function copyToClipboard(text: string) {
+    navigator.clipboard.writeText(text).then(() => {
+        toast.success("Copied to clipboard");
+    }).catch(() => {
+        toast.error("Failed to copy");
+    });
 }
