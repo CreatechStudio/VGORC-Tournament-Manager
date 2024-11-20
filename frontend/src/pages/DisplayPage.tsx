@@ -1,8 +1,7 @@
 import {useEffect, useState} from "react";
 import {getReq} from "../net.ts";
 import {DisplayObject} from "../../../common/Display.ts";
-
-const SERIAL_NUMBER_KEY = "serialNumber"
+import {SERIAL_NUMBER_KEY} from "../constants.ts";
 
 export default function DisplayPage() {
     const urlParam = new URLSearchParams(window.location.search);
@@ -55,7 +54,7 @@ export default function DisplayPage() {
                 margin: 0,
                 overflow: 'hidden'
             }}
-            src={`${host}?displayMode=1&${getDisplayPath()}`}
+            src={`${host}?serialNumber=${serialNumber}&displayMode=1&${getDisplayPath()}`}
         />
     );
 }

@@ -1,8 +1,12 @@
 import {Box, ButtonGroup, Typography} from "@mui/joy";
-import {PAD} from "../constants.ts";
+import {PAD, SERIAL_NUMBER_KEY} from "../constants.ts";
 import MenuDrawer from "../components/MenuDrawer.tsx";
 
 export default function DashPage() {
+    const urlParam = new URLSearchParams(window.location.search);
+    const serialNumber = urlParam.get(SERIAL_NUMBER_KEY) || "";
+    console.log(serialNumber)
+
     return (
         <Box sx={{height: '90vh', display: 'flex', flexDirection: 'column', gap: PAD, overflow: 'hidden', width: '100%'}}>
             <Box sx={{
@@ -18,8 +22,11 @@ export default function DashPage() {
             </Box>
             <Box sx={{flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center'}}>
                 <img src="/TM.jpg" alt="VEX GO Logo" style={{maxWidth: '100%', height: 'auto', maxHeight: '30%'}} />
-                <Typography level="h3" sx={{mt: 2}}>
+                <Typography level="h3" sx={{mt: PAD}}>
                     VGORC Tournament Manager
+                </Typography>
+                <Typography level="h4" sx={{mt: PAD}}>
+                    {serialNumber !== "" ? `Display Serial Number: ${serialNumber}` : ""}
                 </Typography>
             </Box>
         </Box>
