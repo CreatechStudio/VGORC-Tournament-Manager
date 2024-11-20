@@ -12,6 +12,7 @@ import AdminPage from "./pages/AdminPage.tsx";
 import LoginIcon from '@mui/icons-material/Login';
 import LoginPage from "./pages/LoginPage.tsx";
 import SkillsScorePage from "./pages/SkillsScorePage.tsx";
+import DisplayPage from "./pages/DisplayPage.tsx";
 
 export const routes = [
     {
@@ -66,5 +67,10 @@ export const routes = [
         name: "Admin",
         icon: <AdminPanelSettingsIcon/>,
         element: AdminPage
+    },
+    {
+        path: 'display',
+        name: "Display",
+        element: DisplayPage
     }
 ];
