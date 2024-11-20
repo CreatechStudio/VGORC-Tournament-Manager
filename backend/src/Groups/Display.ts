@@ -10,7 +10,7 @@ export const displayGroup = new Elysia()
         .get('', ({ display }) => display.get())
         .get(':displaySerial', ({ params: { displaySerial }, display }) => {
             display.new({ displaySerial, displayPath: "", displayEnabled: false });
-            return display.get();
+            return display.getSerial(displaySerial);
         },{
             params: t.Object({
                 displaySerial: t.String()

@@ -31,6 +31,14 @@ export class Display {
         return this.data;
     }
 
+    getSerial(serial: string) {
+        let index = this._indexOf(serial);
+        if (index === -1) {
+            throw "Display serial not found";
+        }
+        return this.data[index];
+    }
+
     new(obj: DisplayObject) {
         let allDisplay: DisplayObject[] = this.get();
 
