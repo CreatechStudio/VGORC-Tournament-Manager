@@ -343,7 +343,7 @@ export default function ScorePage() {
                         display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'
                     }}>
                         <Typography level="h2">
-                            {fieldName ? "Match - {fieldName}" : "Match"}
+                            {fieldName ? `Match - ${fieldName}` : "Match"}
                         </Typography>
                         <ButtonGroup>
                             <MenuDrawer/>
