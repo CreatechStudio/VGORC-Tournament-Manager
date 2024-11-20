@@ -13,6 +13,7 @@ import LoginIcon from '@mui/icons-material/Login';
 import LoginPage from "./pages/LoginPage.tsx";
 import SkillsScorePage from "./pages/SkillsScorePage.tsx";
 import DisplayPage from "./pages/DisplayPage.tsx";
+import ConnectedTvIcon from '@mui/icons-material/ConnectedTv';
 
 export const routes = [
     {
@@ -71,6 +72,7 @@ export const routes = [
     {
         path: 'display',
         name: "Display",
+        icon: <ConnectedTvIcon/>,
         element: DisplayPage
     }
 ];

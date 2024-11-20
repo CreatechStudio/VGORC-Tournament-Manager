@@ -22,6 +22,7 @@ import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import toast from "react-hot-toast";
 import TournamentActionAccordion from "../accordions/TournamentActionAccordion.tsx";
+import DisplayAccordion from "../accordions/DisplayAccordion.tsx";
 
 export default function AdminPage() {
     const [disabled, setDisabled] = useState(true);
@@ -124,6 +125,7 @@ export default function AdminPage() {
                     setFieldSets={setFieldSets}
                 />
                 <TournamentActionAccordion/>
+                <DisplayAccordion/>
             </AccordionGroup>
         </Box>
     );
