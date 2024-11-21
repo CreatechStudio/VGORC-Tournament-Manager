@@ -6,7 +6,11 @@ import {getReq, postReq} from "../net.ts";
 import {DisplayObject} from "../../../common/Display.ts";
 import toast from "react-hot-toast";
 
-export default function SendToDeviceModal() {
+export default function SendToDeviceModal({
+    sendParam
+} : {
+    sendParam?: string;
+}) {
     const [open, setOpen] = useState(false);
     const [serialNumbers, setSerialNumbers] = useState<string[]>([]);
     const [serialNumber, setSerialNumber] = useState<string>("");
@@ -26,9 +30,17 @@ export default function SendToDeviceModal() {
     }
 
     function handleSend() {
+        let localSearch = window.location.search;
+        if (sendParam !== undefined) {
+            if (sendParam.startsWith('?') || sendParam.startsWith('&')) {
+                localSearch = sendParam.substring(1);
+            } else {
+                localSearch = sendParam;
+            }
+        }
         const data: DisplayObject = {
             displaySerial: serialNumber,
-            displayPath: `${window.location.search}${window.location.hash}`,
+            displayPath: `${localSearch}${window.location.hash}`,
             displayEnabled: true
         }
         postReq('/display/update', {

@@ -222,7 +222,7 @@ function SetScorePage({
                             <IconButton onClick={() => handleChooseMatch()}>
                                 <ListAltOutlinedIcon/>
                             </IconButton>
-                            <MenuDrawer/>
+                            <MenuDrawer sendParam={`${FIELD_NAME_KEY}=${fieldName || current?.matchField}`}/>
                             <IconButton onClick={() => logout()}>
                                 <LogoutIcon/>
                             </IconButton>

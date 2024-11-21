@@ -15,7 +15,11 @@ import {routes} from "../route.tsx";
 import {toLocation} from "../net.ts";
 import SendToDeviceModal from "./SendToDeviceModal.tsx";
 
-export default function MenuDrawer() {
+export default function MenuDrawer({
+    sendParam
+} : {
+    sendParam?: string
+}) {
     const [open, setOpen] = useState(false);
 
     return (
@@ -23,7 +27,7 @@ export default function MenuDrawer() {
             <IconButton onClick={() => setOpen(true)}>
                 <MenuIcon/>
             </IconButton>
-            <SendToDeviceModal/>
+            <SendToDeviceModal sendParam={sendParam}/>
 
             <Drawer
                 size="md"

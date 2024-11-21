@@ -116,6 +116,7 @@ export default function TournamentTable<T extends Record<keyof T, string | strin
                     onChange={(_e, v) => {
                         setValue(index, objKey, v);
                     }}
+                    disabled={disabled}
                     variant="soft"
                 />
             )
@@ -161,7 +162,7 @@ export default function TournamentTable<T extends Record<keyof T, string | strin
             );
         } else {
             return (
-                <ChipInput chips={value} setChips={(chips) => {
+                <ChipInput chips={value || []} setChips={(chips) => {
                     setValue(index, objKey, chips);
                 }} disabled={disabled}/>
             );

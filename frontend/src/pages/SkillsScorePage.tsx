@@ -181,7 +181,7 @@ function SetScorePage({
                             Score - {teamNumber}: {skillType === SkillType.autoSkill ? "Autonomous" : "Drivers"}
                         </Typography>
                         <ButtonGroup size="lg">
-                            <MenuDrawer/>
+                            <MenuDrawer sendParam={`${FIELD_NAME_KEY}=${field}`}/>
                             <IconButton onClick={() => logout()}>
                                 <LogoutIcon/>
                             </IconButton>
