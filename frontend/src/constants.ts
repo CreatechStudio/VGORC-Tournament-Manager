@@ -65,6 +65,7 @@ logos.forEach((logo: string) => {
     }
 });
 
+export const DIVISION_NAME_KEY = "divisionName";
 export const SERIAL_NUMBER_KEY = "serialNumber";
 
 export const RANK_TABLE_SCROLL_SPEED = parseFloat(env.TM_RANK_TABLE_SCROLL_SPEED) || 0.03;

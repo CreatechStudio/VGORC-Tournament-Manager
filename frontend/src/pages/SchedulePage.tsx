@@ -1,7 +1,7 @@
 // @ts-nocheck
 
 import {Box, ButtonGroup, Sheet, Table, Typography} from "@mui/joy";
-import {PAD, PAD2, PictureObject} from "../constants.ts";
+import {DIVISION_NAME_KEY, PAD, PAD2, PictureObject} from "../constants.ts";
 import MenuDrawer from "../components/MenuDrawer.tsx";
 import {ChooseDivisionPage} from "./ScorePage.tsx";
 import {useEffect, useState} from "react";
@@ -12,7 +12,6 @@ import {getReq} from "../net.ts";
 import ScrollTable from "../components/ScrollTable.tsx";
 import PrintTable from "../components/PrintTable.tsx";
 
-const DIVISION_NAME_KEY = "division";
 const HEAD = [
     "Match Number",
     "Team",

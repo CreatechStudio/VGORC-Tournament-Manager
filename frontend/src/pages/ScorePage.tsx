@@ -10,7 +10,7 @@ import {
     Stack,
     Typography
 } from "@mui/joy";
-import {PAD, PAD2} from "../constants.ts";
+import {DIVISION_NAME_KEY, PAD, PAD2} from "../constants.ts";
 import MenuDrawer from "../components/MenuDrawer.tsx";
 import {useEffect, useState} from "react";
 import {DivisionObject} from "../../../common/Division.ts";
@@ -25,8 +25,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import Timer from "../components/Timer.tsx";
 import toast from "react-hot-toast";
 
-const DIVISION_NAME_KEY = "division";
-const MATCH_NUMBER_KEY = "match";
+const MATCH_NUMBER_KEY = "matchNumber";
 const DISPLAY_MODE_KEY = "displayMode";
 const FIELD_NAME_KEY = "fieldName";
 

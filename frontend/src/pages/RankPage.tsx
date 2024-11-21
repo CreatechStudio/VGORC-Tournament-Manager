@@ -2,7 +2,14 @@
 // @ts-nocheck
 
 import {Box, ButtonGroup, Sheet, Table, Typography} from "@mui/joy";
-import {LOGO_INTERVAL_NUMBER, PAD, PAD2, PictureObject, PICTURES, RANK_TABLE_SCROLL_SPEED} from "../constants.ts";
+import {
+    DIVISION_NAME_KEY,
+    LOGO_INTERVAL_NUMBER,
+    PAD,
+    PAD2,
+    PictureObject,
+    PICTURES,
+} from "../constants.ts";
 import MenuDrawer from "../components/MenuDrawer.tsx";
 import {useEffect, useState} from "react";
 import {getReq} from "../net.ts";
@@ -21,8 +28,6 @@ interface ERankObject {
     teams: string[];
     rank: number;
 }
-
-const DIVISION_NAME_KEY = "division";
 
 const Q_HEAD  = [
     "RANK",
