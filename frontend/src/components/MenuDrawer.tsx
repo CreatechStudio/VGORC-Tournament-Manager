@@ -13,6 +13,7 @@ import {PAD1_5, PAD2, TOURNAMENT_NAME} from "../constants.ts";
 import TocIcon from '@mui/icons-material/Toc';
 import {routes} from "../route.tsx";
 import {toLocation} from "../net.ts";
+import SendToDeviceModal from "./SendToDeviceModal.tsx";
 
 export default function MenuDrawer() {
     const [open, setOpen] = useState(false);
@@ -22,6 +23,7 @@ export default function MenuDrawer() {
             <IconButton onClick={() => setOpen(true)}>
                 <MenuIcon/>
             </IconButton>
+            <SendToDeviceModal/>
 
             <Drawer
                 size="md"
