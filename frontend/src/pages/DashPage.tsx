@@ -1,7 +1,6 @@
 import {Box, ButtonGroup, Typography} from "@mui/joy";
 import {PAD, SERIAL_NUMBER_KEY} from "../constants.ts";
 import MenuDrawer from "../components/MenuDrawer.tsx";
-import {useEffect} from "react";
 
 export default function DashPage() {
     const urlParam = new URLSearchParams(window.location.search);
