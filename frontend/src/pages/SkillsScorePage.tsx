@@ -33,6 +33,7 @@ function ChooseTeam() {
     const [teams, setTeams] = useState<TeamObject[]>([]);
 
     useEffect(() => {
+        document.title = "VGORC TM | Select Team";
         getReq('/team').then((res) => {
             setTeams(res);
         }).catch();
@@ -77,6 +78,10 @@ function ChooseSkillType({
         toLocation('sscore', params);
     }
 
+    useEffect(() => {
+        document.title = `VGORC TM | Skills Score - ${teamNumber}`;
+    }, []);
+
     return (
         <Stack gap={PAD2}>
             <Button
@@ -111,6 +116,7 @@ function SetScorePage({
     const [fields, setFields] = useState([]);
 
     useEffect(() => {
+        document.title = `VGORC TM | Skills Score - ${teamNumber}`;
         if (!displayMode) {
             getReq(`/skill/${teamNumber}`).then((res) => {
                 setScores(res[skillType]);

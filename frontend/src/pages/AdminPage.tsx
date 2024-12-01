@@ -32,6 +32,7 @@ export default function AdminPage() {
     const [periods, setPeriods] = useState<PeriodObject[]>([]);
 
     useEffect(() => {
+        document.title = "VGORC TM | Admin";
         getReq('/utils/database/isLocked').then((res) => {
             setDisabled(res);
         }).catch();

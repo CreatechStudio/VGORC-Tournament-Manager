@@ -28,6 +28,7 @@ export default function SchedulePage() {
     const [data, setData] = useState<any[][]>([]);
 
     useEffect(() => {
+        document.title = `VGORC TM | ${divisionName ? `Schedule ${divisionName}` : "Select Division"}`;
         if (divisionName) {
             handleRefreshSchedule();
         }

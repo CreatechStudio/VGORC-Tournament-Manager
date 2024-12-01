@@ -1,11 +1,11 @@
 import {Box, ButtonGroup, Typography} from "@mui/joy";
 import {PAD, SERIAL_NUMBER_KEY} from "../constants.ts";
 import MenuDrawer from "../components/MenuDrawer.tsx";
+import {useEffect} from "react";
 
 export default function DashPage() {
     const urlParam = new URLSearchParams(window.location.search);
     const serialNumber = urlParam.get(SERIAL_NUMBER_KEY) || "";
-    console.log(serialNumber)
 
     return (
         <Box sx={{height: '90vh', display: 'flex', flexDirection: 'column', gap: PAD, overflow: 'hidden', width: '100%'}}>

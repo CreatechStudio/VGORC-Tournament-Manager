@@ -30,6 +30,7 @@ export default function SkillsRankPage() {
     const [data, setData] = useState<any[][]>([]);
 
     useEffect(() => {
+        document.title = "VGORC TM | Skills Ranking";
         handleRefresh();
     }, []);
 

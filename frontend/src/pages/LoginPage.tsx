@@ -1,6 +1,6 @@
 import {Autocomplete, Button, Card, Divider, Input, Stack, Typography} from "@mui/joy";
 import {AuthRole} from "../../../common/Auth.ts";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {LARGE_PART, PAD, PAD2, SMALL_PART, TOURNAMENT_NAME} from "../constants.ts";
 import toast from "react-hot-toast";
 import {handleReturn, postReq} from "../net.ts";
@@ -33,6 +33,10 @@ const ROLES: RoleOption[] = [
 export default function LoginPage() {
     const [role, setRole] = useState<RoleOption | undefined>();
     const [password, setPassword] = useState<string>("");
+
+    useEffect(() => {
+        document.title = "VGORC TM | Login";
+    }, []);
 
     function handleSubmit() {
         if (!role) {

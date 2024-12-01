@@ -56,6 +56,7 @@ export function QualificationRankPage() {
     }, []);
 
     useEffect(() => {
+        document.title = `VGORC TM | ${divisionName ? `Q Ranking ${divisionName}` : "Select Division"}`;
         const newData = [];
         for (let i = 0; i < ranks.length; i ++) {
             const r = ranks[i];
@@ -184,6 +185,7 @@ export function EliminationRankPage() {
     }, []);
 
     useEffect(() => {
+        document.title = `VGORC TM | ${divisionName ? `E Ranking ${divisionName}` : "Select Division"}`;
         const newData = [];
         for (let i = 0; i < ranks.length; i ++) {
             const r = ranks[i];

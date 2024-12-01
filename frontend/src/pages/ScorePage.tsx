@@ -39,6 +39,7 @@ export function ChooseDivisionPage({
     const [divisions, setDivisions] = useState<DivisionObject[]>([]);
 
     useEffect(() => {
+        document.title = "VGORC TM | Select Division";
         getReq('/division/match').then((res) => {
             setDivisions(res);
         }).catch();
@@ -77,6 +78,7 @@ function ChooseMatchPage({
     const [matches, setMatches] = useState<MatchObject[]>([]);
 
     useEffect(() => {
+        document.title = `VGORC TM | Select Match ${divisionName}`;
         getReq(`/match/${divisionName}`).then((res) => {
             setMatches(res);
         }).catch();
@@ -134,7 +136,8 @@ function SetScorePage({
                 setMatches(res);
             }).catch();
         }
-    }, []);
+        document.title = `VGORC TM | Score ${divisionName} - ${current?.matchType[0]}${matchNumber}`;
+    }, [current]);
 
     function _indexOf(match: MatchObject | null) {
         if (match === null) {

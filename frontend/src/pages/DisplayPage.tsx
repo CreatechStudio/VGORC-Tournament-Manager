@@ -15,6 +15,7 @@ export default function DisplayPage() {
     });
 
     useEffect(() => {
+        document.title = "VGORC TM | Display";
         getData();
     }, []);
 
