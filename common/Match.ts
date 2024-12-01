@@ -7,7 +7,8 @@ export interface MatchObject {
     matchCountInPeriod: number,
     matchTeam: string[],
     hasScore: boolean,
-    matchScore: number
+    matchScore: number,
+    matchScoreHistory: number[]
 }
 
 export interface MatchWithDivision {

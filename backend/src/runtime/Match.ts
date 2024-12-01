@@ -29,6 +29,7 @@ export class Match {
         let decodedDivisionName = decodeURIComponent(divisionName);
         let currentMatch = this._locateMatch(decodedDivisionName, matchNumber);
         currentMatch.matchScore = score;
+        currentMatch.matchScoreHistory.push(score);
         currentMatch.hasScore = true;
 
         this.data.forEach(division => {
