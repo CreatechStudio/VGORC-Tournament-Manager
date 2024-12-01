@@ -84,11 +84,11 @@ export class Division {
     }
 
     get() {
-        return this.db.getData().settings.division;
+        return this.db.getData().settings.division.sort((a, b) => a.divisionName.localeCompare(b.divisionName));
     }
 
     getMatch() {
-        return this.db.getData().settings.division.filter(division => !division.isSkill);
+        return this.db.getData().settings.division.filter(division => !division.isSkill).sort((a, b) => a.divisionName.localeCompare(b.divisionName));
     }
 
     delete(divisionName: string) {
