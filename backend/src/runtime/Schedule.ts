@@ -247,7 +247,8 @@ export class Schedule {
                         matchCountInPeriod: 0,
                         matchTeam: teams[i],
                         hasScore: false,
-                        matchScore: 0
+                        matchScore: 0,
+                        matchScoreHistory: []
                     };
 
                     match.matchCountInPeriod = matchCountInPeriodWithField[match.matchField];
@@ -288,7 +289,8 @@ export class Schedule {
                     matchCountInPeriod: 0,
                     matchTeam: [teams[teams.length - i - 1], teams[teams.length - (i + 1) - 1]],
                     hasScore: false,
-                    matchScore: 0
+                    matchScore: 0,
+                    matchScoreHistory: []
                 };
                 allMatches[divisionName.indexOf(division)].push(match);
             }
