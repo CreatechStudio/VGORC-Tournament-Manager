@@ -216,7 +216,7 @@ function SetScorePage({
     }
 
     function handleViewHistory() {
-        let history = current?.matchScoreHistory || [0];
+        let history: number[] = JSON.parse(JSON.stringify(current?.matchScoreHistory || [0]));
         history.pop();
         setHistory(history);
         setHistoryModalOpen(true);
