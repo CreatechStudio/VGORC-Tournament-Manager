@@ -130,14 +130,14 @@ function SetScorePage({
     useEffect(() => {
         if (!(displayMode && fieldName)) {
             getReq(`/match/${divisionName}/${matchNumber}`).then((res) => {
+                document.title = `VGORC TM | Score ${divisionName} - ${res?.matchType[0]}${matchNumber}`;
                 setCurrent(res);
             }).catch();
             getReq(`/match/${divisionName}`).then((res) => {
                 setMatches(res);
             }).catch();
         }
-        document.title = `VGORC TM | Score ${divisionName} - ${current?.matchType[0]}${matchNumber}`;
-    }, [current]);
+    }, []);
 
     function _indexOf(match: MatchObject | null) {
         if (match === null) {
@@ -195,14 +195,22 @@ function SetScorePage({
     }
 
     function handleSave() {
-        postReq('/match/update', {
-            divisionName: divisionName,
-            matchNumber: parseInt(matchNumber),
-            score: current?.matchScore || 0
-        }).then((res) => {
-            setCurrent(res);
-            toast.success("Save successfully");
-        }).catch();
+        let success = true;
+        if (current?.hasScore) {
+            success = confirm("Make sure you want to save the edited score.");
+        }
+        if (success) {
+            postReq('/match/update', {
+                divisionName: divisionName,
+                matchNumber: parseInt(matchNumber),
+                score: current?.matchScore || 0
+            }).then((res) => {
+                setCurrent(res);
+                toast.success("Save successfully");
+            }).catch();
+        } else {
+            toast("Cancelled");
+        }
     }
 
     return (
