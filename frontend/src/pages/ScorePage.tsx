@@ -24,6 +24,7 @@ import ListAltOutlinedIcon from '@mui/icons-material/ListAltOutlined';
 import LogoutIcon from "@mui/icons-material/Logout";
 import Timer from "../components/Timer.tsx";
 import toast from "react-hot-toast";
+import {useHistoryModal} from "../components/HistoryModal.tsx";
 
 const MATCH_NUMBER_KEY = "matchNumber";
 const DISPLAY_MODE_KEY = "displayMode";
@@ -126,6 +127,7 @@ function SetScorePage({
 }) {
     const [matches, setMatches] = useState<MatchObject[]>([]);
     const [current, setCurrent] = useState<MatchObject | null>(null);
+    const [setHistoryModalOpen, setHistory, HistoryModal] = useHistoryModal();
 
     useEffect(() => {
         if (!(displayMode && fieldName)) {
@@ -211,6 +213,13 @@ function SetScorePage({
         } else {
             toast("Cancelled");
         }
+    }
+
+    function handleViewHistory() {
+        let history = current?.matchScoreHistory || [0];
+        history.pop();
+        setHistory(history);
+        setHistoryModalOpen(true);
     }
 
     return (
@@ -303,12 +312,21 @@ function SetScorePage({
             <Box>
                 {
                     displayMode ? <></> : (
-                        <Button size="lg" fullWidth onClick={() => handleSave()}>
-                            Save
-                        </Button>
+                        <Box sx={{
+                            display: 'flex', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center',
+                            width: '100%', gap: PAD2
+                        }}>
+                            <Button size="lg" fullWidth variant="outlined" onClick={() => handleViewHistory()}>
+                                View History
+                            </Button>
+                            <Button size="lg" fullWidth onClick={() => handleSave()}>
+                                Save
+                            </Button>
+                        </Box>
                     )
                 }
             </Box>
+            {HistoryModal}
         </Stack>
     );
 }
