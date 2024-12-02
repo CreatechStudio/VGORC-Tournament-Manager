@@ -114,7 +114,8 @@
             "2123A"
           ],
           "hasScore": true,
-          "matchScore": 5
+          "matchScore": 5,
+          "matchScoreHistory": [2, 7, 5]
         },
         {
           "matchNumber": 2,
@@ -128,7 +129,8 @@
             "2123A"
           ],
           "hasScore": true,
-          "matchScore": 3
+          "matchScore": 3,
+          "matchScoreHistory": [1, 9, 3]
         },
         {
           "matchNumber": 3,
@@ -142,7 +144,8 @@
             "2123A"
           ],
           "hasScore": false,
-          "matchScore": 0
+          "matchScore": 0,
+          "matchScoreHistory": []
         },
         {
           "matchNumber": 4,
@@ -156,7 +159,8 @@
             "2123A"
           ],
           "hasScore": false,
-          "matchScore": 0
+          "matchScore": 0,
+          "matchScoreHistory": []
         }
       ]
     },
@@ -175,7 +179,8 @@
             "2123B"
           ],
           "hasScore": false,
-          "matchScore": 0
+          "matchScore": 0,
+          "matchScoreHistory": []
         },
         {
           "matchNumber": 2,
@@ -189,7 +194,8 @@
             "2123B"
           ],
           "hasScore": false,
-          "matchScore": 0
+          "matchScore": 0,
+          "matchScoreHistory": []
         },
         {
           "matchNumber": 3,
@@ -203,7 +209,8 @@
             "2123B"
           ],
           "hasScore": false,
-          "matchScore": 0
+          "matchScore": 0,
+          "matchScoreHistory": []
         },
         {
           "matchNumber": 4,
@@ -217,7 +224,8 @@
             "2123B"
           ],
           "hasScore": false,
-          "matchScore": 0
+          "matchScore": 0,
+          "matchScoreHistory": []
         }
       ]
     }
