@@ -58,7 +58,7 @@ export default function TournamentAccordion({
                             defaultValue={DEFAULT_FIELD_SET}
                             getDeleteEndpoint={(obj) => `/fieldset/delete/${obj.fieldSetId}`}
                             updateEndpoint="/fieldset/update"
-                            title="Field Set"
+                            title="Concurrent Fields"
                         />
                         <TournamentTable
                             arr={divisions}
