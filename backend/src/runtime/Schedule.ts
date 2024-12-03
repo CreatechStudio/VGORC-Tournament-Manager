@@ -205,7 +205,7 @@ export class Schedule {
         if (!this._ensureMatchScheduleIsEmpty()) {
             throw "Match schedule is not empty";
         }
-        const divisionName = this._getAllMatchDivision()
+        const divisionName = this._getAllMatchDivision();
         const periodNumber = this._getAllPeriods();
         const fieldSets = this._getAllFieldsSets();
         this.dataMatchWithDivision = [];
@@ -223,38 +223,55 @@ export class Schedule {
         // Initialize allMatches as a multidimensional array
         let allMatches: MatchObject[][] = Array.from({ length: divisionName.length }, () => []);
 
-        const matchCountInPeriodWithField: {[Key: string]: number} = {};
-
-        fieldSets.forEach((set, index) => {
-            set.fields.forEach((field) => {
-                matchCountInPeriodWithField[field] = index + 1;
-            });
-        });
-
         // Iterate over each division and period to add matches
         divisionName.forEach((division, divisionIndex) => {
             let matchNumber = 1;
-            periodNumber.forEach(period => {
-                let teams = this._pairTeammatesInDivision(division);
+            let teams = this._pairTeammatesInDivision(division);
+            periodNumber.forEach((period, periodIndex) => {
+                // 用于记录某场比赛这个场地，这个period中的第几场
+                const matchCountInPeriodWithField: {[Key: string]: number} = {};
+                fieldSets.forEach((set, index) => {
+                    set.fields.forEach((field) => {
+                        matchCountInPeriodWithField[field] = index + 1;
+                    });
+                });
+
                 let fields = this._getAllFieldsInDivision(division);
-                for (let i = 0; i < teams.length; i++) {
+                let index = 0;
+                // 循环匹配好的每场比赛，并为他们匹配对应的场地
+                while (true) {
+                    const pair = teams.pop();
+                    if (pair === undefined) {
+                        break;
+                    }
+
                     let match: MatchObject = {
                         matchNumber: matchNumber++,
                         matchType: "Qualification",
-                        matchField: fields[i % fields.length],
-                        matchFieldSet: fieldSets[i % fieldSets.length].fieldSetId,
+                        matchField: fields[index % fields.length],
+                        matchFieldSet: fieldSets[index % fieldSets.length].fieldSetId,
                         matchPeriod: period,
                         matchCountInPeriod: 0,
-                        matchTeam: teams[i],
+                        matchTeam: pair,
                         hasScore: false,
                         matchScore: 0,
                         matchScoreHistory: []
                     };
 
+                    index += 1;
                     match.matchCountInPeriod = matchCountInPeriodWithField[match.matchField];
                     matchCountInPeriodWithField[match.matchField] += fieldSets.length;
 
                     allMatches[divisionIndex].push(match);
+
+                    // 如果下一场比赛超出了这个period预定的时间，那就直接杀掉，交给下一个period
+                    // 当然，这不能是最后一个period
+                    if (
+                        matchCountInPeriodWithField[match.matchField] > this._calcMatchCountInPeriod(period)
+                        && periodIndex + 1 < periodNumber.length
+                    ) {
+                        break;
+                    }
                 }
             });
         });
