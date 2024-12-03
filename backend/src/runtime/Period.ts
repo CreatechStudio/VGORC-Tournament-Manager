@@ -90,6 +90,8 @@ export class Period {
         } else {
             this.data[index] = newPeriod;
         }
+
+        this.data.sort((a, b) => a.periodNumber - b.periodNumber);
         this._update();
     }
 

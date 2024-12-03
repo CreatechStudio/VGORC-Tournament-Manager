@@ -40,6 +40,7 @@ export class FieldSet {
             this.data.push(aSet);
         }
 
+        this.data.sort((a, b) => a.fieldSetId - b.fieldSetId);
         this._update();
     }
 

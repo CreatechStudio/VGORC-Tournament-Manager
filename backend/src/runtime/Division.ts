@@ -80,11 +80,13 @@ export class Division {
         } else {
             this.data[index] = obj;
         }
+
+        this.data.sort((a, b) => a.divisionName.localeCompare(b.divisionName));
         this._update();
     }
 
     get() {
-        return this.db.getData().settings.division.sort((a, b) => a.divisionName.localeCompare(b.divisionName));
+        return this.db.getData().settings.division;
     }
 
     getMatch() {
