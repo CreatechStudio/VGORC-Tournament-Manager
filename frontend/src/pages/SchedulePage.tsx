@@ -85,8 +85,9 @@ export default function SchedulePage() {
         const period = getPeriod(matchObject);
         if (period) {
             let startTime = new Date(period.periodStartTime).getTime();
-            startTime += period.periodMatchDuration * 60 * 1000 * matchObject.matchCountInPeriod;
-            return new Date(startTime).toLocaleTimeString();
+            startTime += period.periodMatchDuration * 60 * 1000 * (matchObject.matchCountInPeriod - 1);
+            const options = { weekday: 'short', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'  };
+            return new Date(startTime).toLocaleDateString('en-GB', options);
         }
     }
 
