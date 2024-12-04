@@ -38,17 +38,17 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build service
+      - name: Log in to Aliyun ACR
+        run: |
+          echo "${{ secrets.ALIYUN_ACR_PASSWORD }}" | docker login --username "${{ secrets.ALIYUN_ACR_USERNAME }}" --password-stdin ${{ secrets.ALIYUN_ACR_REGISTRY }}
+
+      - name: Build and push Docker image
         uses: docker/build-push-action@v6
         with:
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: createchstudio/vgorc-tm-frontend:latest
+          tags: |
+            createchstudio/vgorc-tm-frontend:latest
+            ${{ secrets.ALIYUN_ACR_REGISTRY }}/createchstudio/vgorc-tm-frontend:latest
           context: frontend
           file: frontend/Dockerfile
-
-      - name: Push to Aliyun ACR Mirror
-        run: |
-          docker login --username="${{ secrets.ALIYUN_ACR_USERNAME }}" --password="${{ secrets.ALIYUN_ACR_PASSWORD }}" ${{ secrets.ALIYUN_ACR_REGISTRY }}
-          docker tag createchstudio/vgorc-tm-backend:${{ matrix.config.arch }} ${{ secrets.ALIYUN_ACR_REGISTRY }}/createchstudio/vgorc-tm-frontend:${{ matrix.config.arch }}
-          docker push ${{ secrets.ALIYUN_ACR_REGISTRY }}/createchstudio/vgorc-tm-frontend:${{ matrix.config.arch }}
