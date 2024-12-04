@@ -46,8 +46,9 @@ jobs:
           tags: createchstudio/vgorc-tm-frontend:latest
           context: frontend
           file: frontend/Dockerfile
+
       - name: Push to Aliyun ACR Mirror
-          run: |
-            docker login --username=${{ secrets.ALIYUN_ACR_USERNAME }} --password=${{ secrets.ALIYUN_ACR_PASSWORD }} ${{ secrets.ALIYUN_ACR_REGISTRY }}
-            docker tag createchstudio/vgorc-tm-backend:${{ matrix.config.arch }} ${{ secrets.ALIYUN_ACR_REGISTRY }}/createchstudio/vgorc-tm-backend:${{ matrix.config.arch }}
-            docker push ${{ secrets.ALIYUN_ACR_REGISTRY }}/createchstudio/vgorc-tm-backend:${{ matrix.config.arch }}
+        run: |
+          docker login --username="${{ secrets.ALIYUN_ACR_USERNAME }}" --password="${{ secrets.ALIYUN_ACR_PASSWORD }}" ${{ secrets.ALIYUN_ACR_REGISTRY }}
+          docker tag createchstudio/vgorc-tm-backend:${{ matrix.config.arch }} ${{ secrets.ALIYUN_ACR_REGISTRY }}/createchstudio/vgorc-tm-frontend:${{ matrix.config.arch }}
+          docker push ${{ secrets.ALIYUN_ACR_REGISTRY }}/createchstudio/vgorc-tm-frontend:${{ matrix.config.arch }}
