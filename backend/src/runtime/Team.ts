@@ -48,7 +48,7 @@ export class Team {
 
     delete(teamNumber: string) {
         if (this.data[teamNumber] === undefined) {
-            throw "Division does not exist";
+            throw "Team does not exist";
         }
         this.data[teamNumber] = undefined;
         this._update();
