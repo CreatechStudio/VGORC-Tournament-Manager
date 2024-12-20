@@ -1,4 +1,4 @@
-FROM nginx:latest
+FROM nginx:mainline-alpine
 LABEL authors="muyunxi"
 
 WORKDIR "/app"
