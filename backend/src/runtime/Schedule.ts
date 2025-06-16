@@ -160,16 +160,27 @@ export class Schedule {
         return leadingTeams;
     }
 
-    _ensureMatchScheduleIsEmpty() {
+    _ensureScheduleIsEmpty(matchType: string) {
         let allMatches = this.db.getData().matches;
         if (allMatches.length === 0) {
             return true;
         }
-        allMatches.forEach(matches => {
-            if (matches.matches.length > 0) {
-                return false;
+        allMatches = allMatches.filter(matches => matches.matches.some(match => match.matchType === matchType));
+        if (allMatches.length === 0) {
+            return true;
+        }
+    }
+
+    _isAnyMatchHasScore(matchType: string) {
+        const matches = this.db.getData().matches;
+        for (const division of matches) {
+            for (const match of division.matches) {
+                if (match.matchType === matchType && match.hasScore) {
+                    return true;
+                }
             }
-        });
+        }
+        return false;
     }
 
     _ensureAllQualificationIsScored(divisionName: string) {
@@ -202,7 +213,7 @@ export class Schedule {
     }
 
     addQualification() {
-        if (!this._ensureMatchScheduleIsEmpty()) {
+        if (!this._ensureScheduleIsEmpty("Qualification")) {
             throw "Match schedule is not empty";
         }
         const divisionName = this._getAllMatchDivision();
@@ -285,6 +296,9 @@ export class Schedule {
     }
 
     addElimination() {
+        if (!this._ensureScheduleIsEmpty("Elimination")) {
+            throw "Match schedule is not empty";
+        }
         const divisionName = this._getAllMatchDivision();
         this.dataMatchWithDivision = this.db.getData().matches;
         let allMatches: MatchObject[][] = Array.from({ length: divisionName.length }, () => []);
@@ -294,7 +308,12 @@ export class Schedule {
             }
             let allQMatches = this.dataMatchWithDivision[divisionName.indexOf(division)].matches.filter(match => match.matchType === "Qualification");
             let matchNumber = allQMatches[allQMatches.length-1].matchNumber + 1;
-            let teams = this._getLeadingTeamInDivision(division, this.db.getData().settings.adminData.eliminationAllianceCount * 2);
+            let allTeams = this._getAllTeamsInDivision(division);
+            let eliminationCount = this.db.getData().settings.adminData.eliminationAllianceCount;
+            if (allTeams.length < eliminationCount) {
+                eliminationCount = allTeams.length;
+            }
+            let teams = this._getLeadingTeamInDivision(division, eliminationCount);
             let fields = this._getAllFieldsInDivision(division);
             for (let i = 0; i < teams.length; i += 2) {
                 let match: MatchObject = {
@@ -319,9 +338,17 @@ export class Schedule {
         this._update();
     }
 
-    clearAllSchedule() {
+    clearSchedule(matchType: string) {
+        if (this._isAnyMatchHasScore(matchType)) {
+            throw "Some matches have score";
+        }
         let newData: Data = this.db.getData();
-        newData.matches = [];
+        newData.matches = newData.matches.map(division => {
+            return {
+                ...division,
+                matches: division.matches.filter(match => match.matchType !== matchType)
+            };
+        });
         this.db.updateData(newData);
     }
 

@@ -64,7 +64,7 @@ export default function TournamentActionAccordion() {
         if (scheduleAction && matchType) {
             switch (scheduleAction.action) {
                 case ScheduleAction.Clear:
-                    getReq("/schedule/clear").then(() => {
+                    getReq(`/schedule/clear/${matchType.type}`).then(() => {
                         toast.success("Clear schedule successfully");
                     }).catch();
                     break;

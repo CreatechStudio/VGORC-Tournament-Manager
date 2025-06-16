@@ -45,13 +45,19 @@ export const scheduleGroup = new Elysia()
                         }
                     )
                 })
-                .get('clear', ({ schedule, error }) => {
+                .get('clear/:matchType', ({ schedule, params, error }) => {
                     try {
-                        schedule.clearAllSchedule();
+                        schedule.clearSchedule(params.matchType);
                         return schedule.get();
                     } catch (e) {
                         return error(406, e);
                     }
+                }, {
+                    params: t.Object(
+                        {
+                            matchType: t.String()
+                        }
+                    )
                 })
         )
     );

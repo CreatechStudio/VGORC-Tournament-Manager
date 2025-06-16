@@ -109,7 +109,7 @@ new Elysia()
                 env[key] = localEnv[key] || "";
             }
         });
-        ['TM_JWT_SECRET', 'TM_ADMIN_PASSWORD', 'TM_REFEREE_PASSWORD'].forEach(key => {
+        ['TM_JWT_SECRET', 'TM_ADMIN_PASSWORD', 'TM_REFEREE_PASSWORD', 'TM_LICENSE_KEY'].forEach(key => {
             if (key in env) {
                 delete env[key];
             }
