@@ -1,5 +1,4 @@
-import {licenseInfo} from './License';
-import {machineIdSync} from "node-machine-id";
+import {validLicenseKey} from "./License";
 import {Elysia, t} from 'elysia';
 import {swagger} from '@elysiajs/swagger';
 import {cors} from "@elysiajs/cors";
@@ -24,21 +23,21 @@ dotenv.config()
 export const BASE_URL = process.env.TM_BASE_URL || 'http://localhost:3000';
 export const WEB_URL = process.env.TM_WEB_URL || 'http://localhost:5173';
 const JWT_SECRET = process.env.TM_JWT_SECRET || 'Createch';
+const licenseInfo = await validLicenseKey();
 
 function delay(ms: number) {
     return new Promise( resolve => setTimeout(resolve, ms) );
 }
 
-if (!licenseInfo.isValid) {
-    let machineIdValue = machineIdSync();
-    console.log(`🔑 Your machine id is ${machineIdValue}`);
-    console.log(`❌ Your license is invalid or expired. Application will terminate`);
-    await delay(10000);
-    process.exit(1);
-} else {
+if (licenseInfo !== null && licenseInfo.status ===  "granted") {
     console.log('✅ License is valid');
-    console.log('📅 License expire date:', licenseInfo.expireDate);
-    console.log('🏢 Organization:', licenseInfo.organization);
+    console.log('📅 License expire date:', licenseInfo.expiresAt);
+    console.log('🏢 Organization:', licenseInfo.customer.name);
+} else {
+    console.log('❌ License is invalid or not granted');
+    console.log('Please contact Createch Support for more information.');
+    console.log('License key:', process.env.TM_LICENSE_KEY);
+    process.exit(1);
 }
 
 process.env.TM_VENDOR_LOGO = 'https://cdn.createchstudio.com/vgorc-tm/VEX%20GO%20Logo_Full%20Color.png,https://cdn.createchstudio.com/vgorc-tm/CreatechStudio.png,' + process.env.TM_VENDOR_LOGO;

@@ -11,11 +11,11 @@
     "@elysiajs/cors": "^1.1.1",
     "@elysiajs/jwt": "^1.1.1",
     "@elysiajs/swagger": "^1.1.5",
+    "@polar-sh/sdk": "^0.33.1",
     "axios": "^1.7.7",
     "dotenv": "^16.4.5",
     "elysia": "latest",
     "js-sha256": "^0.11.0",
-    "node-machine-id": "^1.1.12",
     "node-rsa": "^1.1.1"
   },
   "devDependencies": {
