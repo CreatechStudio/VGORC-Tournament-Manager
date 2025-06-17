@@ -1,0 +1,933 @@
+{
+    "tournamentName": "",
+    "locked": false,
+    "auth": [
+        {
+            "authRole": 0,
+            "authPasswordHash": "00eb39f82ac236b85882082dc9961eb32d90d97be47ab9cef21208bc54fc2f95"
+        },
+        {
+            "authRole": 1,
+            "authPasswordHash": "27f140eb896acb77ca1ac8e48c9edb97e18a2fd4f672cea9e73aaa0c6522458c"
+        }
+    ],
+    "settings": {
+        "adminData": {
+            "playerDuration": 60,
+            "eliminationAllianceCount": 5,
+            "matchGoals": {
+                "removeDrugs": {
+                    "name": "移除药品",
+                    "points": 1
+                },
+                "deliverDrugs": {
+                    "name": "运送药品",
+                    "points": 1
+                },
+                "placeDrugs": {
+                    "name": "放置药品",
+                    "points": 1
+                },
+                "outboundSupplies": {
+                    "name": "物资出库",
+                    "points": 1
+                },
+                "liftRoof": {
+                    "name": "升起发电站屋顶",
+                    "points": 1
+                },
+                "transportSupplies": {
+                    "name": "物资运送",
+                    "points": 1
+                },
+                "liftPole": {
+                    "name": "升起电线杆",
+                    "points": 1
+                },
+                "raiseTree": {
+                    "name": "扶起大树",
+                    "points": 1
+                },
+                "triggerLandslide": {
+                    "name": "触发山体滑坡",
+                    "points": 1
+                },
+                "clearRocks": {
+                    "name": "处置落石",
+                    "points": 1
+                },
+                "parkRobot": {
+                    "name": "停泊机器人",
+                    "points": 1
+                }
+            }
+        },
+        "division": [
+            {
+                "divisionName": "Division A",
+                "divisionFields": [
+                    "Field1",
+                    "Field2"
+                ],
+                "isSkill": false
+            },
+            {
+                "divisionName": "Division B",
+                "divisionFields": [
+                    "Field3",
+                    "Field4"
+                ],
+                "isSkill": false
+            }
+        ],
+        "fieldSets": [
+            {
+                "fieldSetId": 1,
+                "fields": [
+                    "Field1",
+                    "Field3"
+                ]
+            },
+            {
+                "fieldSetId": 2,
+                "fields": [
+                    "Field2",
+                    "Field4"
+                ]
+            }
+        ],
+        "display": []
+    },
+    "teams": [
+        {
+            "teamNumber": "1A",
+            "teamName": "GO",
+            "teamOrganization": "GO",
+            "teamDivision": "Division A"
+        },
+        {
+            "teamNumber": "2A",
+            "teamName": "GO",
+            "teamOrganization": "GO",
+            "teamDivision": "Division B"
+        },
+        {
+            "teamNumber": "2B",
+            "teamName": "GO",
+            "teamOrganization": "GO",
+            "teamDivision": "Division B"
+        },
+        {
+            "teamNumber": "2C",
+            "teamName": "GO",
+            "teamOrganization": "GO",
+            "teamDivision": "Division B"
+        },
+        {
+            "teamNumber": "1B",
+            "teamName": "GO",
+            "teamOrganization": "GO",
+            "teamDivision": "Division A"
+        },
+        {
+            "teamNumber": "1C",
+            "teamName": "GO",
+            "teamOrganization": "GO",
+            "teamDivision": "Division A"
+        },
+        {
+            "teamNumber": "1D",
+            "teamName": "GO",
+            "teamOrganization": "GO",
+            "teamDivision": "Division A"
+        }
+    ],
+    "periods": [
+        {
+            "periodNumber": 1,
+            "periodType": "Qualification",
+            "periodStartTime": "2025-06-16T18:00",
+            "periodEndTime": "2025-06-18T18:30",
+            "periodMatchDuration": 120
+        }
+    ],
+    "matches": [
+        {
+            "divisionName": "Division A",
+            "matches": [
+                {
+                    "matchNumber": 1,
+                    "matchType": "Qualification",
+                    "matchField": "Field1",
+                    "matchFieldSet": 1,
+                    "matchPeriod": 1,
+                    "matchCountInPeriod": 1,
+                    "matchTeam": [
+                        "1C",
+                        "1D"
+                    ],
+                    "hasScore": true,
+                    "matchScore": 12,
+                    "matchScoreHistory": [
+                        11,
+                        12
+                    ],
+                    "scoreDetails": {
+                        "removeDrugs": 1,
+                        "deliverDrugs": 1,
+                        "placeDrugs": 1,
+                        "outboundSupplies": 1,
+                        "liftRoof": 2,
+                        "transportSupplies": 1,
+                        "liftPole": 1,
+                        "raiseTree": 1,
+                        "triggerLandslide": 1,
+                        "clearRocks": 1,
+                        "parkRobot": 1
+                    }
+                },
+                {
+                    "matchNumber": 2,
+                    "matchType": "Qualification",
+                    "matchField": "Field2",
+                    "matchFieldSet": 2,
+                    "matchPeriod": 1,
+                    "matchCountInPeriod": 2,
+                    "matchTeam": [
+                        "1A",
+                        "1B"
+                    ],
+                    "hasScore": true,
+                    "matchScore": 0,
+                    "matchScoreHistory": []
+                },
+                {
+                    "matchNumber": 3,
+                    "matchType": "Qualification",
+                    "matchField": "Field1",
+                    "matchFieldSet": 1,
+                    "matchPeriod": 1,
+                    "matchCountInPeriod": 3,
+                    "matchTeam": [
+                        "1C",
+                        "1B"
+                    ],
+                    "hasScore": true,
+                    "matchScore": 0,
+                    "matchScoreHistory": []
+                },
+                {
+                    "matchNumber": 4,
+                    "matchType": "Qualification",
+                    "matchField": "Field2",
+                    "matchFieldSet": 2,
+                    "matchPeriod": 1,
+                    "matchCountInPeriod": 4,
+                    "matchTeam": [
+                        "1A",
+                        "1D"
+                    ],
+                    "hasScore": true,
+                    "matchScore": 0,
+                    "matchScoreHistory": []
+                },
+                {
+                    "matchNumber": 5,
+                    "matchType": "Qualification",
+                    "matchField": "Field1",
+                    "matchFieldSet": 1,
+                    "matchPeriod": 1,
+                    "matchCountInPeriod": 5,
+                    "matchTeam": [
+                        "1B",
+                        "1A"
+                    ],
+                    "hasScore": true,
+                    "matchScore": 0,
+                    "matchScoreHistory": []
+                },
+                {
+                    "matchNumber": 6,
+                    "matchType": "Qualification",
+                    "matchField": "Field2",
+                    "matchFieldSet": 2,
+                    "matchPeriod": 1,
+                    "matchCountInPeriod": 6,
+                    "matchTeam": [
+                        "1D",
+                        "1C"
+                    ],
+                    "hasScore": true,
+                    "matchScore": 0,
+                    "matchScoreHistory": []
+                },
+                {
+                    "matchNumber": 7,
+                    "matchType": "Qualification",
+                    "matchField": "Field1",
+                    "matchFieldSet": 1,
+                    "matchPeriod": 1,
+                    "matchCountInPeriod": 7,
+                    "matchTeam": [
+                        "1C",
+                        "1D"
+                    ],
+                    "hasScore": true,
+                    "matchScore": 0,
+                    "matchScoreHistory": []
+                },
+                {
+                    "matchNumber": 8,
+                    "matchType": "Qualification",
+                    "matchField": "Field2",
+                    "matchFieldSet": 2,
+                    "matchPeriod": 1,
+                    "matchCountInPeriod": 8,
+                    "matchTeam": [
+                        "1A",
+                        "1B"
+                    ],
+                    "hasScore": true,
+                    "matchScore": 0,
+                    "matchScoreHistory": []
+                },
+                {
+                    "matchNumber": 9,
+                    "matchType": "Qualification",
+                    "matchField": "Field1",
+                    "matchFieldSet": 1,
+                    "matchPeriod": 1,
+                    "matchCountInPeriod": 9,
+                    "matchTeam": [
+                        "1A",
+                        "1D"
+                    ],
+                    "hasScore": true,
+                    "matchScore": 0,
+                    "matchScoreHistory": []
+                },
+                {
+                    "matchNumber": 10,
+                    "matchType": "Qualification",
+                    "matchField": "Field2",
+                    "matchFieldSet": 2,
+                    "matchPeriod": 1,
+                    "matchCountInPeriod": 10,
+                    "matchTeam": [
+                        "1C",
+                        "1B"
+                    ],
+                    "hasScore": true,
+                    "matchScore": 0,
+                    "matchScoreHistory": []
+                },
+                {
+                    "matchNumber": 11,
+                    "matchType": "Qualification",
+                    "matchField": "Field1",
+                    "matchFieldSet": 1,
+                    "matchPeriod": 1,
+                    "matchCountInPeriod": 11,
+                    "matchTeam": [
+                        "1A",
+                        "1B"
+                    ],
+                    "hasScore": true,
+                    "matchScore": 0,
+                    "matchScoreHistory": []
+                },
+                {
+                    "matchNumber": 12,
+                    "matchType": "Qualification",
+                    "matchField": "Field2",
+                    "matchFieldSet": 2,
+                    "matchPeriod": 1,
+                    "matchCountInPeriod": 12,
+                    "matchTeam": [
+                        "1D",
+                        "1C"
+                    ],
+                    "hasScore": true,
+                    "matchScore": 0,
+                    "matchScoreHistory": []
+                },
+                {
+                    "matchNumber": 13,
+                    "matchType": "Qualification",
+                    "matchField": "Field1",
+                    "matchFieldSet": 1,
+                    "matchPeriod": 1,
+                    "matchCountInPeriod": 13,
+                    "matchTeam": [
+                        "1C",
+                        "1A"
+                    ],
+                    "hasScore": true,
+                    "matchScore": 0,
+                    "matchScoreHistory": []
+                },
+                {
+                    "matchNumber": 14,
+                    "matchType": "Qualification",
+                    "matchField": "Field2",
+                    "matchFieldSet": 2,
+                    "matchPeriod": 1,
+                    "matchCountInPeriod": 14,
+                    "matchTeam": [
+                        "1B",
+                        "1D"
+                    ],
+                    "hasScore": true,
+                    "matchScore": 0,
+                    "matchScoreHistory": []
+                },
+                {
+                    "matchNumber": 15,
+                    "matchType": "Qualification",
+                    "matchField": "Field1",
+                    "matchFieldSet": 1,
+                    "matchPeriod": 1,
+                    "matchCountInPeriod": 15,
+                    "matchTeam": [
+                        "1B",
+                        "1A"
+                    ],
+                    "hasScore": true,
+                    "matchScore": 0,
+                    "matchScoreHistory": []
+                },
+                {
+                    "matchNumber": 16,
+                    "matchType": "Qualification",
+                    "matchField": "Field2",
+                    "matchFieldSet": 2,
+                    "matchPeriod": 1,
+                    "matchCountInPeriod": 16,
+                    "matchTeam": [
+                        "1D",
+                        "1C"
+                    ],
+                    "hasScore": true,
+                    "matchScore": 0,
+                    "matchScoreHistory": []
+                },
+                {
+                    "matchNumber": 17,
+                    "matchType": "Qualification",
+                    "matchField": "Field1",
+                    "matchFieldSet": 1,
+                    "matchPeriod": 1,
+                    "matchCountInPeriod": 17,
+                    "matchTeam": [
+                        "1A",
+                        "1D"
+                    ],
+                    "hasScore": true,
+                    "matchScore": 0,
+                    "matchScoreHistory": []
+                },
+                {
+                    "matchNumber": 18,
+                    "matchType": "Qualification",
+                    "matchField": "Field2",
+                    "matchFieldSet": 2,
+                    "matchPeriod": 1,
+                    "matchCountInPeriod": 18,
+                    "matchTeam": [
+                        "1C",
+                        "1B"
+                    ],
+                    "hasScore": true,
+                    "matchScore": 0,
+                    "matchScoreHistory": []
+                },
+                {
+                    "matchNumber": 19,
+                    "matchType": "Qualification",
+                    "matchField": "Field1",
+                    "matchFieldSet": 1,
+                    "matchPeriod": 1,
+                    "matchCountInPeriod": 19,
+                    "matchTeam": [
+                        "1A",
+                        "1C"
+                    ],
+                    "hasScore": true,
+                    "matchScore": 0,
+                    "matchScoreHistory": []
+                },
+                {
+                    "matchNumber": 20,
+                    "matchType": "Qualification",
+                    "matchField": "Field2",
+                    "matchFieldSet": 2,
+                    "matchPeriod": 1,
+                    "matchCountInPeriod": 20,
+                    "matchTeam": [
+                        "1D",
+                        "1B"
+                    ],
+                    "hasScore": true,
+                    "matchScore": 0,
+                    "matchScoreHistory": []
+                },
+                {
+                    "matchNumber": 21,
+                    "matchType": "Qualification",
+                    "matchField": "Field1",
+                    "matchFieldSet": 1,
+                    "matchPeriod": 1,
+                    "matchCountInPeriod": 21,
+                    "matchTeam": [
+                        "1B",
+                        "1C"
+                    ],
+                    "hasScore": true,
+                    "matchScore": 0,
+                    "matchScoreHistory": []
+                },
+                {
+                    "matchNumber": 22,
+                    "matchType": "Qualification",
+                    "matchField": "Field2",
+                    "matchFieldSet": 2,
+                    "matchPeriod": 1,
+                    "matchCountInPeriod": 22,
+                    "matchTeam": [
+                        "1A",
+                        "1D"
+                    ],
+                    "hasScore": true,
+                    "matchScore": 0,
+                    "matchScoreHistory": []
+                },
+                {
+                    "matchNumber": 23,
+                    "matchType": "Qualification",
+                    "matchField": "Field1",
+                    "matchFieldSet": 1,
+                    "matchPeriod": 1,
+                    "matchCountInPeriod": 23,
+                    "matchTeam": [
+                        "1C",
+                        "1A"
+                    ],
+                    "hasScore": true,
+                    "matchScore": 0,
+                    "matchScoreHistory": []
+                },
+                {
+                    "matchNumber": 24,
+                    "matchType": "Qualification",
+                    "matchField": "Field2",
+                    "matchFieldSet": 2,
+                    "matchPeriod": 1,
+                    "matchCountInPeriod": 24,
+                    "matchTeam": [
+                        "1B",
+                        "1D"
+                    ],
+                    "hasScore": true,
+                    "matchScore": 0,
+                    "matchScoreHistory": []
+                }
+            ]
+        },
+        {
+            "divisionName": "Division B",
+            "matches": [
+                {
+                    "matchNumber": 1,
+                    "matchType": "Qualification",
+                    "matchField": "Field3",
+                    "matchFieldSet": 1,
+                    "matchPeriod": 1,
+                    "matchCountInPeriod": 1,
+                    "matchTeam": [
+                        "2B",
+                        "2C"
+                    ],
+                    "hasScore": true,
+                    "matchScore": 0,
+                    "matchScoreHistory": []
+                },
+                {
+                    "matchNumber": 2,
+                    "matchType": "Qualification",
+                    "matchField": "Field4",
+                    "matchFieldSet": 2,
+                    "matchPeriod": 1,
+                    "matchCountInPeriod": 2,
+                    "matchTeam": [
+                        "2C",
+                        "2A"
+                    ],
+                    "hasScore": true,
+                    "matchScore": 0,
+                    "matchScoreHistory": []
+                },
+                {
+                    "matchNumber": 3,
+                    "matchType": "Qualification",
+                    "matchField": "Field3",
+                    "matchFieldSet": 1,
+                    "matchPeriod": 1,
+                    "matchCountInPeriod": 3,
+                    "matchTeam": [
+                        "2A",
+                        "2B"
+                    ],
+                    "hasScore": true,
+                    "matchScore": 0,
+                    "matchScoreHistory": []
+                },
+                {
+                    "matchNumber": 4,
+                    "matchType": "Qualification",
+                    "matchField": "Field4",
+                    "matchFieldSet": 2,
+                    "matchPeriod": 1,
+                    "matchCountInPeriod": 4,
+                    "matchTeam": [
+                        "2A",
+                        "2B"
+                    ],
+                    "hasScore": true,
+                    "matchScore": 0,
+                    "matchScoreHistory": []
+                },
+                {
+                    "matchNumber": 5,
+                    "matchType": "Qualification",
+                    "matchField": "Field3",
+                    "matchFieldSet": 1,
+                    "matchPeriod": 1,
+                    "matchCountInPeriod": 5,
+                    "matchTeam": [
+                        "2B",
+                        "2C"
+                    ],
+                    "hasScore": true,
+                    "matchScore": 0,
+                    "matchScoreHistory": []
+                },
+                {
+                    "matchNumber": 6,
+                    "matchType": "Qualification",
+                    "matchField": "Field4",
+                    "matchFieldSet": 2,
+                    "matchPeriod": 1,
+                    "matchCountInPeriod": 6,
+                    "matchTeam": [
+                        "2C",
+                        "2A"
+                    ],
+                    "hasScore": true,
+                    "matchScore": 0,
+                    "matchScoreHistory": []
+                },
+                {
+                    "matchNumber": 7,
+                    "matchType": "Qualification",
+                    "matchField": "Field3",
+                    "matchFieldSet": 1,
+                    "matchPeriod": 1,
+                    "matchCountInPeriod": 7,
+                    "matchTeam": [
+                        "2B",
+                        "2C"
+                    ],
+                    "hasScore": true,
+                    "matchScore": 0,
+                    "matchScoreHistory": []
+                },
+                {
+                    "matchNumber": 8,
+                    "matchType": "Qualification",
+                    "matchField": "Field4",
+                    "matchFieldSet": 2,
+                    "matchPeriod": 1,
+                    "matchCountInPeriod": 8,
+                    "matchTeam": [
+                        "2C",
+                        "2A"
+                    ],
+                    "hasScore": true,
+                    "matchScore": 0,
+                    "matchScoreHistory": []
+                },
+                {
+                    "matchNumber": 9,
+                    "matchType": "Qualification",
+                    "matchField": "Field3",
+                    "matchFieldSet": 1,
+                    "matchPeriod": 1,
+                    "matchCountInPeriod": 9,
+                    "matchTeam": [
+                        "2A",
+                        "2B"
+                    ],
+                    "hasScore": true,
+                    "matchScore": 0,
+                    "matchScoreHistory": []
+                },
+                {
+                    "matchNumber": 10,
+                    "matchType": "Qualification",
+                    "matchField": "Field4",
+                    "matchFieldSet": 2,
+                    "matchPeriod": 1,
+                    "matchCountInPeriod": 10,
+                    "matchTeam": [
+                        "2B",
+                        "2A"
+                    ],
+                    "hasScore": true,
+                    "matchScore": 0,
+                    "matchScoreHistory": []
+                },
+                {
+                    "matchNumber": 11,
+                    "matchType": "Qualification",
+                    "matchField": "Field3",
+                    "matchFieldSet": 1,
+                    "matchPeriod": 1,
+                    "matchCountInPeriod": 11,
+                    "matchTeam": [
+                        "2A",
+                        "2C"
+                    ],
+                    "hasScore": true,
+                    "matchScore": 0,
+                    "matchScoreHistory": []
+                },
+                {
+                    "matchNumber": 12,
+                    "matchType": "Qualification",
+                    "matchField": "Field4",
+                    "matchFieldSet": 2,
+                    "matchPeriod": 1,
+                    "matchCountInPeriod": 12,
+                    "matchTeam": [
+                        "2C",
+                        "2B"
+                    ],
+                    "hasScore": true,
+                    "matchScore": 0,
+                    "matchScoreHistory": []
+                },
+                {
+                    "matchNumber": 13,
+                    "matchType": "Qualification",
+                    "matchField": "Field3",
+                    "matchFieldSet": 1,
+                    "matchPeriod": 1,
+                    "matchCountInPeriod": 13,
+                    "matchTeam": [
+                        "2C",
+                        "2A"
+                    ],
+                    "hasScore": true,
+                    "matchScore": 0,
+                    "matchScoreHistory": []
+                },
+                {
+                    "matchNumber": 14,
+                    "matchType": "Qualification",
+                    "matchField": "Field4",
+                    "matchFieldSet": 2,
+                    "matchPeriod": 1,
+                    "matchCountInPeriod": 14,
+                    "matchTeam": [
+                        "2A",
+                        "2B"
+                    ],
+                    "hasScore": true,
+                    "matchScore": 0,
+                    "matchScoreHistory": []
+                },
+                {
+                    "matchNumber": 15,
+                    "matchType": "Qualification",
+                    "matchField": "Field3",
+                    "matchFieldSet": 1,
+                    "matchPeriod": 1,
+                    "matchCountInPeriod": 15,
+                    "matchTeam": [
+                        "2B",
+                        "2C"
+                    ],
+                    "hasScore": true,
+                    "matchScore": 0,
+                    "matchScoreHistory": []
+                },
+                {
+                    "matchNumber": 16,
+                    "matchType": "Qualification",
+                    "matchField": "Field4",
+                    "matchFieldSet": 2,
+                    "matchPeriod": 1,
+                    "matchCountInPeriod": 16,
+                    "matchTeam": [
+                        "2B",
+                        "2A"
+                    ],
+                    "hasScore": true,
+                    "matchScore": 0,
+                    "matchScoreHistory": []
+                },
+                {
+                    "matchNumber": 17,
+                    "matchType": "Qualification",
+                    "matchField": "Field3",
+                    "matchFieldSet": 1,
+                    "matchPeriod": 1,
+                    "matchCountInPeriod": 17,
+                    "matchTeam": [
+                        "2A",
+                        "2C"
+                    ],
+                    "hasScore": true,
+                    "matchScore": 0,
+                    "matchScoreHistory": []
+                },
+                {
+                    "matchNumber": 18,
+                    "matchType": "Qualification",
+                    "matchField": "Field4",
+                    "matchFieldSet": 2,
+                    "matchPeriod": 1,
+                    "matchCountInPeriod": 18,
+                    "matchTeam": [
+                        "2C",
+                        "2B"
+                    ],
+                    "hasScore": true,
+                    "matchScore": 0,
+                    "matchScoreHistory": []
+                },
+                {
+                    "matchNumber": 19,
+                    "matchType": "Qualification",
+                    "matchField": "Field3",
+                    "matchFieldSet": 1,
+                    "matchPeriod": 1,
+                    "matchCountInPeriod": 19,
+                    "matchTeam": [
+                        "2A",
+                        "2B"
+                    ],
+                    "hasScore": true,
+                    "matchScore": 0,
+                    "matchScoreHistory": []
+                },
+                {
+                    "matchNumber": 20,
+                    "matchType": "Qualification",
+                    "matchField": "Field4",
+                    "matchFieldSet": 2,
+                    "matchPeriod": 1,
+                    "matchCountInPeriod": 20,
+                    "matchTeam": [
+                        "2B",
+                        "2C"
+                    ],
+                    "hasScore": true,
+                    "matchScore": 0,
+                    "matchScoreHistory": []
+                },
+                {
+                    "matchNumber": 21,
+                    "matchType": "Qualification",
+                    "matchField": "Field3",
+                    "matchFieldSet": 1,
+                    "matchPeriod": 1,
+                    "matchCountInPeriod": 21,
+                    "matchTeam": [
+                        "2C",
+                        "2A"
+                    ],
+                    "hasScore": true,
+                    "matchScore": 0,
+                    "matchScoreHistory": []
+                },
+                {
+                    "matchNumber": 22,
+                    "matchType": "Qualification",
+                    "matchField": "Field4",
+                    "matchFieldSet": 2,
+                    "matchPeriod": 1,
+                    "matchCountInPeriod": 22,
+                    "matchTeam": [
+                        "2B",
+                        "2A"
+                    ],
+                    "hasScore": true,
+                    "matchScore": 0,
+                    "matchScoreHistory": []
+                },
+                {
+                    "matchNumber": 23,
+                    "matchType": "Qualification",
+                    "matchField": "Field3",
+                    "matchFieldSet": 1,
+                    "matchPeriod": 1,
+                    "matchCountInPeriod": 23,
+                    "matchTeam": [
+                        "2A",
+                        "2C"
+                    ],
+                    "hasScore": true,
+                    "matchScore": 0,
+                    "matchScoreHistory": []
+                },
+                {
+                    "matchNumber": 24,
+                    "matchType": "Qualification",
+                    "matchField": "Field4",
+                    "matchFieldSet": 2,
+                    "matchPeriod": 1,
+                    "matchCountInPeriod": 24,
+                    "matchTeam": [
+                        "2C",
+                        "2B"
+                    ],
+                    "hasScore": true,
+                    "matchScore": 0,
+                    "matchScoreHistory": []
+                }
+            ]
+        }
+    ],
+    "skills": [
+        {
+            "skillsTeamNumber": "1A",
+            "driverSkill": [
+                5,
+                7
+            ],
+            "autoSkill": [
+                9
+            ],
+            "driverSkillDetails": [
+                {
+                    "removeDrugs": 1,
+                    "deliverDrugs": 2,
+                    "placeDrugs": 2
+                },
+                {
+                    "removeDrugs": 1,
+                    "deliverDrugs": 2,
+                    "placeDrugs": 4
+                }
+            ],
+            "autoSkillDetails": [
+                {
+                    "removeDrugs": 3,
+                    "deliverDrugs": 2,
+                    "placeDrugs": 4
+                }
+            ]
+        }
+    ]
+}

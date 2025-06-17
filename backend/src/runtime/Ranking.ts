@@ -104,13 +104,18 @@ export class Ranking {
     }
 
     getSkillRanking() {
-        let data = this.db.getData();
-        let ranking: { teamNumber: string; DriverScore: number; AutoScore: number; TotalScore: number; }[] = [];
+        const data = this.db.getData();
+        const ranking: {
+            teamNumber: string;
+            DriverScore: number;
+            AutoScore: number;
+            TotalScore: number;
+        }[] = [];
 
         data.skills.forEach(team => {
-            let driverScore = Math.max(...team.driverSkill, 0);
-            let autoScore = Math.max(...team.autoSkill, 0);
-            let totalScore = driverScore + autoScore;
+            const driverScore = team.driverSkill.length > 0 ? Math.max(...team.driverSkill) : 0;
+            const autoScore = team.autoSkill.length > 0 ? Math.max(...team.autoSkill) : 0;
+            const totalScore = driverScore + autoScore;
 
             ranking.push({
                 teamNumber: team.skillsTeamNumber,

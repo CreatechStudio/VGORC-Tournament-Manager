@@ -25,11 +25,11 @@ export const skillGroup = new Elysia()
             },(app) => app
                 .get('fields', ({ skill }) => skill.getAllSkillFields())
                 .post('/update', ({ skill, body }) =>
-                    skill.setSkillScore(body.teamNumber, body.skillType as SkillType, body.scores), {
+                    skill.setSkillScore(body.teamNumber, body.skillType as SkillType, body.scoreDetails), {
                     body: t.Object({
                         teamNumber: t.String(),
                         skillType: t.String(),
-                        scores: t.Array(t.Number())
+                        scoreDetails: t.Record(t.String(), t.Number()),
                     })
                 })
         )

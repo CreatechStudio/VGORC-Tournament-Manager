@@ -6,5 +6,7 @@ export enum SkillType {
 export interface SkillWithTeam {
     skillsTeamNumber: string,
     driverSkill: number[],
-    autoSkill: number[]
+    autoSkill: number[],
+    driverSkillDetails: Record<string, number>[],
+    autoSkillDetails: Record<string, number>[],
 }

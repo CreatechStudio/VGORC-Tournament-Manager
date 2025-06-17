@@ -6,7 +6,7 @@ services:
       - TM_BASE_URL=http://localhost:3000
       - TM_WEB_URL=http://localhost:80
       - TM_DB_FILE=/etc/backend/${TM_DB_FILE}
-      - TM_LICENSE_FILE=/etc/backend/${TM_LICENSE_FILE}
+      - TM_LICENSE_KEY=${TM_LICENSE_KEY}
       - TM_JWT_SECRET=${TM_JWT_SECRET}
       - TM_ADMIN_PASSWORD=${TM_ADMIN_PASSWORD}
       - TM_REFEREE_PASSWORD=${TM_REFEREE_PASSWORD}
