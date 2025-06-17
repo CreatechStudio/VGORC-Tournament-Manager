@@ -1,6 +1,6 @@
 import {Elysia, error, t} from "elysia";
-import {Match} from "../runtime/Match";
-import {checkJWT} from "../runtime/Auth";
+import {Match} from "../Runtime/Match";
+import {checkJWT} from "../Runtime/Auth";
 
 const MODULE_PERMISSION = "match"
 

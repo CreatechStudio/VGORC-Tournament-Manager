@@ -1,7 +1,7 @@
 import {Elysia, error, t} from "elysia";
 import {SkillType} from "../../../common/Skill";
-import {Skill} from "../runtime/Skill";
-import {checkJWT} from "../runtime/Auth";
+import {Skill} from "../Runtime/Skill";
+import {checkJWT} from "../Runtime/Auth";
 
 const MODULE_PERMISSION = "match"
 

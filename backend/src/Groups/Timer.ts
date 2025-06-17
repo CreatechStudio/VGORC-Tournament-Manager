@@ -1,5 +1,5 @@
 import {Elysia, t} from "elysia";
-import {getMatchDuration, pauseTimer, repeatGetTime, startTimer, stopTimer} from "../runtime/Timer";
+import {getMatchDuration, pauseTimer, repeatGetTime, startTimer, stopTimer} from "../Runtime/Timer";
 import {TimerAction} from "../../../common/Timer";
 
 export const timerGroup = new Elysia()

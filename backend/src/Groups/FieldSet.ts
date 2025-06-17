@@ -1,6 +1,6 @@
 import {Elysia, error, t} from "elysia";
-import {FieldSet} from "../runtime/FieldSet";
-import {checkJWT} from "../runtime/Auth";
+import {FieldSet} from "../Runtime/FieldSet";
+import {checkJWT} from "../Runtime/Auth";
 
 const MODULE_PERMISSION = "admin"
 

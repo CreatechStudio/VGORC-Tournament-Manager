@@ -1,6 +1,6 @@
 import {Elysia, error, t} from "elysia";
-import {Period} from "../runtime/Period";
-import {checkJWT} from "../runtime/Auth";
+import {Period} from "../Runtime/Period";
+import {checkJWT} from "../Runtime/Auth";
 
 const MODULE_PERMISSION = "admin"
 

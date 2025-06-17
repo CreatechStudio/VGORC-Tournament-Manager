@@ -1,5 +1,5 @@
 import {Elysia, t} from "elysia";
-import {Ranking} from "../runtime/Ranking";
+import {Ranking} from "../Runtime/Ranking";
 
 export const rankingGroup = new Elysia()
     .decorate('rank', new Ranking())

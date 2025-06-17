@@ -1,6 +1,6 @@
 import {Elysia, error, t} from "elysia";
-import {Display} from "../runtime/Display";
-import {checkJWT} from "../runtime/Auth";
+import {Display} from "../Runtime/Display";
+import {checkJWT} from "../Runtime/Auth";
 
 const MODULE_PERMISSION = "admin"
 

@@ -1,6 +1,6 @@
 import {Elysia, error, t} from "elysia";
-import {checkJWT} from "../runtime/Auth";
-import {Schedule} from "../runtime/Schedule";
+import {checkJWT} from "../Runtime/Auth";
+import {Schedule} from "../Runtime/Schedule";
 
 const MODULE_PERMISSION = "admin"
 

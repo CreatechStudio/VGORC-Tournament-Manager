@@ -1,4 +1,4 @@
-import {validLicenseKey} from "./License";
+import {validLicenseKey} from "./Runtime/License";
 import {Elysia, t} from 'elysia';
 import {swagger} from '@elysiajs/swagger';
 import {cors} from "@elysiajs/cors";
@@ -17,7 +17,7 @@ import {timerGroup} from "./Groups/Timer";
 import {utilsGroup} from './Groups/Utils';
 import dotenv from "dotenv";
 import jwt from "@elysiajs/jwt";
-import {Auth} from "./runtime/Auth";
+import {Auth} from "./Runtime/Auth";
 
 dotenv.config()
 export const BASE_URL = process.env.TM_BASE_URL || 'http://localhost:3000';
