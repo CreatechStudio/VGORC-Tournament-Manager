@@ -30,11 +30,11 @@ export const matchGroup = new Elysia()
                     })
                 })
                 .post('update', ({ match, body }) =>
-                    match.setScore(body.divisionName, body.matchNumber, body.score), {
+                    match.setScore(body.divisionName, body.matchNumber, body.scoreDetails), {
                     body: t.Object({
                         divisionName: t.String(),
                         matchNumber: t.Number(),
-                        score: t.Number()
+                        scoreDetails: t.Record(t.String(), t.Number()),
                     })
                 })
         )

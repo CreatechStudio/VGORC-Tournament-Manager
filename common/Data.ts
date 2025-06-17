@@ -29,7 +29,11 @@ export const DEFAULT_DATA: Data = {
     locked: false,
     auth: [],
     settings: {
-        adminData: {playerDuration: 0, eliminationAllianceCount: 0},
+        adminData: {
+            playerDuration: 0,
+            eliminationAllianceCount: 0,
+            matchGoals: {}
+        },
         division: [],
         fieldSets: [],
         display: []

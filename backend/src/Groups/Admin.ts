@@ -4,6 +4,11 @@ import {Admin} from "../runtime/Admin";
 
 const MODULE_PERMISSION = "admin"
 
+const MatchGoal = t.Object({
+    name: t.String(),
+    points: t.Number()
+});
+
 export const adminGroup = new Elysia()
     .decorate('admin', new Admin())
     .group('/admin', (app) => app
@@ -28,7 +33,8 @@ export const adminGroup = new Elysia()
                     body: t.Object({
                         data: t.Object({
                             playerDuration: t.Number(),
-                            eliminationAllianceCount: t.Number()
+                            eliminationAllianceCount: t.Number(),
+                            matchGoals: t.Record(t.String(), MatchGoal)
                         })
                     })
                 })

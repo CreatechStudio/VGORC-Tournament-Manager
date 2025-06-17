@@ -3,7 +3,11 @@ import {Data} from "../../../common/Data";
 import {AdminObject} from "../../../common/Admin";
 
 export class Admin {
-    data: AdminObject = {playerDuration: 0, eliminationAllianceCount: 0};
+    data: AdminObject = {
+        playerDuration: 0,
+        eliminationAllianceCount: 0,
+        matchGoals: {}
+    };
     db: Utils = new Utils();
 
     add(obj: AdminObject) {

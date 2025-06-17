@@ -1,6 +1,7 @@
 import {Utils} from "../Utils";
 import {Data} from "../../../common/Data";
 import {MatchObject, MatchWithDivision} from "../../../common/Match";
+import {Admin} from "./Admin";
 
 export class Match {
     data: MatchWithDivision[] = [];
@@ -25,12 +26,29 @@ export class Match {
         return foundMatch;
     }
 
-    setScore(divisionName: string, matchNumber: number, score: number) {
-        let decodedDivisionName = decodeURIComponent(divisionName);
-        let currentMatch = this._locateMatch(decodedDivisionName, matchNumber);
-        currentMatch.matchScore = score;
-        currentMatch.matchScoreHistory.push(score);
+    setScore(
+        divisionName: string,
+        matchNumber: number,
+        scoreDetails: Record<string, number>
+    ) {
+        const decodedDivisionName = decodeURIComponent(divisionName);
+        const currentMatch = this._locateMatch(decodedDivisionName, matchNumber);
+        const admin = new Admin()
+        const matchGoals = admin.get().matchGoals;
+        let totalScore = 0;
+
+        for (const [key, count] of Object.entries(scoreDetails)) {
+            const goal = matchGoals[key];
+            if (!goal) {
+                throw `Invalid matchGoal key: ${key}`;
+            }
+            totalScore += goal.points * count;
+        }
+
+        currentMatch.matchScore = totalScore;
+        currentMatch.matchScoreHistory.push(totalScore);
         currentMatch.hasScore = true;
+        currentMatch.scoreDetails = scoreDetails;
 
         this.data.forEach(division => {
             if (division.divisionName === decodedDivisionName) {
