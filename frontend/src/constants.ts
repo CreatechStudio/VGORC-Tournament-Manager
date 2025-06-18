@@ -6,8 +6,18 @@ import {getReq} from "./net.ts";
 import toast from "react-hot-toast";
 import {MatchGoalArrayItem} from "./accordions/BasicAccordion.tsx";
 
-// @ts-ignore
-export const env = await getReq('/env/TM');
+let env = {
+    TM_RANK_TABLE_SCROLL_SPEED: "",
+    TM_VENDOR_LOGO: "",
+    TM_TOURNAMENT_NAME: "",
+    TM_LOGO_INTERVAL_NUMBER: ""
+};
+
+try {
+    env = await getReq('/env/TM');
+} catch {
+    console.error("Failed to load environment variables for TM");
+}
 
 export const ASPECT_RATIO = 1/0.618;
 export const SMALL_PART = 38.2;

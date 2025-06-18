@@ -184,7 +184,8 @@ export function toLogin() {
 
 export function PingPongTest(
     onSuccess?: () => void,
-    onFailed?: () => void
+    onFailed?: () => void,
+    onlyOnce?: boolean = false
 ) {
     axiosInstance.get('/api//ping', {
         timeout: 1000
@@ -203,6 +204,7 @@ export function PingPongTest(
             onFailed();
         }
     }).finally(() => {
+        if (onlyOnce) return;
         setTimeout(() => {
             PingPongTest(onSuccess, onFailed);
         }, 1000);

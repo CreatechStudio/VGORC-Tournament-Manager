@@ -4,10 +4,12 @@ import {routes} from "./route.tsx";
 import {HashRouter, Route, Routes} from "react-router-dom";
 import React from "react";
 import {LARGE_PART, PAD, PAD2} from "./constants.ts";
+import {PingPongTest} from "./net.ts";
 
 type AppProps = object;
 interface AppState {
     hasError: boolean;
+    backendG: boolean;
 }
 
 function WrongPage() {
@@ -33,12 +35,45 @@ function WrongPage() {
     );
 }
 
+function BackendGPage() {
+    return (
+        <Sheet sx={{
+            width: '100%', height: '95vh', overflow: 'hidden', gap: PAD,
+            display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'
+        }}>
+            <Card color="danger" sx={{width: `${LARGE_PART}%`, minWidth: `${PAD2*5}rem`}}>
+                <Typography level="title-lg">
+                    Backend Not Exist!
+                </Typography>
+                <Typography level="body-md">
+                    Please contact with website maintainers to get help.
+                </Typography>
+                <Button onClick={() => {
+                    window.location.reload();
+                }} color="danger">
+                    Refresh
+                </Button>
+            </Card>
+        </Sheet>
+    );
+}
+
 class App extends React.Component<AppProps, AppState> {
     constructor(props: never) {
         super(props);
         this.state = {
             hasError: false,
-        }
+            backendG: false,
+        };
+        PingPongTest(
+            () => {
+                this.setState({backendG: false});
+            },
+            () => {
+                this.setState({backendG: true})
+            },
+            true
+        );
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -50,7 +85,11 @@ class App extends React.Component<AppProps, AppState> {
 
     render() {
         if (this.state.hasError) {
-            return <WrongPage />;
+            return <WrongPage/>;
+        }
+
+        if (this.state.backendG) {
+            return <BackendGPage/>;
         }
 
         return (
