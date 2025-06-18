@@ -5,7 +5,7 @@ import {HashRouter, Route, Routes} from "react-router-dom";
 import React from "react";
 import {LARGE_PART, PAD, PAD2} from "./constants.ts";
 
-interface AppProps {}
+type AppProps = object;
 interface AppState {
     hasError: boolean;
 }
@@ -34,14 +34,15 @@ function WrongPage() {
 }
 
 class App extends React.Component<AppProps, AppState> {
-    constructor(props: any) {
+    constructor(props: never) {
         super(props);
         this.state = {
             hasError: false,
         }
     }
 
-    componentDidCatch(_error: any, _info: any) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    componentDidCatch(_error: never, _info: never) {
         this.setState({
             hasError: true,
         });

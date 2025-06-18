@@ -4,6 +4,7 @@ import {FieldSetObject} from "../../common/FieldSet.ts";
 import {PeriodObject} from "../../common/Period.ts";
 import {getReq} from "./net.ts";
 import toast from "react-hot-toast";
+import {MatchGoalArrayItem} from "./accordions/BasicAccordion.tsx";
 
 // @ts-ignore
 export const env = await getReq('/env/TM');
@@ -45,6 +46,12 @@ export const DEFAULT_PERIOD: PeriodObject = {
     periodStartTime: "",
     periodEndTime: "",
     periodMatchDuration: 1
+}
+
+export const DEFAULT_MATCH_GOAL_ITEM: MatchGoalArrayItem = {
+    id: "",
+    name: "",
+    points: 0
 }
 
 

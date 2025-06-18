@@ -11,7 +11,7 @@
     "@elysiajs/cors": "^1.1.1",
     "@elysiajs/jwt": "^1.1.1",
     "@elysiajs/swagger": "^1.1.5",
-    "@polar-sh/sdk": "^0.33.1",
+    "@polar-sh/sdk": "^0.33.0",
     "axios": "^1.10.0",
     "dotenv": "^16.4.5",
     "elysia": "latest",

@@ -72,14 +72,16 @@ export default function TournamentTable<T extends Record<keyof T, string | strin
     getDeleteEndpoint,
     updateEndpoint,
     allowUpload,
+    onSave,
     title
 } : {
     arr: T[];
     setArr: (newArr: T[]) => void;
     defaultValue: T;
     disabled?: boolean;
-    getDeleteEndpoint: (obj: T) => string;
-    updateEndpoint: string;
+    getDeleteEndpoint?: (obj: T) => string;
+    updateEndpoint?: string;
+    onSave?: (data: T[]) => void;
     allowUpload?: boolean;
     title: string;
 }) {
@@ -178,6 +180,14 @@ export default function TournamentTable<T extends Record<keyof T, string | strin
 
     function handleSave(data?: T[]) {
         const newArr = data || localArr;
+
+        if (!updateEndpoint) {
+            if (onSave) {
+                onSave(newArr);
+            }
+            return;
+        }
+
         let changeFlag = false;
         let successFlag = true;
         const promises: Promise<unknown>[] = [];
@@ -212,6 +222,13 @@ export default function TournamentTable<T extends Record<keyof T, string | strin
     function handleDelete(index: number) {
         const obj = localArr[index];
         if (includes(arr, obj)) {
+            if (!getDeleteEndpoint) {
+                if (onSave) {
+                    onSave(localArr.filter((_, i) => i !== index));
+                }
+                return;
+            }
+
             deleteReq(getDeleteEndpoint(obj)).then((res) => {
                 setArr(res || arr);
                 const newArr = JSON.parse(JSON.stringify(localArr));

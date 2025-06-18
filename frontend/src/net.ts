@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import {RETURN_URL_KEY} from "./constants.ts";
 // @ts-expect-error no type declare
 import Base64 from "base-64";
+import {sha256} from "js-sha256";
 
 const axiosInstance = axios.default.create({
     withCredentials: true,
@@ -13,7 +14,7 @@ const axiosInstance = axios.default.create({
 });
 
 interface TempData {
-    data: any,
+    data: never,
     startTime: number
 }
 
@@ -32,11 +33,12 @@ function solveErr(e: never) {
     }
 }
 
-function getTempKey(url: string, data?: any) {
-    return url + Base64.encode(JSON.stringify(data));
+function getTempKey(url: string, data?: never) {
+    if (!data) return url;
+    return url + sha256(JSON.stringify(data));
 }
 
-function insertTemp(tempKey: string, data: any) {
+function insertTemp(tempKey: string, data: never) {
     const current = new Date().getTime();
     temp[tempKey] = {
         data: data,

@@ -9,11 +9,16 @@ import {
     Typography
 } from "@mui/joy";
 import {useEffect, useState} from "react";
-import {PAD} from "../constants.ts";
-import {AdminObject} from "../../../common/Admin.ts";
+import {DEFAULT_MATCH_GOAL_ITEM, PAD} from "../constants.ts";
+import {AdminObject, MatchGoal} from "../../../common/Admin.ts";
 import {getReq, postReq} from "../net.ts";
 import toast from "react-hot-toast";
 import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
+import TournamentTable from "../components/TournamentTable.tsx";
+
+export interface MatchGoalArrayItem {
+    id: string, name: string, points: number
+}
 
 export default function BasicAccordion({
     disabled
@@ -22,20 +27,54 @@ export default function BasicAccordion({
 }) {
     const [data, setData] = useState<AdminObject>({
         playerDuration: 60,
-        eliminationAllianceCount: 5
+        eliminationAllianceCount: 5,
+        matchGoals: {}
     });
 
+    const [goals, setGoals] = useState<MatchGoalArrayItem[]>([]);
+
     useEffect(() => {
-        getReq("/admin").then((res) => {
+        setData({
+            ...data,
+            matchGoals: array2MatchGoals(goals)
+        });
+    }, [goals, setGoals]);
+
+    useEffect(() => {
+        getReq("/admin").then((res: AdminObject) => {
             if (res) {
                 setData(res);
+                setGoals(matchGoals2Array(res.matchGoals));
             }
         }).catch();
     }, []);
 
-    function handleSave() {
+    function matchGoals2Array(matchGoals: {[key: string]: MatchGoal}): MatchGoalArrayItem[] {
+        const result: MatchGoalArrayItem[] = [];
+        Object.keys(matchGoals).forEach(key => {
+            result.push({
+                id: key,
+                name: matchGoals[key].name,
+                points: matchGoals[key].points
+            });
+        });
+        return result;
+    }
+
+    function array2MatchGoals(arr: MatchGoalArrayItem[]): {[key: string]: MatchGoal} {
+        const matchGoals: {[key: string]: MatchGoal} = {};
+        arr.forEach((goal) => {
+            matchGoals[goal.id] = {
+                name: goal.name,
+                points: goal.points
+            };
+        });
+        return matchGoals;
+    }
+
+    function handleSave(newData?: AdminObject) {
         postReq("/admin/update", {
-            data: data
+            data: newData ?? data
         }).then((res) => {
             if (res) {
                 setData(res);
@@ -46,12 +85,28 @@ export default function BasicAccordion({
         });
     }
 
-    function handleChangeData(k: string, value: any) {
-        const newData: AdminObject = JSON.parse(JSON.stringify(data));
-        // @ts-ignore
-        newData[k] = value;
-        console.log(newData);
+    function handleSaveGoals(goals: MatchGoalArrayItem[]) {
+        setGoals(goals);
+        const newData: AdminObject = {
+            ...data,
+            matchGoals: array2MatchGoals(goals)
+        };
         setData(newData);
+        handleSave(newData);
+    }
+
+    function setPlayerDuration(duration: number) {
+        setData({
+            ...data,
+            playerDuration: duration
+        });
+    }
+
+    function setEliminationAllianceCount(count: number) {
+        setData({
+            ...data,
+            eliminationAllianceCount: count
+        });
     }
 
     function parseIntegerResult(data: string, oldValue: number) {
@@ -101,7 +156,7 @@ export default function BasicAccordion({
                                 variant="soft"
                                 value={data.playerDuration}
                                 onChange={(e) =>
-                                    handleChangeData("playerDuration", parseIntegerResult(e.target.value, data.playerDuration))
+                                    setPlayerDuration(parseIntegerResult(e.target.value, data.playerDuration))
                                 }
                                 sx={{flexGrow: 1}}
                                 disabled={disabled}
@@ -122,7 +177,7 @@ export default function BasicAccordion({
                                 variant="soft"
                                 value={data.eliminationAllianceCount}
                                 onChange={(e) =>
-                                    handleChangeData("eliminationAllianceCount", parseIntegerResult(e.target.value, data.eliminationAllianceCount))
+                                    setEliminationAllianceCount(parseIntegerResult(e.target.value, data.eliminationAllianceCount))
                                 }
                                 sx={{flexGrow: 1}}
                                 disabled={disabled}
@@ -131,6 +186,13 @@ export default function BasicAccordion({
                     </tr>
                     </tbody>
                 </Table>
+                <TournamentTable
+                    arr={goals}
+                    setArr={setGoals}
+                    defaultValue={DEFAULT_MATCH_GOAL_ITEM}
+                    onSave={handleSaveGoals}
+                    title="Match Goals"
+                />
             </AccordionDetails>
         </Accordion>
     );

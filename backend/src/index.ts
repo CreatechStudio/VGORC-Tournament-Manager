@@ -132,7 +132,7 @@ new Elysia()
     .use(teamGroup)
     .use(timerGroup)
     .use(utilsGroup)
-    .listen(3000);
+    .listen(3001);
 
 console.log(
     `🤖 VGORC TM API Backend is running at ${BASE_URL}`
