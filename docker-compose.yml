@@ -1,4 +1,16 @@
 services:
+
+  frontend:
+    image: createchstudio/vgorc-tm-frontend:latest
+    container_name: frontend
+    depends_on:
+      - backend
+    ports:
+      - "8199:80"
+    networks:
+      vgorctm:
+        ipv4_address: 172.30.0.10
+
   backend:
     image: createchstudio/vgorc-tm-backend:${DOCKER_ARCH}
     container_name: backend
@@ -20,16 +32,17 @@ services:
       vgorctm:
         ipv4_address: 172.30.0.20
 
-  frontend:
-    image: createchstudio/vgorc-tm-frontend:latest
-    container_name: frontend
-    depends_on:
-      - backend
-    ports:
-      - "8199:80"
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflared
+    command: tunnel --no-autoupdate run --token ${CLOUDFLARED_TUNNEL_TOKEN}
+    restart: unless-stopped
     networks:
       vgorctm:
-        ipv4_address: 172.30.0.10
+        ipv4_address: 172.30.0.30
+    depends_on:
+      - backend
+      - frontend
 
 networks:
   vgorctm:
