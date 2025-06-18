@@ -21,6 +21,7 @@ import {Auth} from "./Runtime/Auth";
 
 dotenv.config()
 export const BASE_URL = process.env.TM_BASE_URL || 'http://localhost:3000';
+export const BASE_PORT = new URL(BASE_URL).port;
 export const WEB_URL = process.env.TM_WEB_URL || 'http://localhost:5173';
 const JWT_SECRET = process.env.TM_JWT_SECRET || 'Createch';
 const licenseInfo = await validLicenseKey();
@@ -132,7 +133,7 @@ new Elysia()
     .use(teamGroup)
     .use(timerGroup)
     .use(utilsGroup)
-    .listen(3001);
+    .listen(BASE_PORT);
 
 console.log(
     `🤖 VGORC TM API Backend is running at ${BASE_URL}`
