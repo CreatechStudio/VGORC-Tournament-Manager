@@ -34,6 +34,9 @@ export const scheduleGroup = new Elysia()
                         } else if (params.matchType === 'Elimination') {
                             schedule.addElimination();
                             return schedule.get();
+                        } else if (params.matchType === 'Final') {
+                            schedule.addFinal();
+                            return schedule.get();
                         }
                     } catch (e) {
                         return error(406, e);

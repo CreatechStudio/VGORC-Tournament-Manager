@@ -37,7 +37,8 @@ const ScheduleActionOptions: ScheduleActionOption[] = [
 
 enum MatchType {
     Elimination = "Elimination",
-    Qualification = "Qualification"
+    Qualification = "Qualification",
+    Final = "Final"
 }
 
 type MatchTypeOption = {
@@ -53,6 +54,10 @@ const MatchTypeOptions: MatchTypeOption[] = [
     {
         label: "Qualification",
         type: MatchType.Qualification
+    },
+    {
+        label: "Final",
+        type: MatchType.Final
     }
 ]
 

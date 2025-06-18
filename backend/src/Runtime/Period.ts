@@ -98,7 +98,7 @@ export class Period {
     delete(periodNumber: number) {
         const index = this._indexOf(periodNumber);
         if (index === -1) {
-            throw new Error(`Period ${periodNumber} not found`);
+            throw `Period ${periodNumber} not found`;
         } else {
             this.data.splice(index, 1);
             this._update();

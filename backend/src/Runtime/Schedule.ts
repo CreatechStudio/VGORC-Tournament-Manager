@@ -4,6 +4,7 @@ import {TeamObject} from "../../../common/Team";
 import {Data} from "../../../common/Data";
 import {Ranking} from "./Ranking";
 import dayjs from "dayjs";
+import {Division} from "./Division";
 
 export class Schedule {
     dataTeam: TeamObject[] = [];
@@ -76,6 +77,8 @@ export class Schedule {
             const matchTime = baseTime.add(matchOffsetMinutes, 'minute');
 
             return matchTime.toISOString();
+        } else {
+            return "";
         }
     }
 
@@ -237,6 +240,9 @@ export class Schedule {
         filteredMatches.forEach((matches) => {
             matches.matches.forEach((match) => {
                 match.matchStartTime = dayjs(match.matchStartTime).format('ddd, MMM D, HH:mm');
+                if (match.matchStartTime === "Invalid Date") {
+                    match.matchStartTime = "Manual Control";
+                }
             });
         });
         return filteredMatches;
@@ -339,7 +345,7 @@ export class Schedule {
         let allMatches: MatchObject[][] = Array.from({ length: divisionName.length }, () => []);
         divisionName.forEach(division => {
             if (!this._ensureAllQualificationIsScored(division)) {
-                throw new Error("Not all qualification matches are scored");
+                throw "Not all qualification matches are scored";
             }
             let allQMatches = this.dataMatchWithDivision[divisionName.indexOf(division)].matches.filter(match => match.matchType === "Qualification");
             let matchNumber = allQMatches[allQMatches.length-1].matchNumber + 1;
@@ -349,6 +355,9 @@ export class Schedule {
                 eliminationCount = allTeams.length;
             }
             let teams = this._getLeadingTeamInDivision(division, eliminationCount);
+            if (teams.length % 2 !== 0) {
+                teams.pop();
+            }
             let fields = this._getAllFieldsInDivision(division);
             for (let i = 0; i < teams.length; i += 2) {
                 let match: MatchObject = {
@@ -366,15 +375,70 @@ export class Schedule {
                     scoreDetails: {}
                 };
 
-                // 计算真开始时间
-                match.matchStartTime = this._getStartTime(match) || "";
-
                 allMatches[divisionName.indexOf(division)].push(match);
             }
         })
         this.dataMatchWithDivision.forEach((matches, index) => {
             matches.matches = matches.matches.concat(allMatches[index]);
         })
+
+        this._update();
+    }
+
+    addFinal() {
+
+        if (!this._ensureScheduleIsEmpty("Final")) {
+            throw "Match schedule is not empty";
+        }
+        this.dataMatchWithDivision = this.db.getData().matches;
+
+        let fields: string[] = [];
+        this._getAllFieldsSets().forEach((set) => {
+            set.fields.forEach(field => fields.push(field));
+        });
+        fields.sort((a, b) => a.localeCompare(b));
+        const DivisionTools = new Division();
+        DivisionTools.add({
+            "divisionName": "FINALS",
+            "divisionFields": fields,
+            "isSkill": false
+        })
+        let nonFinalsDivisions = this._getAllMatchDivision().filter(d => d !== "FINALS");
+        nonFinalsDivisions.forEach((division) => {
+            if (!this._ensureAllQualificationIsScored(division)) {
+                throw "Not all eliminations in all divisions are scored";
+            }
+        })
+        const RankingTools = new Ranking();
+        let divisionChampionList = nonFinalsDivisions.map(division => {
+            const ranking = RankingTools.getElimRanking(division)[0];
+            return { teamNumbers: ranking.teams, score: ranking.score };
+        }).filter(Boolean);
+        divisionChampionList.sort((a, b) => b.score - a.score);
+
+        let matchNumber = 1;
+        let allMatches: MatchObject[] = divisionChampionList
+            .map((champion, i) => ({
+                matchNumber: matchNumber++,
+                matchType: "Final",
+                matchField: fields[i % fields.length],
+                matchFieldSet: 0,
+                matchPeriod: 0,
+                matchCountInPeriod: 0,
+                matchStartTime: "",
+                matchTeam: champion.teamNumbers,
+                hasScore: false,
+                matchScore: 0,
+                matchScoreHistory: [],
+                scoreDetails: {}
+            }));
+
+        let finalsDivision = this.dataMatchWithDivision.find(d => d.divisionName === "FINALS");
+        if (finalsDivision) {
+            finalsDivision.matches = allMatches;
+        } else {
+            this.dataMatchWithDivision.push({ divisionName: "FINALS", matches: allMatches });
+        }
 
         this._update();
     }

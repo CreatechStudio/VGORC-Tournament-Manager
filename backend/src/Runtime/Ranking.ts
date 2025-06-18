@@ -140,7 +140,7 @@ export class Ranking {
         allMatchesInDivision = allMatchesInDivision.filter(match => match.divisionName === decodedDivisionName);
         let eliminationMatches: MatchObject[] = [];
         allMatchesInDivision[0].matches.forEach(match => {
-            if (match.matchType === 'Elimination') {
+            if (match.matchType === 'Elimination' || match.matchType === 'Final') {
                 eliminationMatches.push(match);
             }
         })

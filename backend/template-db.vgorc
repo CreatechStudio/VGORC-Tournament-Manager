@@ -78,6 +78,16 @@
                     "Field4"
                 ],
                 "isSkill": false
+            },
+            {
+                "divisionName": "FINALS",
+                "divisionFields": [
+                    "Field1",
+                    "Field2",
+                    "Field3",
+                    "Field4"
+                ],
+                "isSkill": false
             }
         ],
         "fieldSets": [
@@ -167,8 +177,8 @@
                         "1A",
                         "1B"
                     ],
-                    "hasScore": false,
-                    "matchScore": 0,
+                    "hasScore": true,
+                    "matchScore": 7,
                     "matchScoreHistory": [],
                     "scoreDetails": {}
                 },
@@ -184,8 +194,8 @@
                         "1D",
                         "1C"
                     ],
-                    "hasScore": false,
-                    "matchScore": 0,
+                    "hasScore": true,
+                    "matchScore": 5,
                     "matchScoreHistory": [],
                     "scoreDetails": {}
                 },
@@ -201,7 +211,7 @@
                         "1A",
                         "1B"
                     ],
-                    "hasScore": false,
+                    "hasScore": true,
                     "matchScore": 0,
                     "matchScoreHistory": [],
                     "scoreDetails": {}
@@ -218,8 +228,8 @@
                         "1C",
                         "1D"
                     ],
-                    "hasScore": false,
-                    "matchScore": 0,
+                    "hasScore": true,
+                    "matchScore": 6,
                     "matchScoreHistory": [],
                     "scoreDetails": {}
                 },
@@ -235,8 +245,8 @@
                         "1C",
                         "1A"
                     ],
-                    "hasScore": false,
-                    "matchScore": 0,
+                    "hasScore": true,
+                    "matchScore": 5,
                     "matchScoreHistory": [],
                     "scoreDetails": {}
                 },
@@ -252,8 +262,8 @@
                         "1B",
                         "1D"
                     ],
-                    "hasScore": false,
-                    "matchScore": 0,
+                    "hasScore": true,
+                    "matchScore": 7,
                     "matchScoreHistory": [],
                     "scoreDetails": {}
                 },
@@ -269,8 +279,8 @@
                         "1B",
                         "1D"
                     ],
-                    "hasScore": false,
-                    "matchScore": 0,
+                    "hasScore": true,
+                    "matchScore": 8,
                     "matchScoreHistory": [],
                     "scoreDetails": {}
                 },
@@ -286,8 +296,8 @@
                         "1C",
                         "1A"
                     ],
-                    "hasScore": false,
-                    "matchScore": 0,
+                    "hasScore": true,
+                    "matchScore": 7,
                     "matchScoreHistory": [],
                     "scoreDetails": {}
                 },
@@ -303,8 +313,8 @@
                         "1A",
                         "1B"
                     ],
-                    "hasScore": false,
-                    "matchScore": 0,
+                    "hasScore": true,
+                    "matchScore": 5,
                     "matchScoreHistory": [],
                     "scoreDetails": {}
                 },
@@ -320,8 +330,8 @@
                         "1C",
                         "1D"
                     ],
-                    "hasScore": false,
-                    "matchScore": 0,
+                    "hasScore": true,
+                    "matchScore": 6,
                     "matchScoreHistory": [],
                     "scoreDetails": {}
                 },
@@ -337,8 +347,8 @@
                         "1B",
                         "1D"
                     ],
-                    "hasScore": false,
-                    "matchScore": 0,
+                    "hasScore": true,
+                    "matchScore": 6,
                     "matchScoreHistory": [],
                     "scoreDetails": {}
                 },
@@ -354,8 +364,8 @@
                         "1C",
                         "1A"
                     ],
-                    "hasScore": false,
-                    "matchScore": 0,
+                    "hasScore": true,
+                    "matchScore": 8,
                     "matchScoreHistory": [],
                     "scoreDetails": {}
                 },
@@ -371,8 +381,8 @@
                         "1D",
                         "1A"
                     ],
-                    "hasScore": false,
-                    "matchScore": 0,
+                    "hasScore": true,
+                    "matchScore": 9,
                     "matchScoreHistory": [],
                     "scoreDetails": {}
                 },
@@ -388,8 +398,42 @@
                         "1B",
                         "1C"
                     ],
-                    "hasScore": false,
-                    "matchScore": 0,
+                    "hasScore": true,
+                    "matchScore": 6,
+                    "matchScoreHistory": [],
+                    "scoreDetails": {}
+                },
+                {
+                    "matchNumber": 15,
+                    "matchType": "Elimination",
+                    "matchField": "Field1",
+                    "matchFieldSet": 0,
+                    "matchPeriod": 0,
+                    "matchCountInPeriod": 0,
+                    "matchStartTime": "",
+                    "matchTeam": [
+                        "1C",
+                        "1B"
+                    ],
+                    "hasScore": true,
+                    "matchScore": 9,
+                    "matchScoreHistory": [],
+                    "scoreDetails": {}
+                },
+                {
+                    "matchNumber": 16,
+                    "matchType": "Elimination",
+                    "matchField": "Field1",
+                    "matchFieldSet": 0,
+                    "matchPeriod": 0,
+                    "matchCountInPeriod": 0,
+                    "matchStartTime": "",
+                    "matchTeam": [
+                        "1A",
+                        "1D"
+                    ],
+                    "hasScore": true,
+                    "matchScore": 8,
                     "matchScoreHistory": [],
                     "scoreDetails": {}
                 }
@@ -410,8 +454,8 @@
                         "2C",
                         "2B"
                     ],
-                    "hasScore": false,
-                    "matchScore": 0,
+                    "hasScore": true,
+                    "matchScore": 7,
                     "matchScoreHistory": [],
                     "scoreDetails": {}
                 },
@@ -427,8 +471,8 @@
                         "2B",
                         "2A"
                     ],
-                    "hasScore": false,
-                    "matchScore": 0,
+                    "hasScore": true,
+                    "matchScore": 6,
                     "matchScoreHistory": [],
                     "scoreDetails": {}
                 },
@@ -444,8 +488,8 @@
                         "2A",
                         "2C"
                     ],
-                    "hasScore": false,
-                    "matchScore": 0,
+                    "hasScore": true,
+                    "matchScore": 5,
                     "matchScoreHistory": [],
                     "scoreDetails": {}
                 },
@@ -461,8 +505,8 @@
                         "2C",
                         "2B"
                     ],
-                    "hasScore": false,
-                    "matchScore": 0,
+                    "hasScore": true,
+                    "matchScore": 7,
                     "matchScoreHistory": [],
                     "scoreDetails": {}
                 },
@@ -478,8 +522,8 @@
                         "2B",
                         "2A"
                     ],
-                    "hasScore": false,
-                    "matchScore": 0,
+                    "hasScore": true,
+                    "matchScore": 5,
                     "matchScoreHistory": [],
                     "scoreDetails": {}
                 },
@@ -495,8 +539,8 @@
                         "2A",
                         "2C"
                     ],
-                    "hasScore": false,
-                    "matchScore": 0,
+                    "hasScore": true,
+                    "matchScore": 8,
                     "matchScoreHistory": [],
                     "scoreDetails": {}
                 },
@@ -512,8 +556,8 @@
                         "2C",
                         "2A"
                     ],
-                    "hasScore": false,
-                    "matchScore": 0,
+                    "hasScore": true,
+                    "matchScore": 5,
                     "matchScoreHistory": [],
                     "scoreDetails": {}
                 },
@@ -529,8 +573,8 @@
                         "2A",
                         "2B"
                     ],
-                    "hasScore": false,
-                    "matchScore": 0,
+                    "hasScore": true,
+                    "matchScore": 6,
                     "matchScoreHistory": [],
                     "scoreDetails": {}
                 },
@@ -546,8 +590,8 @@
                         "2B",
                         "2C"
                     ],
-                    "hasScore": false,
-                    "matchScore": 0,
+                    "hasScore": true,
+                    "matchScore": 7,
                     "matchScoreHistory": [],
                     "scoreDetails": {}
                 },
@@ -563,8 +607,8 @@
                         "2A",
                         "2B"
                     ],
-                    "hasScore": false,
-                    "matchScore": 0,
+                    "hasScore": true,
+                    "matchScore": 5,
                     "matchScoreHistory": [],
                     "scoreDetails": {}
                 },
@@ -580,8 +624,8 @@
                         "2B",
                         "2C"
                     ],
-                    "hasScore": false,
-                    "matchScore": 0,
+                    "hasScore": true,
+                    "matchScore": 6,
                     "matchScoreHistory": [],
                     "scoreDetails": {}
                 },
@@ -597,8 +641,8 @@
                         "2C",
                         "2A"
                     ],
-                    "hasScore": false,
-                    "matchScore": 0,
+                    "hasScore": true,
+                    "matchScore": 7,
                     "matchScoreHistory": [],
                     "scoreDetails": {}
                 },
@@ -614,8 +658,8 @@
                         "2B",
                         "2A"
                     ],
-                    "hasScore": false,
-                    "matchScore": 0,
+                    "hasScore": true,
+                    "matchScore": 6,
                     "matchScoreHistory": [],
                     "scoreDetails": {}
                 },
@@ -631,8 +675,8 @@
                         "2A",
                         "2C"
                     ],
-                    "hasScore": false,
-                    "matchScore": 0,
+                    "hasScore": true,
+                    "matchScore": 5,
                     "matchScoreHistory": [],
                     "scoreDetails": {}
                 },
@@ -648,8 +692,64 @@
                         "2C",
                         "2B"
                     ],
-                    "hasScore": false,
-                    "matchScore": 0,
+                    "hasScore": true,
+                    "matchScore": 6,
+                    "matchScoreHistory": [],
+                    "scoreDetails": {}
+                },
+                {
+                    "matchNumber": 16,
+                    "matchType": "Elimination",
+                    "matchField": "Field3",
+                    "matchFieldSet": 0,
+                    "matchPeriod": 0,
+                    "matchCountInPeriod": 0,
+                    "matchStartTime": "",
+                    "matchTeam": [
+                        "2B",
+                        "2C"
+                    ],
+                    "hasScore": true,
+                    "matchScore": 10,
+                    "matchScoreHistory": [],
+                    "scoreDetails": {}
+                }
+            ]
+        },
+        {
+            "divisionName": "FINALS",
+            "matches": [
+                {
+                    "matchNumber": 1,
+                    "matchType": "Final",
+                    "matchField": "Field1",
+                    "matchFieldSet": 0,
+                    "matchPeriod": 0,
+                    "matchCountInPeriod": 0,
+                    "matchStartTime": "",
+                    "matchTeam": [
+                        "2B",
+                        "2C"
+                    ],
+                    "hasScore": true,
+                    "matchScore": 10,
+                    "matchScoreHistory": [],
+                    "scoreDetails": {}
+                },
+                {
+                    "matchNumber": 2,
+                    "matchType": "Final",
+                    "matchField": "Field2",
+                    "matchFieldSet": 0,
+                    "matchPeriod": 0,
+                    "matchCountInPeriod": 0,
+                    "matchStartTime": "",
+                    "matchTeam": [
+                        "1C",
+                        "1B"
+                    ],
+                    "hasScore": true,
+                    "matchScore": 20,
                     "matchScoreHistory": [],
                     "scoreDetails": {}
                 }
@@ -685,6 +785,21 @@
                     "placeDrugs": 4
                 }
             ]
+        },
+        {
+            "skillsTeamNumber": "2A",
+            "driverSkill": [
+                9
+            ],
+            "autoSkill": [],
+            "driverSkillDetails": [
+                {
+                    "removeDrugs": 1,
+                    "deliverDrugs": 5,
+                    "placeDrugs": 2
+                }
+            ],
+            "autoSkillDetails": []
         }
     ]
 }

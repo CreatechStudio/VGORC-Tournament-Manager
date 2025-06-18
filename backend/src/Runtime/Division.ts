@@ -63,7 +63,7 @@ export class Division {
         }
 
         let index = this._indexOf(obj.divisionName);
-        if (this._newFieldsExistInOtherDivision(obj.divisionFields, index)) {
+        if (this._newFieldsExistInOtherDivision(obj.divisionFields, index) && obj.divisionName !== "FINALS") {
             throw "Field name already exists";
         }
 
