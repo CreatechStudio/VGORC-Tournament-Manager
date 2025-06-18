@@ -42,6 +42,10 @@ export class Skill {
         skillType: SkillType,
         scoreDetails: Record<string, number>
     ) {
+        if (!skillType) {
+            throw "Skill type is required";
+        }
+
         const admin = new Admin();
         const matchGoals = admin.get().matchGoals;
 

@@ -3,6 +3,7 @@ import {MatchObject, MatchWithDivision} from "../../../common/Match";
 import {TeamObject} from "../../../common/Team";
 import {Data} from "../../../common/Data";
 import {Ranking} from "./Ranking";
+import dayjs from "dayjs";
 
 export class Schedule {
     dataTeam: TeamObject[] = [];
@@ -52,6 +53,30 @@ export class Schedule {
             allPeriods.push(period.periodNumber);
         })
         return allPeriods
+    }
+
+    _getPeriod(matchObject: MatchObject) {
+        let periods = this.db.getData().periods;
+        for (let i = 0; i < periods.length; i ++) {
+            if (periods[i].periodNumber === matchObject.matchPeriod) {
+                return periods[i];
+            }
+        }
+    }
+
+    _getStartTime(matchObject: MatchObject): string | undefined {
+        if (matchObject.matchType === "Elimination") {
+            return "";
+        }
+
+        const period = this._getPeriod(matchObject);
+        if (period) {
+            const baseTime = dayjs(period.periodStartTime);
+            const matchOffsetMinutes = period.periodMatchDuration * (matchObject.matchCountInPeriod - 1);
+            const matchTime = baseTime.add(matchOffsetMinutes, 'minute');
+
+            return matchTime.toISOString();
+        }
     }
 
     _calcMatchCountInPeriod(periodNumber: number): number {
@@ -208,8 +233,13 @@ export class Schedule {
             return allMatches;
         }
         let decodedDivisionName = decodeURIComponent(divisionName);
-        allMatches = allMatches.filter(matches => matches.divisionName === decodedDivisionName);
-        return allMatches
+        let filteredMatches = allMatches.filter(matches => matches.divisionName === decodedDivisionName);
+        filteredMatches.forEach((matches) => {
+            matches.matches.forEach((match) => {
+                match.matchStartTime = dayjs(match.matchStartTime).format('ddd, MMM D, HH:mm');
+            });
+        });
+        return filteredMatches;
     }
 
     addQualification() {
@@ -263,15 +293,20 @@ export class Schedule {
                         matchFieldSet: fieldSets[index % fieldSets.length].fieldSetId,
                         matchPeriod: period,
                         matchCountInPeriod: 0,
+                        matchStartTime: "",
                         matchTeam: pair,
                         hasScore: false,
                         matchScore: 0,
-                        matchScoreHistory: []
+                        matchScoreHistory: [],
+                        scoreDetails: {}
                     };
 
                     index += 1;
                     match.matchCountInPeriod = matchCountInPeriodWithField[match.matchField];
                     matchCountInPeriodWithField[match.matchField] += fieldSets.length;
+
+                    // 计算真开始时间
+                    match.matchStartTime = this._getStartTime(match) || "";
 
                     allMatches[divisionIndex].push(match);
 
@@ -323,11 +358,17 @@ export class Schedule {
                     matchFieldSet: 0,
                     matchPeriod: 0,
                     matchCountInPeriod: 0,
+                    matchStartTime: "",
                     matchTeam: [teams[teams.length - i - 1], teams[teams.length - (i + 1) - 1]],
                     hasScore: false,
                     matchScore: 0,
-                    matchScoreHistory: []
+                    matchScoreHistory: [],
+                    scoreDetails: {}
                 };
+
+                // 计算真开始时间
+                match.matchStartTime = this._getStartTime(match) || "";
+
                 allMatches[divisionName.indexOf(division)].push(match);
             }
         })

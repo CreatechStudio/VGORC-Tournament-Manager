@@ -110,6 +110,8 @@ export class Ranking {
             DriverScore: number;
             AutoScore: number;
             TotalScore: number;
+            DriverTries: number;
+            AutoTries: number;
         }[] = [];
 
         data.skills.forEach(team => {
@@ -121,7 +123,9 @@ export class Ranking {
                 teamNumber: team.skillsTeamNumber,
                 DriverScore: driverScore,
                 AutoScore: autoScore,
-                TotalScore: totalScore
+                TotalScore: totalScore,
+                DriverTries: team.driverSkill.length,
+                AutoTries: team.autoSkill.length
             });
         });
 

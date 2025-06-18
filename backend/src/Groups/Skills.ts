@@ -24,13 +24,21 @@ export const skillGroup = new Elysia()
                 }
             },(app) => app
                 .get('fields', ({ skill }) => skill.getAllSkillFields())
-                .post('/update', ({ skill, body }) =>
-                    skill.setSkillScore(body.teamNumber, body.skillType as SkillType, body.scoreDetails), {
-                    body: t.Object({
-                        teamNumber: t.String(),
-                        skillType: t.String(),
-                        scoreDetails: t.Record(t.String(), t.Number()),
-                    })
-                })
+                .post(
+                    '/update',
+                    ({ skill, body, error }) => {
+                        try {
+                            skill.setSkillScore(body.teamNumber, body.skillType as SkillType, body.scoreDetails);
+                        } catch (e) {
+                            return error(406, e);
+                        }
+                    }, {
+                        body: t.Object({
+                            teamNumber: t.String(),
+                            skillType: t.String(),
+                            scoreDetails: t.Record(t.String(), t.Number()),
+                        }),
+                    }
+                )
         )
     );

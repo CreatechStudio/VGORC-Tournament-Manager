@@ -36,19 +36,19 @@ export default function SchedulePage() {
 
     useEffect(() => {
         const newData = [];
-        for (let i = 0; i < schedules.length; i ++) {
+        for (let i = 0; i < schedules.length; i++) {
             const r = schedules[i];
             if (!r) continue;
             if (r.url) continue;
             newData.push([
                 `${r.matchType[0].toUpperCase()}${r.matchNumber}`,
                 r.matchTeam.join(', '),
-                getStartTime(r) || "",
+                r.matchStartTime,
                 r.matchField
             ]);
         }
         setData(newData);
-    }, [schedules, setSchedules]);
+    }, [schedules]);
 
     function handleRefreshSchedule() {
         getReq('/period').then((res) => {
@@ -68,27 +68,6 @@ export default function SchedulePage() {
                 rankTableScrollStep(tableRef, handleRefreshSchedule);
             });
         }).catch();
-    }
-
-    function getPeriod(matchObject: MatchObject) {
-        for (let i = 0; i < periods.length; i ++) {
-            if (periods[i].periodNumber === matchObject.matchPeriod) {
-                return periods[i];
-            }
-        }
-    }
-
-    function getStartTime(matchObject: MatchObject) {
-        if (matchObject.matchType === "Elimination") {
-            return "";
-        }
-        const period = getPeriod(matchObject);
-        if (period) {
-            let startTime = new Date(period.periodStartTime).getTime();
-            startTime += period.periodMatchDuration * 60 * 1000 * (matchObject.matchCountInPeriod - 1);
-            const options = { weekday: 'short', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'  };
-            return new Date(startTime).toLocaleDateString('en-GB', options);
-        }
     }
 
     return (
@@ -172,9 +151,11 @@ export default function SchedulePage() {
                                                         </Box>
                                                     </td>
                                                     <td>
-                                                        <Typography level="h2" sx={{textAlign: 'center'}}>
-                                                            {getStartTime(r) || ""}
-                                                        </Typography>
+                                                        <td>
+                                                            <Typography level="h2" sx={{ textAlign: 'center' }}>
+                                                                {r.matchStartTime || ""}
+                                                            </Typography>
+                                                        </td>
                                                     </td>
                                                     <td>
                                                         <Typography level="h2" sx={{textAlign: 'center'}}>

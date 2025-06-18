@@ -18,7 +18,7 @@
             "matchGoals": {
                 "removeDrugs": {
                     "name": "移除药品",
-                    "points": 1
+                    "points": 2
                 },
                 "deliverDrugs": {
                     "name": "运送药品",
@@ -146,9 +146,9 @@
         {
             "periodNumber": 1,
             "periodType": "Qualification",
-            "periodStartTime": "2025-06-16T18:00",
+            "periodStartTime": "2025-06-18T18:00",
             "periodEndTime": "2025-06-18T18:30",
-            "periodMatchDuration": 120
+            "periodMatchDuration": 2
         }
     ],
     "matches": [
@@ -162,29 +162,15 @@
                     "matchFieldSet": 1,
                     "matchPeriod": 1,
                     "matchCountInPeriod": 1,
+                    "matchStartTime": "2025-06-18T10:00:00.000Z",
                     "matchTeam": [
-                        "1C",
-                        "1D"
+                        "1A",
+                        "1B"
                     ],
-                    "hasScore": true,
-                    "matchScore": 12,
-                    "matchScoreHistory": [
-                        11,
-                        12
-                    ],
-                    "scoreDetails": {
-                        "removeDrugs": 1,
-                        "deliverDrugs": 1,
-                        "placeDrugs": 1,
-                        "outboundSupplies": 1,
-                        "liftRoof": 2,
-                        "transportSupplies": 1,
-                        "liftPole": 1,
-                        "raiseTree": 1,
-                        "triggerLandslide": 1,
-                        "clearRocks": 1,
-                        "parkRobot": 1
-                    }
+                    "hasScore": false,
+                    "matchScore": 0,
+                    "matchScoreHistory": [],
+                    "scoreDetails": {}
                 },
                 {
                     "matchNumber": 2,
@@ -193,13 +179,15 @@
                     "matchFieldSet": 2,
                     "matchPeriod": 1,
                     "matchCountInPeriod": 2,
+                    "matchStartTime": "2025-06-18T10:02:00.000Z",
                     "matchTeam": [
-                        "1A",
-                        "1B"
+                        "1D",
+                        "1C"
                     ],
-                    "hasScore": true,
+                    "hasScore": false,
                     "matchScore": 0,
-                    "matchScoreHistory": []
+                    "matchScoreHistory": [],
+                    "scoreDetails": {}
                 },
                 {
                     "matchNumber": 3,
@@ -208,13 +196,15 @@
                     "matchFieldSet": 1,
                     "matchPeriod": 1,
                     "matchCountInPeriod": 3,
+                    "matchStartTime": "2025-06-18T10:04:00.000Z",
                     "matchTeam": [
-                        "1C",
+                        "1A",
                         "1B"
                     ],
-                    "hasScore": true,
+                    "hasScore": false,
                     "matchScore": 0,
-                    "matchScoreHistory": []
+                    "matchScoreHistory": [],
+                    "scoreDetails": {}
                 },
                 {
                     "matchNumber": 4,
@@ -223,13 +213,15 @@
                     "matchFieldSet": 2,
                     "matchPeriod": 1,
                     "matchCountInPeriod": 4,
+                    "matchStartTime": "2025-06-18T10:06:00.000Z",
                     "matchTeam": [
-                        "1A",
+                        "1C",
                         "1D"
                     ],
-                    "hasScore": true,
+                    "hasScore": false,
                     "matchScore": 0,
-                    "matchScoreHistory": []
+                    "matchScoreHistory": [],
+                    "scoreDetails": {}
                 },
                 {
                     "matchNumber": 5,
@@ -238,13 +230,15 @@
                     "matchFieldSet": 1,
                     "matchPeriod": 1,
                     "matchCountInPeriod": 5,
+                    "matchStartTime": "2025-06-18T10:08:00.000Z",
                     "matchTeam": [
-                        "1B",
+                        "1C",
                         "1A"
                     ],
-                    "hasScore": true,
+                    "hasScore": false,
                     "matchScore": 0,
-                    "matchScoreHistory": []
+                    "matchScoreHistory": [],
+                    "scoreDetails": {}
                 },
                 {
                     "matchNumber": 6,
@@ -253,13 +247,15 @@
                     "matchFieldSet": 2,
                     "matchPeriod": 1,
                     "matchCountInPeriod": 6,
+                    "matchStartTime": "2025-06-18T10:10:00.000Z",
                     "matchTeam": [
-                        "1D",
-                        "1C"
+                        "1B",
+                        "1D"
                     ],
-                    "hasScore": true,
+                    "hasScore": false,
                     "matchScore": 0,
-                    "matchScoreHistory": []
+                    "matchScoreHistory": [],
+                    "scoreDetails": {}
                 },
                 {
                     "matchNumber": 7,
@@ -268,13 +264,15 @@
                     "matchFieldSet": 1,
                     "matchPeriod": 1,
                     "matchCountInPeriod": 7,
+                    "matchStartTime": "2025-06-18T10:12:00.000Z",
                     "matchTeam": [
-                        "1C",
+                        "1B",
                         "1D"
                     ],
-                    "hasScore": true,
+                    "hasScore": false,
                     "matchScore": 0,
-                    "matchScoreHistory": []
+                    "matchScoreHistory": [],
+                    "scoreDetails": {}
                 },
                 {
                     "matchNumber": 8,
@@ -283,13 +281,15 @@
                     "matchFieldSet": 2,
                     "matchPeriod": 1,
                     "matchCountInPeriod": 8,
+                    "matchStartTime": "2025-06-18T10:14:00.000Z",
                     "matchTeam": [
-                        "1A",
-                        "1B"
+                        "1C",
+                        "1A"
                     ],
-                    "hasScore": true,
+                    "hasScore": false,
                     "matchScore": 0,
-                    "matchScoreHistory": []
+                    "matchScoreHistory": [],
+                    "scoreDetails": {}
                 },
                 {
                     "matchNumber": 9,
@@ -298,13 +298,15 @@
                     "matchFieldSet": 1,
                     "matchPeriod": 1,
                     "matchCountInPeriod": 9,
+                    "matchStartTime": "2025-06-18T10:16:00.000Z",
                     "matchTeam": [
                         "1A",
-                        "1D"
+                        "1B"
                     ],
-                    "hasScore": true,
+                    "hasScore": false,
                     "matchScore": 0,
-                    "matchScoreHistory": []
+                    "matchScoreHistory": [],
+                    "scoreDetails": {}
                 },
                 {
                     "matchNumber": 10,
@@ -313,13 +315,15 @@
                     "matchFieldSet": 2,
                     "matchPeriod": 1,
                     "matchCountInPeriod": 10,
+                    "matchStartTime": "2025-06-18T10:18:00.000Z",
                     "matchTeam": [
                         "1C",
-                        "1B"
+                        "1D"
                     ],
-                    "hasScore": true,
+                    "hasScore": false,
                     "matchScore": 0,
-                    "matchScoreHistory": []
+                    "matchScoreHistory": [],
+                    "scoreDetails": {}
                 },
                 {
                     "matchNumber": 11,
@@ -328,13 +332,15 @@
                     "matchFieldSet": 1,
                     "matchPeriod": 1,
                     "matchCountInPeriod": 11,
+                    "matchStartTime": "2025-06-18T10:20:00.000Z",
                     "matchTeam": [
-                        "1A",
-                        "1B"
+                        "1B",
+                        "1D"
                     ],
-                    "hasScore": true,
+                    "hasScore": false,
                     "matchScore": 0,
-                    "matchScoreHistory": []
+                    "matchScoreHistory": [],
+                    "scoreDetails": {}
                 },
                 {
                     "matchNumber": 12,
@@ -343,13 +349,15 @@
                     "matchFieldSet": 2,
                     "matchPeriod": 1,
                     "matchCountInPeriod": 12,
+                    "matchStartTime": "2025-06-18T10:22:00.000Z",
                     "matchTeam": [
-                        "1D",
-                        "1C"
+                        "1C",
+                        "1A"
                     ],
-                    "hasScore": true,
+                    "hasScore": false,
                     "matchScore": 0,
-                    "matchScoreHistory": []
+                    "matchScoreHistory": [],
+                    "scoreDetails": {}
                 },
                 {
                     "matchNumber": 13,
@@ -358,13 +366,15 @@
                     "matchFieldSet": 1,
                     "matchPeriod": 1,
                     "matchCountInPeriod": 13,
+                    "matchStartTime": "2025-06-18T10:24:00.000Z",
                     "matchTeam": [
-                        "1C",
+                        "1D",
                         "1A"
                     ],
-                    "hasScore": true,
+                    "hasScore": false,
                     "matchScore": 0,
-                    "matchScoreHistory": []
+                    "matchScoreHistory": [],
+                    "scoreDetails": {}
                 },
                 {
                     "matchNumber": 14,
@@ -373,163 +383,15 @@
                     "matchFieldSet": 2,
                     "matchPeriod": 1,
                     "matchCountInPeriod": 14,
-                    "matchTeam": [
-                        "1B",
-                        "1D"
-                    ],
-                    "hasScore": true,
-                    "matchScore": 0,
-                    "matchScoreHistory": []
-                },
-                {
-                    "matchNumber": 15,
-                    "matchType": "Qualification",
-                    "matchField": "Field1",
-                    "matchFieldSet": 1,
-                    "matchPeriod": 1,
-                    "matchCountInPeriod": 15,
-                    "matchTeam": [
-                        "1B",
-                        "1A"
-                    ],
-                    "hasScore": true,
-                    "matchScore": 0,
-                    "matchScoreHistory": []
-                },
-                {
-                    "matchNumber": 16,
-                    "matchType": "Qualification",
-                    "matchField": "Field2",
-                    "matchFieldSet": 2,
-                    "matchPeriod": 1,
-                    "matchCountInPeriod": 16,
-                    "matchTeam": [
-                        "1D",
-                        "1C"
-                    ],
-                    "hasScore": true,
-                    "matchScore": 0,
-                    "matchScoreHistory": []
-                },
-                {
-                    "matchNumber": 17,
-                    "matchType": "Qualification",
-                    "matchField": "Field1",
-                    "matchFieldSet": 1,
-                    "matchPeriod": 1,
-                    "matchCountInPeriod": 17,
-                    "matchTeam": [
-                        "1A",
-                        "1D"
-                    ],
-                    "hasScore": true,
-                    "matchScore": 0,
-                    "matchScoreHistory": []
-                },
-                {
-                    "matchNumber": 18,
-                    "matchType": "Qualification",
-                    "matchField": "Field2",
-                    "matchFieldSet": 2,
-                    "matchPeriod": 1,
-                    "matchCountInPeriod": 18,
-                    "matchTeam": [
-                        "1C",
-                        "1B"
-                    ],
-                    "hasScore": true,
-                    "matchScore": 0,
-                    "matchScoreHistory": []
-                },
-                {
-                    "matchNumber": 19,
-                    "matchType": "Qualification",
-                    "matchField": "Field1",
-                    "matchFieldSet": 1,
-                    "matchPeriod": 1,
-                    "matchCountInPeriod": 19,
-                    "matchTeam": [
-                        "1A",
-                        "1C"
-                    ],
-                    "hasScore": true,
-                    "matchScore": 0,
-                    "matchScoreHistory": []
-                },
-                {
-                    "matchNumber": 20,
-                    "matchType": "Qualification",
-                    "matchField": "Field2",
-                    "matchFieldSet": 2,
-                    "matchPeriod": 1,
-                    "matchCountInPeriod": 20,
-                    "matchTeam": [
-                        "1D",
-                        "1B"
-                    ],
-                    "hasScore": true,
-                    "matchScore": 0,
-                    "matchScoreHistory": []
-                },
-                {
-                    "matchNumber": 21,
-                    "matchType": "Qualification",
-                    "matchField": "Field1",
-                    "matchFieldSet": 1,
-                    "matchPeriod": 1,
-                    "matchCountInPeriod": 21,
+                    "matchStartTime": "2025-06-18T10:26:00.000Z",
                     "matchTeam": [
                         "1B",
                         "1C"
                     ],
-                    "hasScore": true,
+                    "hasScore": false,
                     "matchScore": 0,
-                    "matchScoreHistory": []
-                },
-                {
-                    "matchNumber": 22,
-                    "matchType": "Qualification",
-                    "matchField": "Field2",
-                    "matchFieldSet": 2,
-                    "matchPeriod": 1,
-                    "matchCountInPeriod": 22,
-                    "matchTeam": [
-                        "1A",
-                        "1D"
-                    ],
-                    "hasScore": true,
-                    "matchScore": 0,
-                    "matchScoreHistory": []
-                },
-                {
-                    "matchNumber": 23,
-                    "matchType": "Qualification",
-                    "matchField": "Field1",
-                    "matchFieldSet": 1,
-                    "matchPeriod": 1,
-                    "matchCountInPeriod": 23,
-                    "matchTeam": [
-                        "1C",
-                        "1A"
-                    ],
-                    "hasScore": true,
-                    "matchScore": 0,
-                    "matchScoreHistory": []
-                },
-                {
-                    "matchNumber": 24,
-                    "matchType": "Qualification",
-                    "matchField": "Field2",
-                    "matchFieldSet": 2,
-                    "matchPeriod": 1,
-                    "matchCountInPeriod": 24,
-                    "matchTeam": [
-                        "1B",
-                        "1D"
-                    ],
-                    "hasScore": true,
-                    "matchScore": 0,
-                    "matchScoreHistory": []
+                    "matchScoreHistory": [],
+                    "scoreDetails": {}
                 }
             ]
         },
@@ -543,13 +405,15 @@
                     "matchFieldSet": 1,
                     "matchPeriod": 1,
                     "matchCountInPeriod": 1,
+                    "matchStartTime": "2025-06-18T10:00:00.000Z",
                     "matchTeam": [
-                        "2B",
-                        "2C"
+                        "2C",
+                        "2B"
                     ],
-                    "hasScore": true,
+                    "hasScore": false,
                     "matchScore": 0,
-                    "matchScoreHistory": []
+                    "matchScoreHistory": [],
+                    "scoreDetails": {}
                 },
                 {
                     "matchNumber": 2,
@@ -558,13 +422,15 @@
                     "matchFieldSet": 2,
                     "matchPeriod": 1,
                     "matchCountInPeriod": 2,
+                    "matchStartTime": "2025-06-18T10:02:00.000Z",
                     "matchTeam": [
-                        "2C",
+                        "2B",
                         "2A"
                     ],
-                    "hasScore": true,
+                    "hasScore": false,
                     "matchScore": 0,
-                    "matchScoreHistory": []
+                    "matchScoreHistory": [],
+                    "scoreDetails": {}
                 },
                 {
                     "matchNumber": 3,
@@ -573,13 +439,15 @@
                     "matchFieldSet": 1,
                     "matchPeriod": 1,
                     "matchCountInPeriod": 3,
+                    "matchStartTime": "2025-06-18T10:04:00.000Z",
                     "matchTeam": [
                         "2A",
-                        "2B"
+                        "2C"
                     ],
-                    "hasScore": true,
+                    "hasScore": false,
                     "matchScore": 0,
-                    "matchScoreHistory": []
+                    "matchScoreHistory": [],
+                    "scoreDetails": {}
                 },
                 {
                     "matchNumber": 4,
@@ -588,13 +456,15 @@
                     "matchFieldSet": 2,
                     "matchPeriod": 1,
                     "matchCountInPeriod": 4,
+                    "matchStartTime": "2025-06-18T10:06:00.000Z",
                     "matchTeam": [
-                        "2A",
+                        "2C",
                         "2B"
                     ],
-                    "hasScore": true,
+                    "hasScore": false,
                     "matchScore": 0,
-                    "matchScoreHistory": []
+                    "matchScoreHistory": [],
+                    "scoreDetails": {}
                 },
                 {
                     "matchNumber": 5,
@@ -603,13 +473,15 @@
                     "matchFieldSet": 1,
                     "matchPeriod": 1,
                     "matchCountInPeriod": 5,
+                    "matchStartTime": "2025-06-18T10:08:00.000Z",
                     "matchTeam": [
                         "2B",
-                        "2C"
+                        "2A"
                     ],
-                    "hasScore": true,
+                    "hasScore": false,
                     "matchScore": 0,
-                    "matchScoreHistory": []
+                    "matchScoreHistory": [],
+                    "scoreDetails": {}
                 },
                 {
                     "matchNumber": 6,
@@ -618,13 +490,15 @@
                     "matchFieldSet": 2,
                     "matchPeriod": 1,
                     "matchCountInPeriod": 6,
+                    "matchStartTime": "2025-06-18T10:10:00.000Z",
                     "matchTeam": [
-                        "2C",
-                        "2A"
+                        "2A",
+                        "2C"
                     ],
-                    "hasScore": true,
+                    "hasScore": false,
                     "matchScore": 0,
-                    "matchScoreHistory": []
+                    "matchScoreHistory": [],
+                    "scoreDetails": {}
                 },
                 {
                     "matchNumber": 7,
@@ -633,13 +507,15 @@
                     "matchFieldSet": 1,
                     "matchPeriod": 1,
                     "matchCountInPeriod": 7,
+                    "matchStartTime": "2025-06-18T10:12:00.000Z",
                     "matchTeam": [
-                        "2B",
-                        "2C"
+                        "2C",
+                        "2A"
                     ],
-                    "hasScore": true,
+                    "hasScore": false,
                     "matchScore": 0,
-                    "matchScoreHistory": []
+                    "matchScoreHistory": [],
+                    "scoreDetails": {}
                 },
                 {
                     "matchNumber": 8,
@@ -648,13 +524,15 @@
                     "matchFieldSet": 2,
                     "matchPeriod": 1,
                     "matchCountInPeriod": 8,
+                    "matchStartTime": "2025-06-18T10:14:00.000Z",
                     "matchTeam": [
-                        "2C",
-                        "2A"
+                        "2A",
+                        "2B"
                     ],
-                    "hasScore": true,
+                    "hasScore": false,
                     "matchScore": 0,
-                    "matchScoreHistory": []
+                    "matchScoreHistory": [],
+                    "scoreDetails": {}
                 },
                 {
                     "matchNumber": 9,
@@ -663,13 +541,15 @@
                     "matchFieldSet": 1,
                     "matchPeriod": 1,
                     "matchCountInPeriod": 9,
+                    "matchStartTime": "2025-06-18T10:16:00.000Z",
                     "matchTeam": [
-                        "2A",
-                        "2B"
+                        "2B",
+                        "2C"
                     ],
-                    "hasScore": true,
+                    "hasScore": false,
                     "matchScore": 0,
-                    "matchScoreHistory": []
+                    "matchScoreHistory": [],
+                    "scoreDetails": {}
                 },
                 {
                     "matchNumber": 10,
@@ -678,13 +558,15 @@
                     "matchFieldSet": 2,
                     "matchPeriod": 1,
                     "matchCountInPeriod": 10,
+                    "matchStartTime": "2025-06-18T10:18:00.000Z",
                     "matchTeam": [
-                        "2B",
-                        "2A"
+                        "2A",
+                        "2B"
                     ],
-                    "hasScore": true,
+                    "hasScore": false,
                     "matchScore": 0,
-                    "matchScoreHistory": []
+                    "matchScoreHistory": [],
+                    "scoreDetails": {}
                 },
                 {
                     "matchNumber": 11,
@@ -693,13 +575,15 @@
                     "matchFieldSet": 1,
                     "matchPeriod": 1,
                     "matchCountInPeriod": 11,
+                    "matchStartTime": "2025-06-18T10:20:00.000Z",
                     "matchTeam": [
-                        "2A",
+                        "2B",
                         "2C"
                     ],
-                    "hasScore": true,
+                    "hasScore": false,
                     "matchScore": 0,
-                    "matchScoreHistory": []
+                    "matchScoreHistory": [],
+                    "scoreDetails": {}
                 },
                 {
                     "matchNumber": 12,
@@ -708,13 +592,15 @@
                     "matchFieldSet": 2,
                     "matchPeriod": 1,
                     "matchCountInPeriod": 12,
+                    "matchStartTime": "2025-06-18T10:22:00.000Z",
                     "matchTeam": [
                         "2C",
-                        "2B"
+                        "2A"
                     ],
-                    "hasScore": true,
+                    "hasScore": false,
                     "matchScore": 0,
-                    "matchScoreHistory": []
+                    "matchScoreHistory": [],
+                    "scoreDetails": {}
                 },
                 {
                     "matchNumber": 13,
@@ -723,13 +609,15 @@
                     "matchFieldSet": 1,
                     "matchPeriod": 1,
                     "matchCountInPeriod": 13,
+                    "matchStartTime": "2025-06-18T10:24:00.000Z",
                     "matchTeam": [
-                        "2C",
+                        "2B",
                         "2A"
                     ],
-                    "hasScore": true,
+                    "hasScore": false,
                     "matchScore": 0,
-                    "matchScoreHistory": []
+                    "matchScoreHistory": [],
+                    "scoreDetails": {}
                 },
                 {
                     "matchNumber": 14,
@@ -738,13 +626,15 @@
                     "matchFieldSet": 2,
                     "matchPeriod": 1,
                     "matchCountInPeriod": 14,
+                    "matchStartTime": "2025-06-18T10:26:00.000Z",
                     "matchTeam": [
                         "2A",
-                        "2B"
+                        "2C"
                     ],
-                    "hasScore": true,
+                    "hasScore": false,
                     "matchScore": 0,
-                    "matchScoreHistory": []
+                    "matchScoreHistory": [],
+                    "scoreDetails": {}
                 },
                 {
                     "matchNumber": 15,
@@ -753,148 +643,15 @@
                     "matchFieldSet": 1,
                     "matchPeriod": 1,
                     "matchCountInPeriod": 15,
-                    "matchTeam": [
-                        "2B",
-                        "2C"
-                    ],
-                    "hasScore": true,
-                    "matchScore": 0,
-                    "matchScoreHistory": []
-                },
-                {
-                    "matchNumber": 16,
-                    "matchType": "Qualification",
-                    "matchField": "Field4",
-                    "matchFieldSet": 2,
-                    "matchPeriod": 1,
-                    "matchCountInPeriod": 16,
-                    "matchTeam": [
-                        "2B",
-                        "2A"
-                    ],
-                    "hasScore": true,
-                    "matchScore": 0,
-                    "matchScoreHistory": []
-                },
-                {
-                    "matchNumber": 17,
-                    "matchType": "Qualification",
-                    "matchField": "Field3",
-                    "matchFieldSet": 1,
-                    "matchPeriod": 1,
-                    "matchCountInPeriod": 17,
-                    "matchTeam": [
-                        "2A",
-                        "2C"
-                    ],
-                    "hasScore": true,
-                    "matchScore": 0,
-                    "matchScoreHistory": []
-                },
-                {
-                    "matchNumber": 18,
-                    "matchType": "Qualification",
-                    "matchField": "Field4",
-                    "matchFieldSet": 2,
-                    "matchPeriod": 1,
-                    "matchCountInPeriod": 18,
+                    "matchStartTime": "2025-06-18T10:28:00.000Z",
                     "matchTeam": [
                         "2C",
                         "2B"
                     ],
-                    "hasScore": true,
+                    "hasScore": false,
                     "matchScore": 0,
-                    "matchScoreHistory": []
-                },
-                {
-                    "matchNumber": 19,
-                    "matchType": "Qualification",
-                    "matchField": "Field3",
-                    "matchFieldSet": 1,
-                    "matchPeriod": 1,
-                    "matchCountInPeriod": 19,
-                    "matchTeam": [
-                        "2A",
-                        "2B"
-                    ],
-                    "hasScore": true,
-                    "matchScore": 0,
-                    "matchScoreHistory": []
-                },
-                {
-                    "matchNumber": 20,
-                    "matchType": "Qualification",
-                    "matchField": "Field4",
-                    "matchFieldSet": 2,
-                    "matchPeriod": 1,
-                    "matchCountInPeriod": 20,
-                    "matchTeam": [
-                        "2B",
-                        "2C"
-                    ],
-                    "hasScore": true,
-                    "matchScore": 0,
-                    "matchScoreHistory": []
-                },
-                {
-                    "matchNumber": 21,
-                    "matchType": "Qualification",
-                    "matchField": "Field3",
-                    "matchFieldSet": 1,
-                    "matchPeriod": 1,
-                    "matchCountInPeriod": 21,
-                    "matchTeam": [
-                        "2C",
-                        "2A"
-                    ],
-                    "hasScore": true,
-                    "matchScore": 0,
-                    "matchScoreHistory": []
-                },
-                {
-                    "matchNumber": 22,
-                    "matchType": "Qualification",
-                    "matchField": "Field4",
-                    "matchFieldSet": 2,
-                    "matchPeriod": 1,
-                    "matchCountInPeriod": 22,
-                    "matchTeam": [
-                        "2B",
-                        "2A"
-                    ],
-                    "hasScore": true,
-                    "matchScore": 0,
-                    "matchScoreHistory": []
-                },
-                {
-                    "matchNumber": 23,
-                    "matchType": "Qualification",
-                    "matchField": "Field3",
-                    "matchFieldSet": 1,
-                    "matchPeriod": 1,
-                    "matchCountInPeriod": 23,
-                    "matchTeam": [
-                        "2A",
-                        "2C"
-                    ],
-                    "hasScore": true,
-                    "matchScore": 0,
-                    "matchScoreHistory": []
-                },
-                {
-                    "matchNumber": 24,
-                    "matchType": "Qualification",
-                    "matchField": "Field4",
-                    "matchFieldSet": 2,
-                    "matchPeriod": 1,
-                    "matchCountInPeriod": 24,
-                    "matchTeam": [
-                        "2C",
-                        "2B"
-                    ],
-                    "hasScore": true,
-                    "matchScore": 0,
-                    "matchScoreHistory": []
+                    "matchScoreHistory": [],
+                    "scoreDetails": {}
                 }
             ]
         }

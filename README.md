@@ -13,6 +13,7 @@
 | TM_VENDOR_LOGO              | 比赛主办方图标地址 (使用英文逗号分割多个) |                        |
 | TM_RANK_TABLE_SCROLL_SPEED  | 排名表格一毫秒滚动多少个像素         | 0.03                   |
 | TM_LOGO_INTERVAL_NUMBER     | 排名表格中，多少条排名出现一个logo    | 20                     |
+| TM_PUBLISH_SECRET           | 云发布密钥                  | 1234567890             |
 | CLOUDFLARED_TUNNEL_TOKEN    | Cloudflared隧道令牌        | eyJh.....              |
 | DOCKER_BACKEND_MOUNT_FOLDER | 后端数据挂载目录               | ./data                 |
 | DOCKER_ARCH                 | 架构类型                   | amd64/arm64            |

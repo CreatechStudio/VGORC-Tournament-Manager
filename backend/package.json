@@ -13,6 +13,7 @@
     "@elysiajs/swagger": "^1.1.5",
     "@polar-sh/sdk": "^0.33.0",
     "axios": "^1.10.0",
+    "dayjs": "^1.11.13",
     "dotenv": "^16.4.5",
     "elysia": "latest",
     "js-sha256": "^0.11.0",

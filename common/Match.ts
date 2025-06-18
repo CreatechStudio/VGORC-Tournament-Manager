@@ -5,6 +5,7 @@ export interface MatchObject {
     matchFieldSet: number;
     matchPeriod: number;
     matchCountInPeriod: number;
+    matchStartTime: string;
     matchTeam: string[];
     hasScore: boolean;
     matchScore: number;
