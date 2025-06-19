@@ -2,6 +2,9 @@ import * as fs from 'fs';
 import {Data, DEFAULT_DATA} from "../../common/Data";
 import dotenv from 'dotenv';
 import {sha256} from "js-sha256";
+import dayjs from "dayjs";
+import path from 'path';
+import crypto from 'crypto';
 
 dotenv.config();
 const adminPasswordHash = sha256(process.env.TM_ADMIN_PASSWORD || '123456');
@@ -71,5 +74,54 @@ export class Utils {
     updateData(newData: Data) {
         fs.writeFileSync(this.dbFile, JSON.stringify(newData, null, 4));
         this.data = newData;
+    }
+
+    backupDatabase() {
+        const dbDir = path.dirname(this.dbFile);
+        const backupDir = path.join(dbDir, 'backup');
+
+        if (!fs.existsSync(backupDir)) {
+            fs.mkdirSync(backupDir, { recursive: true });
+        }
+
+        // 读取最新备份文件（按文件名排序，最新的在最后）
+        const backupFiles = fs.readdirSync(backupDir)
+            .filter(file => file.endsWith('.vgorc'))
+            .sort(); // 默认是字母排序，按时间文件名也可
+
+        const latestBackupFile = backupFiles.length > 0
+            ? path.join(backupDir, backupFiles[backupFiles.length - 1])
+            : null;
+
+        if (!this._isDatabaseExist()) {
+            console.log('No database file to backup');
+            return null;
+        }
+
+        // 如果存在旧备份，且内容一致，则不备份
+        if (latestBackupFile && this._areFilesIdentical(this.dbFile, latestBackupFile)) {
+            console.log('No changes detected. Backup skipped.');
+            return null;
+        }
+        const currentTime = dayjs().format('YYYY-MM-DD-HH-mm-ss');
+        const backupFile = path.join(backupDir, `${currentTime}.vgorc`);
+        fs.copyFileSync(this.dbFile, backupFile);
+        return backupFile;
+    }
+
+    _areFilesIdentical(fileA: string, fileB: string): boolean {
+        const hashFile = (filePath: string) => {
+            const data = fs.readFileSync(filePath);
+            return crypto.createHash('sha256').update(data).digest('hex');
+        };
+
+        try {
+            const hashA = hashFile(fileA);
+            const hashB = hashFile(fileB);
+            return hashA === hashB;
+        } catch (e) {
+            console.warn('File comparison failed:', e);
+            return false;
+        }
     }
 }

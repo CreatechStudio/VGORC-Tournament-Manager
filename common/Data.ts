@@ -25,7 +25,7 @@ export interface Data {
 }
 
 export const DEFAULT_DATA: Data = {
-    tournamentName: "",
+    tournamentName: process.env.TM_TOURNAMENT_NAME || 'Tournament',
     locked: false,
     auth: [],
     settings: {

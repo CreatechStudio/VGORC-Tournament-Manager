@@ -18,6 +18,7 @@ services:
       - TM_BASE_URL=http://localhost:3000
       - TM_WEB_URL=http://localhost:80
       - TM_DB_FILE=/etc/backend/${TM_DB_FILE}
+      - TM_BACKUP_CRON=${TM_BACKUP_CRON}
       - TM_LICENSE_KEY=${TM_LICENSE_KEY}
       - TM_JWT_SECRET=${TM_JWT_SECRET}
       - TM_ADMIN_PASSWORD=${TM_ADMIN_PASSWORD}
@@ -27,6 +28,7 @@ services:
       - TM_RANK_TABLE_SCROLL_SPEED=${TM_RANK_TABLE_SCROLL_SPEED}
       - TM_LOGO_INTERVAL_NUMBER=${TM_LOGO_INTERVAL_NUMBER}
       - TM_PUBLISH_SECRET=${TM_PUBLISH_SECRET}
+      - TZ=Asia/Shanghai
     volumes:
       - ${DOCKER_BACKEND_MOUNT_FOLDER}:/etc/backend
     networks:

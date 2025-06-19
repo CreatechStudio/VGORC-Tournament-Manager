@@ -19,6 +19,8 @@ import dotenv from "dotenv";
 import jwt from "@elysiajs/jwt";
 import {Auth} from "./Runtime/Auth";
 import dayjs from "dayjs";
+import cron from "@elysiajs/cron";
+import {Utils} from "./Utils";
 
 dotenv.config()
 export const BASE_URL = process.env.TM_BASE_URL || 'http://localhost:3000';
@@ -40,6 +42,11 @@ if (licenseInfo !== null && licenseInfo.status ===  "granted" && dayjs(licenseIn
     console.log('Please contact Createch Support for more information.');
     console.log('License key:', process.env.TM_LICENSE_KEY);
     process.exit(1);
+}
+
+function backupDB() {
+    const UtilsTools = new Utils();
+    return UtilsTools.backupDatabase()
 }
 
 process.env.TM_VENDOR_LOGO = 'https://cdn.createchstudio.com/vgorc-tm/VEX%20GO%20Logo_Full%20Color.png,https://cdn.createchstudio.com/vgorc-tm/CreatechStudio.png,' + process.env.TM_VENDOR_LOGO;
@@ -66,6 +73,18 @@ new Elysia()
         jwt({
             name: 'jwt',
             secret: JWT_SECRET,
+        })
+    )
+    .use(
+        cron({
+            name: 'backup',
+            pattern: process.env.TM_BACKUP_CRON || '* 7-18 * * *',
+            run() {
+                const backupFile = backupDB();
+                if (backupFile) {
+                    console.log("Backup file to ", backupFile)
+                }
+            }
         })
     )
     .get('/', () => {return  'Welcome to VGORC TM API Backend'})

@@ -5,6 +5,7 @@
 | Name                        | Explain                | Example                |
 |-----------------------------|------------------------|------------------------|
 | TM_DB_FILE                  | 数据库文件名                 | db.vgorc               |
+| TM_BACKUP_CRON              | 数据库备份计划任务表达式           | */5 7-18 * * *         |
 | TM_LICENSE_KEY              | 授权密钥                   | CSVGORC-AAA-BBB-CCC-DD |
 | TM_JWT_SECRET               | JWT密钥                  | Createch               |
 | TM_ADMIN_PASSWORD           | 管理员密码                  | 123456                 |
