@@ -18,6 +18,7 @@ import {utilsGroup} from './Groups/Utils';
 import dotenv from "dotenv";
 import jwt from "@elysiajs/jwt";
 import {Auth} from "./Runtime/Auth";
+import dayjs from "dayjs";
 
 dotenv.config()
 export const BASE_URL = process.env.TM_BASE_URL || 'http://localhost:3000';
@@ -30,7 +31,7 @@ function delay(ms: number) {
     return new Promise( resolve => setTimeout(resolve, ms) );
 }
 
-if (licenseInfo !== null && licenseInfo.status ===  "granted") {
+if (licenseInfo !== null && licenseInfo.status ===  "granted" && dayjs(licenseInfo.expiresAt).isAfter(dayjs())) {
     console.log('✅ License is valid');
     console.log('📅 License expire date:', licenseInfo.expiresAt);
     console.log('🏢 Organization:', licenseInfo.customer.name);
