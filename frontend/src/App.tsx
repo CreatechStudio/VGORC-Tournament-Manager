@@ -23,7 +23,7 @@ function WrongPage() {
                 <Stack direction="row" gap={PAD/2}>
                     <FmdBadTwoToneIcon/>
                     <Typography level="title-lg">
-                        Woops! Something went wrong!
+                        Whoops! Something went wrong!
                     </Typography>
                 </Stack>
                 <Typography level="body-md">
@@ -49,7 +49,7 @@ function BackendGPage() {
                 <Stack direction="row" gap={PAD/2}>
                     <FmdBadTwoToneIcon/>
                     <Typography level="title-lg">
-                        Woops! Backend Disappeared!
+                        Whoops! Backend Disappeared!
                     </Typography>
                 </Stack>
                 <Typography level="body-md">
