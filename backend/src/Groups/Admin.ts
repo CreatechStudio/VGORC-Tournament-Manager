@@ -1,4 +1,4 @@
-import {Elysia, error, t} from "elysia";
+import {Elysia, status, t} from "elysia";
 import {checkJWT} from "../Runtime/Auth";
 import {Admin} from "../Runtime/Admin";
 
@@ -17,17 +17,17 @@ export const adminGroup = new Elysia()
             {
                 async beforeHandle ({cookie: { permission }}) {
                     if (permission === undefined) {
-                        return error(401, "Unauthorized");
+                        return status(401, "Unauthorized");
                     }
-                    return await checkJWT(permission.value || "", MODULE_PERMISSION, error)
+                    return await checkJWT(permission.value || "", MODULE_PERMISSION, status)
                 }
             }, (app) => app
-                .post('update', ({ admin, body: { data }, error }) => {
+                .post('update', ({ admin, body: { data }, status }) => {
                     try {
                         admin.add(data);
                         return admin.get();
                     } catch (e) {
-                        return error(406, e);
+                        return status(406, e);
                     }
                 },{
                     body: t.Object({

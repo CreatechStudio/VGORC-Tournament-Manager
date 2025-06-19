@@ -1,4 +1,4 @@
-import {Elysia, error, t} from "elysia";
+import {Elysia, status, t} from "elysia";
 import {Division} from "../Runtime/Division";
 import {checkJWT} from "../Runtime/Auth";
 
@@ -13,17 +13,17 @@ export const divisionGroup = new Elysia()
             {
             async beforeHandle ({cookie: { permission }}) {
                 if (permission === undefined) {
-                    return error(401, "Unauthorized");
+                    return status(401, "Unauthorized");
                 }
-                return await checkJWT(permission.value || "", MODULE_PERMISSION, error)
+                return await checkJWT(permission.value || "", MODULE_PERMISSION, status)
             }
             },(app) => app
-            .post('update', ({ division, body: { data }, error }) => {
+            .post('update', ({ division, body: { data }, status }) => {
                 try {
                     division.add(data);
                     return division.get();
                 } catch (e) {
-                    return error(406, e);
+                    return status(406, e);
                 }
             }, {
                 body: t.Object({
@@ -34,12 +34,12 @@ export const divisionGroup = new Elysia()
                     })
                 })
             })
-            .delete('delete/:name', ({ division, params: { name }, error }) => {
+            .delete('delete/:name', ({ division, params: { name }, status }) => {
                 try {
                     division.delete(decodeURI(name));
                     return division.get();
                 } catch (e) {
-                    return error(406, e);
+                    return status(406, e);
                 }
             }, {
                 params: t.Object({

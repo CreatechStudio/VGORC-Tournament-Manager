@@ -1,4 +1,4 @@
-import {Elysia, error, t} from "elysia";
+import {Elysia, status, t} from "elysia";
 import {Team} from "../Runtime/Team";
 import {checkJWT} from "../Runtime/Auth";
 
@@ -12,16 +12,16 @@ export const teamGroup = new Elysia()
             {
                 async beforeHandle ({cookie: { permission }}) {
                     if (permission === undefined) {
-                        return error(401, "Unauthorized");
+                        return status(401, "Unauthorized");
                     }
-                    return await checkJWT(permission.value || "", MODULE_PERMISSION, error)
+                    return await checkJWT(permission.value || "", MODULE_PERMISSION, status)
                 }
             },(app) => app
-                .post('update', ({ team, body: { data }, error }) => {
+                .post('update', ({ team, body: { data }, status }) => {
                     try {
                         team.add(data);
                     } catch (e) {
-                        return error(406, e);
+                        return status(406, e);
                     }
                 }, {
                     body: t.Object({
@@ -33,11 +33,11 @@ export const teamGroup = new Elysia()
                         })
                     })
                 })
-                .delete('delete/:teamNumber', ({ team, params: { teamNumber }, error }) => {
+                .delete('delete/:teamNumber', ({ team, params: { teamNumber }, status }) => {
                     try {
                         team.delete(teamNumber);
                     } catch (e) {
-                        return error(406, e);
+                        return status(406, e);
                     }
                 }, {
                     params: t.Object({

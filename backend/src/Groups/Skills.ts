@@ -1,4 +1,4 @@
-import {Elysia, error, t} from "elysia";
+import {Elysia, status, t} from "elysia";
 import {SkillType} from "../../../common/Skill";
 import {Skill} from "../Runtime/Skill";
 import {checkJWT} from "../Runtime/Auth";
@@ -18,19 +18,19 @@ export const skillGroup = new Elysia()
             {
                 async beforeHandle ({cookie: { permission }}) {
                     if (permission === undefined) {
-                        return error(401, "Unauthorized");
+                        return status(401, "Unauthorized");
                     }
-                    return await checkJWT(permission.value || "", MODULE_PERMISSION, error)
+                    return await checkJWT(permission.value || "", MODULE_PERMISSION, status)
                 }
             },(app) => app
                 .get('fields', ({ skill }) => skill.getAllSkillFields())
                 .post(
                     '/update',
-                    ({ skill, body, error }) => {
+                    ({ skill, body, status }) => {
                         try {
                             skill.setSkillScore(body.teamNumber, body.skillType as SkillType, body.scoreDetails);
                         } catch (e) {
-                            return error(406, e);
+                            return status(406, e);
                         }
                     }, {
                         body: t.Object({

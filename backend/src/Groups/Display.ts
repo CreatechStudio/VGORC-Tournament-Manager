@@ -1,4 +1,4 @@
-import {Elysia, error, t} from "elysia";
+import {Elysia, status, t} from "elysia";
 import {Display} from "../Runtime/Display";
 import {checkJWT} from "../Runtime/Auth";
 
@@ -20,17 +20,17 @@ export const displayGroup = new Elysia()
             {
                 async beforeHandle ({cookie: { permission }}) {
                     if (permission === undefined) {
-                        return error(401, "Unauthorized");
+                        return status(401, "Unauthorized");
                     }
-                    return await checkJWT(permission.value || "", MODULE_PERMISSION, error)
+                    return await checkJWT(permission.value || "", MODULE_PERMISSION, status)
                 }
             },(app) => app
-                .post('update', ({ display, body: { data }, error }) => {
+                .post('update', ({ display, body: { data }, status }) => {
                     try {
                         display.update(data);
                         return display.get();
                     } catch (e) {
-                        return error(406, e);
+                        return status(406, e);
                     }
                 }, {
                     body: t.Object({

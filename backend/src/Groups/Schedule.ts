@@ -1,4 +1,4 @@
-import {Elysia, error, t} from "elysia";
+import {Elysia, status, t} from "elysia";
 import {checkJWT} from "../Runtime/Auth";
 import {Schedule} from "../Runtime/Schedule";
 
@@ -21,12 +21,12 @@ export const scheduleGroup = new Elysia()
             {
                 async beforeHandle ({cookie: { permission }}) {
                     if (permission === undefined) {
-                        return error(401, "Unauthorized");
+                        return status(401, "Unauthorized");
                     }
-                    return await checkJWT(permission.value || "", MODULE_PERMISSION, error)
+                    return await checkJWT(permission.value || "", MODULE_PERMISSION, status)
                 }
             },(app) => app
-                .get('add/:matchType', ({ schedule, params, error }) => {
+                .get('add/:matchType', ({ schedule, params, status }) => {
                     try {
                         if (params.matchType === 'Qualification') {
                             schedule.addQualification();
@@ -39,7 +39,7 @@ export const scheduleGroup = new Elysia()
                             return schedule.get();
                         }
                     } catch (e) {
-                        return error(406, e);
+                        return status(406, e);
                     }
                 }, {
                     params: t.Object(
@@ -48,12 +48,12 @@ export const scheduleGroup = new Elysia()
                         }
                     )
                 })
-                .get('clear/:matchType', ({ schedule, params, error }) => {
+                .get('clear/:matchType', ({ schedule, params, status }) => {
                     try {
                         schedule.clearSchedule(params.matchType);
                         return schedule.get();
                     } catch (e) {
-                        return error(406, e);
+                        return status(406, e);
                     }
                 }, {
                     params: t.Object(

@@ -1,4 +1,4 @@
-import {Elysia, error, t} from "elysia";
+import {Elysia, status, t} from "elysia";
 import {FieldSet} from "../Runtime/FieldSet";
 import {checkJWT} from "../Runtime/Auth";
 
@@ -12,17 +12,17 @@ export const fieldSetGroup = new Elysia()
             {
                 async beforeHandle ({cookie: { permission }}) {
                     if (permission === undefined) {
-                        return error(401, "Unauthorized");
+                        return status(401, "Unauthorized");
                     }
-                    return await checkJWT(permission.value || "", MODULE_PERMISSION, error)
+                    return await checkJWT(permission.value || "", MODULE_PERMISSION, status)
                 }
             },(app) => app
-                .post('update', ({ fieldSet, body: { data }, error }) => {
+                .post('update', ({ fieldSet, body: { data }, status }) => {
                     try {
                         fieldSet.add(data);
                         return fieldSet.get();
                     } catch (e) {
-                        return error(406, e);
+                        return status(406, e);
                     }
                 }, {
                     body: t.Object({
@@ -32,12 +32,12 @@ export const fieldSetGroup = new Elysia()
                         })
                     })
                 })
-                .delete('delete/:fieldSetId', ({ fieldSet, params: { fieldSetId }, error }) => {
+                .delete('delete/:fieldSetId', ({ fieldSet, params: { fieldSetId }, status }) => {
                     try {
                         fieldSet.delete(fieldSetId);
                         return fieldSet.get();
                     } catch (e) {
-                        return error(406, e);
+                        return status(406, e);
                     }
                 }, {
                     params: t.Object({

@@ -1,4 +1,4 @@
-import {Elysia, error, t} from "elysia";
+import {Elysia, status, t} from "elysia";
 import {Period} from "../Runtime/Period";
 import {checkJWT} from "../Runtime/Auth";
 
@@ -12,17 +12,17 @@ export const periodGroup = new Elysia()
             {
                 async beforeHandle ({cookie: { permission }}) {
                     if (permission === undefined) {
-                        return error(401, "Unauthorized");
+                        return status(401, "Unauthorized");
                     }
-                    return await checkJWT(permission.value || "", MODULE_PERMISSION, error)
+                    return await checkJWT(permission.value || "", MODULE_PERMISSION, status)
                 }
             },(app) => app
-                .post('update', ({ period, body: { data }, error }) => {
+                .post('update', ({ period, body: { data }, status }) => {
                     try {
                         period.add(data.periodNumber, data.periodType, data.periodStartTime, data.periodEndTime, data.periodMatchDuration);
                         return period.get();
                     } catch (e) {
-                        return error(406, e);
+                        return status(406, e);
                     }
                 }, {
                     body: t.Object(
@@ -37,12 +37,12 @@ export const periodGroup = new Elysia()
                         }
                     )
                 })
-                .delete('delete/:periodId', ({ period, params: { periodId }, error }) => {
+                .delete('delete/:periodId', ({ period, params: { periodId }, status }) => {
                     try {
                         period.delete(periodId);
                         return period.get();
                     } catch (e) {
-                        return error(406, e);
+                        return status(406, e);
                     }
                 }, {
                     params: t.Object({

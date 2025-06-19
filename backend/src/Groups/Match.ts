@@ -1,4 +1,4 @@
-import {Elysia, error, t} from "elysia";
+import {Elysia, status, t} from "elysia";
 import {Match} from "../Runtime/Match";
 import {checkJWT} from "../Runtime/Auth";
 
@@ -10,8 +10,7 @@ export const matchGroup = new Elysia()
     .group('/match', (app) => app
         .get('/publish/:divisionName', ({ match, params, query, set }) => {
             if (query.secret !== PUBLISH_SECRET) {
-                set.status = 401
-                return { error: 'Unauthorized' }
+                return status(401, "Unauthorized");
             }
             return match.getAllMatches(params.divisionName)
         },
@@ -27,9 +26,9 @@ export const matchGroup = new Elysia()
             {
                 async beforeHandle ({cookie: { permission }}) {
                     if (permission === undefined) {
-                        return error(401, "Unauthorized");
+                        return status(401, "Unauthorized");
                     }
-                    return await checkJWT(permission.value || "", MODULE_PERMISSION, error)
+                    return await checkJWT(permission.value || "", MODULE_PERMISSION, status)
                 }
             },(app) => app
                 .get('/:divisionName', ({ match, params }) =>
