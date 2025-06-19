@@ -44,13 +44,18 @@ export const matchGroup = new Elysia()
                         matchNumber: t.Number()
                     })
                 })
-                .post('update', ({ match, body }) =>
-                    match.setScore(body.divisionName, body.matchNumber, body.scoreDetails), {
-                    body: t.Object({
-                        divisionName: t.String(),
-                        matchNumber: t.Number(),
-                        scoreDetails: t.Record(t.String(), t.Number()),
+                .post('update', ({ match, body }) => {
+                        try {
+                            match.setScore(body.divisionName, body.matchNumber, body.scoreDetails);
+                        } catch (e) {
+                            return status(406, e);
+                        }
+                    }, {
+                        body: t.Object({
+                            divisionName: t.String(),
+                            matchNumber: t.Number(),
+                            scoreDetails: t.Record(t.String(), t.Number()),
+                        }),
                     })
-                })
         )
     );

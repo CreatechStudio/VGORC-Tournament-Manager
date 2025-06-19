@@ -2,6 +2,7 @@ import {Utils} from "../Utils";
 import {Data} from "../../../common/Data";
 import {MatchObject, MatchWithDivision} from "../../../common/Match";
 import {Admin} from "./Admin";
+import {Schedule} from "./Schedule";
 
 export class Match {
     data: MatchWithDivision[] = [];
@@ -24,6 +25,52 @@ export class Match {
             throw `Match with number ${matchNumber} not found in division ${decodedDivisionName}`;
         }
         return foundMatch;
+    }
+
+    _handleEliminationDraw(divisionName: string, matchType: string) {
+        let data = this.db.getData();
+        const decodedDivisionName = decodeURIComponent(divisionName);
+        let division: MatchWithDivision | undefined = data.matches.find(div => div.divisionName === decodedDivisionName);
+        if (division) {
+            // 检查所有淘汰赛是否都有分数
+            if (division.matches.every(match => match.hasScore)) {
+                let eliminationMatches = division.matches.filter(match => match.matchType === matchType && match.hasScore);
+                // 按分数分组
+                const scoreMap = new Map<number, MatchObject[]>();
+                eliminationMatches.forEach(match => {
+                    if (!scoreMap.has(match.matchScore)) {
+                        scoreMap.set(match.matchScore, []);
+                    }
+                    scoreMap.get(match.matchScore)!.push(match);
+                });
+                const sameScoreMatches = Array.from(scoreMap.values()).filter(group => group.length > 1);
+                let newmatchNumber = division.matches[division.matches.length - 1].matchNumber + 1;
+                let ScheduleTools = new Schedule();
+                let fields = ScheduleTools._getAllFieldsInDivision(divisionName);
+                // 如果有分数相同的淘汰赛，创建新的淘汰赛
+                sameScoreMatches.forEach(sameScoreMatch => {
+                    sameScoreMatch.forEach((match) => {
+                        let newMatch: MatchObject = {
+                            matchNumber: newmatchNumber++,
+                            matchType: match.matchType,
+                            matchField: match.matchField,
+                            matchFieldSet: 0,
+                            matchPeriod: 0,
+                            matchCountInPeriod: 0,
+                            matchStartTime: "",
+                            matchTeam: match.matchTeam,
+                            hasScore: false,
+                            matchScore: 0,
+                            matchScoreHistory: [],
+                            scoreDetails: {}
+                        };
+
+                        data.matches[divisionName.indexOf(divisionName)].matches.push(newMatch);
+                    })
+                })
+                this.db.updateData(data);
+            }
+        }
     }
 
     setScore(
@@ -61,6 +108,11 @@ export class Match {
         });
 
         this._update(divisionName, currentMatch);
+
+        if (currentMatch.matchType !== "Qualification") {
+            this._handleEliminationDraw(decodedDivisionName, currentMatch.matchType);
+        }
+
         return currentMatch;
     }
 

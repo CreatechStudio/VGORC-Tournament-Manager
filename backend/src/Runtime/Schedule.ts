@@ -363,7 +363,7 @@ export class Schedule {
                 let match: MatchObject = {
                     matchNumber: matchNumber++,
                     matchType: "Elimination",
-                    matchField: fields[i % fields.length],
+                    matchField: fields[matchNumber % fields.length],
                     matchFieldSet: 0,
                     matchPeriod: 0,
                     matchCountInPeriod: 0,
