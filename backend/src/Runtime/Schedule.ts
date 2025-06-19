@@ -385,7 +385,7 @@ export class Schedule {
         this._update();
     }
 
-    addFinal() {
+    addFinals() {
 
         if (!this._ensureScheduleIsEmpty("Final")) {
             throw "Match schedule is not empty";
@@ -412,6 +412,9 @@ export class Schedule {
         const RankingTools = new Ranking();
         let divisionChampionList = nonFinalsDivisions.map(division => {
             const ranking = RankingTools.getElimRanking(division)[0];
+            if (!ranking) {
+                throw  "Some Division has no champion";
+            }
             return { teamNumbers: ranking.teams, score: ranking.score };
         }).filter(Boolean);
         divisionChampionList.sort((a, b) => b.score - a.score);
@@ -434,6 +437,7 @@ export class Schedule {
             }));
 
         let finalsDivision = this.dataMatchWithDivision.find(d => d.divisionName === "FINALS");
+        console.log(finalsDivision);
         if (finalsDivision) {
             finalsDivision.matches = allMatches;
         } else {
@@ -444,6 +448,9 @@ export class Schedule {
     }
 
     clearSchedule(matchType: string) {
+        if (matchType === "Finals") {
+            matchType = "Final";
+        }
         if (this._isAnyMatchHasScore(matchType)) {
             throw "Some matches have score";
         }

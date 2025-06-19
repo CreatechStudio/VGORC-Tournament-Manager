@@ -1,5 +1,5 @@
 {
-    "tournamentName": "",
+    "tournamentName": "2024 SJTU VEX Elite - VGORC",
     "locked": false,
     "auth": [
         {
@@ -88,6 +88,14 @@
                     "Field4"
                 ],
                 "isSkill": false
+            },
+            {
+                "divisionName": "SKILLS",
+                "isSkill": true,
+                "divisionFields": [
+                    "SF1",
+                    "SF2"
+                ]
             }
         ],
         "fieldSets": [
@@ -180,7 +188,10 @@
                     "hasScore": true,
                     "matchScore": 7,
                     "matchScoreHistory": [],
-                    "scoreDetails": {}
+                    "scoreDetails": {
+                        "deliverDrugs": 5,
+                        "placeDrugs": 2
+                    }
                 },
                 {
                     "matchNumber": 2,
@@ -417,13 +428,19 @@
                     ],
                     "hasScore": true,
                     "matchScore": 9,
-                    "matchScoreHistory": [],
-                    "scoreDetails": {}
+                    "matchScoreHistory": [
+                        9
+                    ],
+                    "scoreDetails": {
+                        "removeDrugs": 1,
+                        "deliverDrugs": 5,
+                        "placeDrugs": 2
+                    }
                 },
                 {
                     "matchNumber": 16,
                     "matchType": "Elimination",
-                    "matchField": "Field1",
+                    "matchField": "Field2",
                     "matchFieldSet": 0,
                     "matchPeriod": 0,
                     "matchCountInPeriod": 0,
@@ -433,7 +450,54 @@
                         "1D"
                     ],
                     "hasScore": true,
-                    "matchScore": 8,
+                    "matchScore": 9,
+                    "matchScoreHistory": [
+                        9,
+                        9,
+                        9,
+                        9,
+                        9,
+                        9,
+                        9,
+                        9
+                    ],
+                    "scoreDetails": {
+                        "removeDrugs": 1,
+                        "deliverDrugs": 5,
+                        "placeDrugs": 2
+                    }
+                },
+                {
+                    "matchNumber": 17,
+                    "matchType": "Elimination",
+                    "matchField": "Field1",
+                    "matchFieldSet": 0,
+                    "matchPeriod": 0,
+                    "matchCountInPeriod": 0,
+                    "matchStartTime": "",
+                    "matchTeam": [
+                        "1C",
+                        "1B"
+                    ],
+                    "hasScore": false,
+                    "matchScore": 0,
+                    "matchScoreHistory": [],
+                    "scoreDetails": {}
+                },
+                {
+                    "matchNumber": 18,
+                    "matchType": "Elimination",
+                    "matchField": "Field2",
+                    "matchFieldSet": 0,
+                    "matchPeriod": 0,
+                    "matchCountInPeriod": 0,
+                    "matchStartTime": "",
+                    "matchTeam": [
+                        "1A",
+                        "1D"
+                    ],
+                    "hasScore": false,
+                    "matchScore": 0,
                     "matchScoreHistory": [],
                     "scoreDetails": {}
                 }
@@ -682,23 +746,6 @@
                 },
                 {
                     "matchNumber": 15,
-                    "matchType": "Qualification",
-                    "matchField": "Field3",
-                    "matchFieldSet": 1,
-                    "matchPeriod": 1,
-                    "matchCountInPeriod": 15,
-                    "matchStartTime": "2025-06-18T10:28:00.000Z",
-                    "matchTeam": [
-                        "2C",
-                        "2B"
-                    ],
-                    "hasScore": true,
-                    "matchScore": 6,
-                    "matchScoreHistory": [],
-                    "scoreDetails": {}
-                },
-                {
-                    "matchNumber": 16,
                     "matchType": "Elimination",
                     "matchField": "Field3",
                     "matchFieldSet": 0,
@@ -731,8 +778,8 @@
                         "2B",
                         "2C"
                     ],
-                    "hasScore": true,
-                    "matchScore": 10,
+                    "hasScore": false,
+                    "matchScore": 0,
                     "matchScoreHistory": [],
                     "scoreDetails": {}
                 },
@@ -748,8 +795,8 @@
                         "1C",
                         "1B"
                     ],
-                    "hasScore": true,
-                    "matchScore": 20,
+                    "hasScore": false,
+                    "matchScore": 0,
                     "matchScoreHistory": [],
                     "scoreDetails": {}
                 }
