@@ -57,7 +57,7 @@ export function ChooseDivisionPage({
                             size="lg"
                             onClick={() => {
                                 const params = {};
-                                // @ts-ignore
+                                // @ts-expect-error params is an undefined object
                                 params[divisionNameKey] = d.divisionName;
                                 toLocation(urlPrefix, params);
                             }}
@@ -96,9 +96,9 @@ function ChooseMatchPage({
                             size="lg"
                             onClick={() => {
                                 const params = {};
-                                // @ts-ignore
+                                // @ts-expect-error params is an undefined object
                                 params[DIVISION_NAME_KEY] = divisionName;
-                                // @ts-ignore
+                                // @ts-expect-error params is an undefined object
                                 params[MATCH_NUMBER_KEY] = m.matchNumber;
                                 toLocation('score', params);
                             }}
@@ -155,9 +155,9 @@ function SetScorePage({
 
     function toMatch(newMatchNumber: string | number) {
         const params = {};
-        // @ts-ignore
+        // @ts-expect-error params is an undefined object
         params[DIVISION_NAME_KEY] = divisionName;
-        // @ts-ignore
+        // @ts-expect-error params is an undefined object
         params[MATCH_NUMBER_KEY] = newMatchNumber;
         toLocation('score', params);
     }
@@ -216,7 +216,7 @@ function SetScorePage({
     }
 
     function handleViewHistory() {
-        let history: number[] = JSON.parse(JSON.stringify(current?.matchScoreHistory || [0]));
+        const history: number[] = JSON.parse(JSON.stringify(current?.matchScoreHistory || [0]));
         history.pop();
         setHistory(history);
         setHistoryModalOpen(true);

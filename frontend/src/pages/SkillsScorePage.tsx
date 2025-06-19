@@ -50,7 +50,7 @@ function ChooseTeam() {
                             size="lg"
                             onClick={() => {
                                 const params = {};
-                                // @ts-ignore
+                                // @ts-expect-error params is an undefined object
                                 params[TEAM_NUMBER_KEY] = t.teamNumber;
                                 toLocation('sscore', params);
                             }}
@@ -71,9 +71,9 @@ function ChooseSkillType({
 }) {
     function handleSetType(t: SkillType) {
         const params = {};
-        // @ts-ignore
+        // @ts-expect-error params is an undefined object
         params[TEAM_NUMBER_KEY] = teamNumber;
-        // @ts-ignore
+        // @ts-expect-error params is an undefined object
         params[SKILL_TYPE_KEY] = t;
         toLocation('sscore', params);
     }
@@ -317,7 +317,7 @@ export default function SkillsScorePage() {
                     teamNumber={teamNumber || ""}
                     displayMode={displayMode}
                     fieldName={fieldName}
-                    // @ts-ignore
+                    // @ts-expect-error skillType is a string
                     skillType={skillType}
                 />;
             } else {

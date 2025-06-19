@@ -1,10 +1,11 @@
-import {Box, Button, Card, Grid, Sheet, Typography} from "@mui/joy";
+import {Box, Button, Card, Grid, Sheet, Stack, Typography} from "@mui/joy";
 import {Toaster} from "react-hot-toast";
 import {routes} from "./route.tsx";
 import {HashRouter, Route, Routes} from "react-router-dom";
 import React from "react";
 import {LARGE_PART, PAD, PAD2} from "./constants.ts";
 import {PingPongTest} from "./net.ts";
+import FmdBadTwoToneIcon from '@mui/icons-material/FmdBadTwoTone';
 
 type AppProps = object;
 interface AppState {
@@ -19,9 +20,12 @@ function WrongPage() {
             display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'
         }}>
             <Card color="danger" sx={{width: `${LARGE_PART}%`, minWidth: `${PAD2*5}rem`}}>
-                <Typography level="title-lg">
-                    Something went wrong!
-                </Typography>
+                <Stack direction="row" gap={PAD/2}>
+                    <FmdBadTwoToneIcon/>
+                    <Typography level="title-lg">
+                        Woops! Something went wrong!
+                    </Typography>
+                </Stack>
                 <Typography level="body-md">
                     Please contact with website maintainers to get help or back to last page.
                 </Typography>
@@ -42,9 +46,12 @@ function BackendGPage() {
             display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'
         }}>
             <Card color="danger" sx={{width: `${LARGE_PART}%`, minWidth: `${PAD2*5}rem`}}>
-                <Typography level="title-lg">
-                    Backend Not Exist!
-                </Typography>
+                <Stack direction="row" gap={PAD/2}>
+                    <FmdBadTwoToneIcon/>
+                    <Typography level="title-lg">
+                        Woops! Backend Disappeared!
+                    </Typography>
+                </Stack>
                 <Typography level="body-md">
                     Please contact with website maintainers to get help.
                 </Typography>

@@ -47,7 +47,7 @@ export function QualificationRankPage() {
     const divisionName = urlParams.get(DIVISION_NAME_KEY);
 
     const [ranks, setRanks] = useState<QRankObject[] | PictureObject[]>([]);
-    const [data, setData] = useState<any[][]>([]);
+    const [data, setData] = useState<never[][]>([]);
 
     useEffect(() => {
         if (divisionName) {
@@ -176,7 +176,7 @@ export function EliminationRankPage() {
     const divisionName = urlParams.get(DIVISION_NAME_KEY);
 
     const [ranks, setRanks] = useState<ERankObject[] | PictureObject[]>([]);
-    const [data, setData] = useState<any[][]>([]);
+    const [data, setData] = useState<never[][]>([]);
 
     useEffect(() => {
         if (divisionName) {
@@ -311,6 +311,7 @@ export async function generateRankList(endpoint: string, solveData?: (data: []) 
     try {
         res = await getReq(endpoint);
     } catch {
+        res = [];
     }
     if (solveData) {
         res = solveData(res);
