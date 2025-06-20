@@ -185,28 +185,19 @@ export function toLogin() {
 export function PingPongTest(
     onSuccess?: () => void,
     onFailed?: () => void,
-    onlyOnce?: boolean = false
+    onlyOnce: boolean = false
 ) {
-    axiosInstance.get('/api//ping', {
-        timeout: 1000
-    }).then((res) => {
-        if (res.data === "Pong!") {
-            if (onSuccess) {
-                onSuccess();
-            }
-        } else {
-            if (onFailed) {
-                onFailed();
-            }
+    const es = new EventSource('/api//ping');
+
+    es.addEventListener('message', (event) => {
+        if (event.data === 'pong') {
+            onSuccess?.();
+            if (onlyOnce) es.close();
         }
-    }).catch(() => {
-        if (onFailed) {
-            onFailed();
-        }
-    }).finally(() => {
-        if (onlyOnce) return;
-        setTimeout(() => {
-            PingPongTest(onSuccess, onFailed);
-        }, 1000);
     });
+
+    es.onerror = () => {
+        onFailed?.();
+        es.close();
+    };
 }

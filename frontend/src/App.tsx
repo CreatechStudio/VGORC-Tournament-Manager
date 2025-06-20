@@ -71,10 +71,12 @@ class App extends React.Component<AppProps, AppState> {
         };
         PingPongTest(
             () => {
-                this.setState({backendG: false});
+                if (this.state.backendG !== false) {
+                    this.setState({backendG: false});
+                }
             },
             () => {
-                this.setState({backendG: true})
+                this.setState({backendG: true});
             },
             true
         );

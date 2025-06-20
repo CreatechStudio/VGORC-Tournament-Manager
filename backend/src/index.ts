@@ -88,7 +88,40 @@ new Elysia()
         })
     )
     .get('/', () => {return  'Welcome to VGORC TM API Backend'})
-    .get('/ping', () => {return 'Pong!'})
+    // 修改 /ping 端点实现
+    .get('/ping', ({ request }) => {
+        const stream = new ReadableStream({
+            start(controller) {
+                const encoder = new TextEncoder();
+
+                // 添加SSE格式前缀
+                const sendPong = () => {
+                    try {
+                        controller.enqueue(encoder.encode("data: pong\n\n"));
+                    } catch (e) {
+                        // 连接已关闭时停止发送
+                        clearInterval(interval);
+                    }
+                };
+
+                const interval = setInterval(sendPong, 1000);
+
+                // 监听连接关闭
+                request.signal.addEventListener("abort", () => {
+                    clearInterval(interval);
+                    controller.close();
+                });
+            }
+        });
+
+        return new Response(stream, {
+            headers: {
+                'Content-Type': 'text/event-stream',
+                'Cache-Control': 'no-cache',
+                'Connection': 'keep-alive'
+            }
+        });
+    })
     .decorate('auth', new Auth())
     .post('/auth/:module', async ({ auth, jwt, cookie: { permission }, params ,body: {authRole, authPassword}}) => {
         if (auth.checkAuth(authRole, authPassword)) {

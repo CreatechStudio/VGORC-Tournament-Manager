@@ -37,7 +37,6 @@ export default function NewGoalModal({
 
     useEffect(() => {
         const newAvailableGoals: MatchGoalArrayItem[] = [];
-        console.log(goals, details);
         goals.forEach((goal) => {
             if (details.findIndex(detail => detail.goalId === goal.id) === -1) {
                 newAvailableGoals.push(goal);
