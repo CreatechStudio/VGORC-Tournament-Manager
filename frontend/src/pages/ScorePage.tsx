@@ -1,12 +1,12 @@
 import {
     Box,
     Button,
-    ButtonGroup,
+    ButtonGroup, Divider,
     Grid,
     IconButton,
     Input,
     List,
-    ListItem,
+    ListItem, Option, Select,
     Stack,
     Typography
 } from "@mui/joy";
@@ -25,6 +25,16 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import Timer from "../components/Timer.tsx";
 import toast from "react-hot-toast";
 import {useHistoryModal} from "../components/HistoryModal.tsx";
+import {AdminObject} from "../../../common/Admin.ts";
+import {
+    matchGoals2Array,
+    MatchGoalArrayItem,
+    ScoreDetail,
+    scoreDetails2Array,
+    getNameFromMatchGoalId, getCountFromMatchGoalId, getPointsFromMatchGoalId, array2ScoreDetails
+} from "../utils/MatchGoal.ts";
+import NewGoalModal from "../components/NewGoalModal.tsx";
+import useScoreDetailModal from "../components/ScoreDetailModal.tsx";
 
 const MATCH_NUMBER_KEY = "matchNumber";
 const DISPLAY_MODE_KEY = "displayMode";
@@ -126,20 +136,53 @@ function SetScorePage({
     fieldName: string | null;
 }) {
     const [matches, setMatches] = useState<MatchObject[]>([]);
+    const [details, setDetails] = useState<ScoreDetail[]>([]);
+    const [matchGoals, setMatchGoals] = useState<MatchGoalArrayItem[]>([]);
+    const [currentGoalId, setCurrentGoalId] = useState<string | null>(null);
     const [current, setCurrent] = useState<MatchObject | null>(null);
     const [setHistoryModalOpen, setHistory, HistoryModal] = useHistoryModal();
+    const [setSDModalOpen, setSDModalDetails, setSDModalGoals, setSDModalTotal, SDModal] = useScoreDetailModal();
+    const [openNewGoalModal, setOpenNewGoalModal] = useState(false);
 
     useEffect(() => {
         if (!(displayMode && fieldName)) {
             getReq(`/match/${divisionName}/${matchNumber}`).then((res) => {
-                document.title = `VGORC TM | Score ${divisionName} - ${res?.matchType[0]}${matchNumber}`;
-                setCurrent(res);
+                if (res) {
+                    document.title = `VGORC TM | Score ${divisionName} - ${res?.matchType[0]}${matchNumber}`;
+                    setCurrent(res);
+                }
             }).catch();
             getReq(`/match/${divisionName}`).then((res) => {
-                setMatches(res);
+                if (res) {
+                    setMatches(res);
+                }
+            }).catch();
+            getReq('/admin').then((res: AdminObject) => {
+                if (res) {
+                    setMatchGoals(matchGoals2Array(res.matchGoals));
+                }
             }).catch();
         }
     }, []);
+
+    useEffect(() => {
+        if (current) {
+            const details = scoreDetails2Array(current.scoreDetails);
+            if (details.length > 0) {
+                setCurrentGoalId(details[0].goalId);
+            }
+            setDetails(scoreDetails2Array(current.scoreDetails));
+        }
+    }, [current]);
+
+    useEffect(() => {
+        setSDModalGoals(matchGoals);
+    }, [matchGoals]);
+
+    useEffect(() => {
+        setSDModalDetails(details);
+        setSDModalTotal(getTotal());
+    }, [details]);
 
     function _indexOf(match: MatchObject | null) {
         if (match === null) {
@@ -180,36 +223,52 @@ function SetScorePage({
         toMatch("");
     }
 
-    function setScore(score: number) {
-        const newCurrent: MatchObject = JSON.parse(JSON.stringify(current));
-        newCurrent.matchScore = Math.max(score, 0);
-        setCurrent(newCurrent);
+    function setCount(count: number) {
+        const index = details.findIndex((detail => detail.goalId === currentGoalId));
+        if (index !== -1) {
+            const newDetails = [...details];
+            newDetails[index].count = count;
+            setDetails(newDetails);
+        }
+    }
+
+    function getTotal() {
+        let total = 0;
+        details.forEach((detail) => {
+            total += detail.count * getPointsFromMatchGoalId(matchGoals, detail.goalId);
+        });
+        return total;
     }
 
     function handleChangeInput(newInput: string) {
         const inp = newInput.trim();
         if (inp === "0") {
-            setScore(0);
+            setCount(0);
         } else {
-            const newScore = parseInt(inp) || current?.matchScore || 0;
-            setScore(newScore);
+            const newCount = parseInt(inp) ?? getCountFromMatchGoalId(details, currentGoalId ?? "") ?? 0;
+            setCount(newCount);
         }
     }
 
     function handleSave() {
         let success = true;
+        if (current) {
+            current.matchScore = getTotal();
+            current.scoreDetails = array2ScoreDetails(details);
+        }
         if (current?.hasScore) {
             success = confirm("Make sure you want to save the edited score.");
         }
         if (success) {
-            postReq('/match/update', {
-                divisionName: divisionName,
-                matchNumber: parseInt(matchNumber),
-                score: current?.matchScore || 0
-            }).then((res) => {
-                setCurrent(res);
-                toast.success("Save successfully");
-            }).catch();
+            if (current) {
+                postReq('/match/update', {
+                    divisionName: divisionName,
+                    matchNumber: parseInt(matchNumber),
+                    scoreDetails: current.scoreDetails
+                }).then(() => {
+                    toast.success("Save successfully");
+                }).catch();
+            }
         } else {
             toast("Cancelled");
         }
@@ -275,34 +334,68 @@ function SetScorePage({
                             />
                             {
                                 displayMode ? <></> : (
-                                    <Box sx={{
-                                        display: "flex",
-                                        flexDirection: "row",
-                                        justifyContent: "space-around",
-                                        alignItems: "center",
-                                        width: '100%'
-                                    }}>
-                                        <IconButton variant="outlined" size="lg" onClick={() => {
-                                            if (current) {
-                                                setScore(current.matchScore - 1);
-                                            }
-                                        }}>
-                                            <RemoveIcon/>
-                                        </IconButton>
-                                        <Input
-                                            value={current?.matchScore}
-                                            size="lg"
-                                            sx={{textAlign: 'center'}}
-                                            onChange={(e) => handleChangeInput(e.target.value)}
-                                        />
-                                        <IconButton variant="outlined" size="lg" onClick={() => {
-                                            if (current) {
-                                                setScore(current.matchScore + 1);
-                                            }
-                                        }}>
-                                            <AddIcon/>
-                                        </IconButton>
-                                    </Box>
+                                    <Stack width="100%" justifyContent="center" alignItems="center" gap={PAD2}>
+                                        <Stack
+                                            direction="row" width="100%"
+                                            justifyContent="space-around" alignItems="center"
+                                        >
+                                            <Select
+                                                onChange={(_e, value) => setCurrentGoalId(value)}
+                                                value={currentGoalId}
+                                            >
+                                                {
+                                                    details.map((detail, index) => (
+                                                        <Option value={detail.goalId} key={index}>
+                                                            {getNameFromMatchGoalId(matchGoals, detail.goalId)} ({getPointsFromMatchGoalId(matchGoals, detail.goalId)})
+                                                        </Option>
+                                                    ))
+                                                }
+                                            </Select>
+                                            <IconButton variant="outlined" size="lg" onClick={() => {
+                                                setCount(getCountFromMatchGoalId(details, currentGoalId ?? "") - 1);
+                                            }}>
+                                                <RemoveIcon/>
+                                            </IconButton>
+                                            <Input
+                                                value={getCountFromMatchGoalId(details, currentGoalId ?? "")}
+                                                size="lg"
+                                                sx={{textAlign: 'center'}}
+                                                onChange={(e) => handleChangeInput(e.target.value)}
+                                            />
+                                            <IconButton variant="outlined" size="lg" onClick={() => {
+                                                if (current) {
+                                                    setCount(getCountFromMatchGoalId(details, currentGoalId ?? "") + 1);
+                                                }
+                                            }}>
+                                                <AddIcon/>
+                                            </IconButton>
+                                        </Stack>
+                                        <Divider/>
+                                        <Stack
+                                            direction="row" width="100%"
+                                            justifyContent="space-around" alignItems="center"
+                                        >
+                                            <Button
+                                                startDecorator={<AddIcon/>}
+                                                variant="outlined"
+                                                onClick={() => setOpenNewGoalModal(true)}
+                                            >
+                                                New Goal
+                                            </Button>
+                                            <Stack justifyContent="center" alignItems="center">
+                                                <Typography level="title-lg">
+                                                    Total: {getTotal()}
+                                                </Typography>
+                                                <Typography
+                                                    onClick={() => setSDModalOpen(true)}
+                                                    sx={{cursor: "pointer", textDecoration: "underline"}}
+                                                    color="primary"
+                                                >
+                                                    View Details
+                                                </Typography>
+                                            </Stack>
+                                        </Stack>
+                                    </Stack>
                                 )
                             }
                         </Box>
@@ -327,6 +420,15 @@ function SetScorePage({
                 }
             </Box>
             {HistoryModal}
+            {SDModal}
+            <NewGoalModal
+                open={openNewGoalModal}
+                onClose={() => setOpenNewGoalModal(false)}
+                goals={matchGoals}
+                details={details}
+                setDetails={setDetails}
+                setCurrentGoalId={setCurrentGoalId}
+            />
         </Stack>
     );
 }

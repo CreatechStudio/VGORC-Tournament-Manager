@@ -10,15 +10,12 @@ import {
 } from "@mui/joy";
 import {useEffect, useState} from "react";
 import {DEFAULT_MATCH_GOAL_ITEM, PAD} from "../constants.ts";
-import {AdminObject, MatchGoal} from "../../../common/Admin.ts";
+import {AdminObject} from "../../../common/Admin.ts";
 import {getReq, postReq} from "../net.ts";
 import toast from "react-hot-toast";
 import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
 import TournamentTable from "../components/TournamentTable.tsx";
-
-export interface MatchGoalArrayItem {
-    id: string, name: string, points: number
-}
+import {array2MatchGoals, MatchGoalArrayItem, matchGoals2Array} from "../utils/MatchGoal.ts";
 
 export default function BasicAccordion({
     disabled
@@ -48,29 +45,6 @@ export default function BasicAccordion({
             }
         }).catch();
     }, []);
-
-    function matchGoals2Array(matchGoals: {[key: string]: MatchGoal}): MatchGoalArrayItem[] {
-        const result: MatchGoalArrayItem[] = [];
-        Object.keys(matchGoals).forEach(key => {
-            result.push({
-                id: key,
-                name: matchGoals[key].name,
-                points: matchGoals[key].points
-            });
-        });
-        return result;
-    }
-
-    function array2MatchGoals(arr: MatchGoalArrayItem[]): {[key: string]: MatchGoal} {
-        const matchGoals: {[key: string]: MatchGoal} = {};
-        arr.forEach((goal) => {
-            matchGoals[goal.id] = {
-                name: goal.name,
-                points: goal.points
-            };
-        });
-        return matchGoals;
-    }
 
     function handleSave(newData?: AdminObject) {
         postReq("/admin/update", {
