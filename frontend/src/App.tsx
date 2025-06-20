@@ -1,4 +1,4 @@
-import {Box, Button, Card, Grid, Sheet, Stack, Typography} from "@mui/joy";
+import {AspectRatio, Box, Button, Card, Grid, Sheet, Stack, Typography} from "@mui/joy";
 import {Toaster} from "react-hot-toast";
 import {routes} from "./route.tsx";
 import {HashRouter, Route, Routes} from "react-router-dom";
@@ -13,53 +13,50 @@ interface AppState {
     backendG: boolean;
 }
 
-function WrongPage() {
+function GPage({
+    errMsg,
+    detailMsg = "Please contact with website maintainers to get help.",
+    btMsg = "Refresh",
+    onClick = () => {window.location.reload()},
+} : {
+    errMsg: string;
+    detailMsg?: string;
+    btMsg?: string;
+    onClick?: () => void;
+}) {
     return (
         <Sheet sx={{
             width: '100%', height: '95vh', overflow: 'hidden', gap: PAD,
             display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'
         }}>
-            <Card color="danger" sx={{width: `${LARGE_PART}%`, minWidth: `${PAD2*5}rem`}}>
-                <Stack direction="row" gap={PAD/2}>
-                    <FmdBadTwoToneIcon/>
-                    <Typography level="title-lg">
-                        Whoops! Something went wrong!
+            <Card color="danger" sx={{width: `${LARGE_PART}%`, minWidth: `${PAD2*5}rem`}} variant="plain">
+                <Stack
+                    justifyContent="center"
+                    alignItems="center"
+                    flexGrow="1"
+                    gap={PAD}
+                    sx={{width: '100%'}}
+                >
+                    <AspectRatio ratio="1" sx={{width: '20vw'}} variant="plain">
+                        <img
+                            src="/TM.png"
+                            alt=""
+                            loading="lazy"
+                        />
+                    </AspectRatio>
+                    <Stack direction="row" gap={PAD/2}>
+                        <FmdBadTwoToneIcon/>
+                        <Typography level="title-lg">
+                            {errMsg}
+                        </Typography>
+                    </Stack>
+                    <Typography level="body-md">
+                        {detailMsg}
                     </Typography>
+                    <Button onClick={onClick} color="danger">
+                        {btMsg}
+                    </Button>
                 </Stack>
-                <Typography level="body-md">
-                    Please contact with website maintainers to get help or back to last page.
-                </Typography>
-                <Button onClick={() => {
-                    window.history.back();
-                }} color="danger">
-                    Return Back
-                </Button>
-            </Card>
-        </Sheet>
-    );
-}
-
-function BackendGPage() {
-    return (
-        <Sheet sx={{
-            width: '100%', height: '95vh', overflow: 'hidden', gap: PAD,
-            display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'
-        }}>
-            <Card color="danger" sx={{width: `${LARGE_PART}%`, minWidth: `${PAD2*5}rem`}}>
-                <Stack direction="row" gap={PAD/2}>
-                    <FmdBadTwoToneIcon/>
-                    <Typography level="title-lg">
-                        Whoops! Backend Disappeared!
-                    </Typography>
-                </Stack>
-                <Typography level="body-md">
-                    Please contact with website maintainers to get help.
-                </Typography>
-                <Button onClick={() => {
-                    window.location.reload();
-                }} color="danger">
-                    Refresh
-                </Button>
             </Card>
         </Sheet>
     );
@@ -92,11 +89,15 @@ class App extends React.Component<AppProps, AppState> {
 
     render() {
         if (this.state.hasError) {
-            return <WrongPage/>;
+            return <GPage
+                errMsg="Whoops! Something Went Wrong!"
+                onClick={() => window.history.back()}
+                btMsg="Return Back"
+            />;
         }
 
         if (this.state.backendG) {
-            return <BackendGPage/>;
+            return <GPage errMsg="Whoops! Backend Disappeared!"/>;
         }
 
         return (
