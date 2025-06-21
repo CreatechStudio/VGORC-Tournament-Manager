@@ -181,7 +181,11 @@ function SetScorePage({
                 display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'
             }}>
                 {
-                    displayMode ? <></> :
+                    displayMode ? <>
+                            <Typography level="h3">
+                                {fieldName}
+                            </Typography>
+                        </> :
                     <>
                         <Typography level="h2">
                             Score - {teamNumber}: {skillType === SkillType.autoSkill ? "Autonomous" : "Drivers"}
