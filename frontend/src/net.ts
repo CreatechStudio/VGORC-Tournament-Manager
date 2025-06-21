@@ -23,13 +23,15 @@ const TEMP_STORE_TIME = 1000;  // ms
 
 function solveErr(e: never) {
     if (e.response.status === 401) {
-        toast.error("Unauthorized");
+        toast.error("Unauthorized", {id: "net-401"});
         setTimeout(() => {
             // 未认证回弹
             toLogin();
         }, 1000);
+    } else if (e.response.status === 500) {
+        toast.error("Backend is down, please try again later", {id: "net-500"});
     } else {
-        toast.error(e.response.data || e.message || "Something went wrong");
+        toast.error(e.response.data || e.message || "Something went wrong", {id: "net-err"});
     }
 }
 
