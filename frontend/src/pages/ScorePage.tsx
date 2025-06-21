@@ -274,8 +274,9 @@ function SetScorePage({
         }
     }
 
-    function handleViewHistory() {
-        const history: number[] = JSON.parse(JSON.stringify(current?.matchScoreHistory || [0]));
+    async function handleViewHistory() {
+        const res = await getReq(`/match/${divisionName}/${matchNumber}`);
+        const history: number[] = JSON.parse(JSON.stringify(res?.matchScoreHistory || [0]));
         history.pop();
         setHistory(history);
         setHistoryModalOpen(true);
