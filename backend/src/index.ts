@@ -88,7 +88,6 @@ new Elysia()
         })
     )
     .get('/', () => {return  'Welcome to VGORC TM API Backend'})
-    // 修改 /ping 端点实现
     .get('/ping', ({ request }) => {
         const stream = new ReadableStream({
             start(controller) {
