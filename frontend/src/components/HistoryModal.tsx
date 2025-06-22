@@ -6,7 +6,7 @@ import {
     Divider,
     List,
     ListItem,
-    Modal,
+    Modal, ModalClose,
     ModalDialog,
     Typography
 } from "@mui/joy";
@@ -25,6 +25,7 @@ export function useHistoryModal(): [
             <Modal open={open} onClose={() => setOpen(false)}>
                 <ModalDialog>
                     <DialogTitle>History Score</DialogTitle>
+                    <ModalClose/>
                     <List>
                         {
                             history.map((score, index) => (
