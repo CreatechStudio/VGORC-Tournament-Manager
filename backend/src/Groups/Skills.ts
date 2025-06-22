@@ -36,7 +36,7 @@ export const skillGroup = new Elysia()
                         body: t.Object({
                             teamNumber: t.String(),
                             skillType: t.String(),
-                            scoreDetails: t.Record(t.String(), t.Number()),
+                            scoreDetails: t.Array(t.Record(t.String(), t.Number())),
                         }),
                     }
                 )

@@ -40,7 +40,7 @@ export class Skill {
     setSkillScore(
         teamNumber: string,
         skillType: SkillType,
-        scoreDetails: Record<string, number>
+        scoreDetails: Record<string, number>[]
     ) {
         if (!skillType) {
             throw "Skill type is required";
@@ -51,7 +51,8 @@ export class Skill {
 
         let totalScore = 0;
 
-        for (const [key, count] of Object.entries(scoreDetails)) {
+        const lastScoreDetails = scoreDetails[scoreDetails.length - 1];
+        for (const [key, count] of Object.entries(lastScoreDetails)) {
             const goal = matchGoals[key];
             if (!goal) {
                 throw `Invalid matchGoal key: ${key}`;
@@ -64,19 +65,19 @@ export class Skill {
         if (index !== -1) {
             const team = this.data[index];
             if (skillType === SkillType.driverSkill) {
-                team.driverSkill.push(totalScore);
-                team.driverSkillDetails.push(scoreDetails);  // 追加进数组
+                team.driverSkill = [totalScore];
+                team.driverSkillDetails = scoreDetails;
             } else if (skillType === SkillType.autoSkill) {
-                team.autoSkill.push(totalScore);
-                team.autoSkillDetails.push(scoreDetails);    // 追加进数组
+                team.autoSkill = [totalScore];
+                team.autoSkillDetails = scoreDetails;
             }
         } else {
             const newTeam: SkillWithTeam = {
                 skillsTeamNumber: teamNumber,
                 driverSkill: skillType === SkillType.driverSkill ? [totalScore] : [],
                 autoSkill: skillType === SkillType.autoSkill ? [totalScore] : [],
-                driverSkillDetails: skillType === SkillType.driverSkill ? [scoreDetails] : [],
-                autoSkillDetails: skillType === SkillType.autoSkill ? [scoreDetails] : []
+                driverSkillDetails: skillType === SkillType.driverSkill ? scoreDetails : [],
+                autoSkillDetails: skillType === SkillType.autoSkill ? scoreDetails : []
             };
             this.data.push(newTeam);
         }
