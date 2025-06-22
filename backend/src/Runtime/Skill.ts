@@ -39,11 +39,17 @@ export class Skill {
 
     setSkillScore(
         teamNumber: string,
-        skillType: SkillType,
+        skillType: string,
         scoreDetails: Record<string, number>[]
     ) {
-        if (!skillType) {
-            throw "Skill type is required";
+        // Map the input skillType to the actual enum type
+        let actualSkillType: SkillType;
+        if (skillType === 'driverSkill' || skillType === 'driverSkillDetails') {
+            actualSkillType = SkillType.driverSkill;
+        } else if (skillType === 'autoSkill' || skillType === 'autoSkillDetails') {
+            actualSkillType = SkillType.autoSkill;
+        } else {
+            throw "Skill type is required and must be one of: driverSkill, autoSkill, driverSkillDetails, autoSkillDetails";
         }
 
         const admin = new Admin();
@@ -63,21 +69,22 @@ export class Skill {
         const index = this._indexOf(teamNumber);
 
         if (index !== -1) {
-            const team = this.data[index];
-            if (skillType === SkillType.driverSkill) {
-                team.driverSkill = [totalScore];
-                team.driverSkillDetails = scoreDetails;
-            } else if (skillType === SkillType.autoSkill) {
-                team.autoSkill = [totalScore];
-                team.autoSkillDetails = scoreDetails;
+            // Team found, update the existing team
+            if (actualSkillType === SkillType.driverSkill) {
+                this.data[index].driverSkill = [totalScore];
+                this.data[index].driverSkillDetails = scoreDetails;
+            } else if (actualSkillType === SkillType.autoSkill) {
+                this.data[index].autoSkill = [totalScore];
+                this.data[index].autoSkillDetails = scoreDetails;
             }
         } else {
+            // Team not found, create a new team and add to the end
             const newTeam: SkillWithTeam = {
                 skillsTeamNumber: teamNumber,
-                driverSkill: skillType === SkillType.driverSkill ? [totalScore] : [],
-                autoSkill: skillType === SkillType.autoSkill ? [totalScore] : [],
-                driverSkillDetails: skillType === SkillType.driverSkill ? scoreDetails : [],
-                autoSkillDetails: skillType === SkillType.autoSkill ? scoreDetails : []
+                driverSkill: actualSkillType === SkillType.driverSkill ? [totalScore] : [],
+                autoSkill: actualSkillType === SkillType.autoSkill ? [totalScore] : [],
+                driverSkillDetails: actualSkillType === SkillType.driverSkill ? scoreDetails : [],
+                autoSkillDetails: actualSkillType === SkillType.autoSkill ? scoreDetails : []
             };
             this.data.push(newTeam);
         }

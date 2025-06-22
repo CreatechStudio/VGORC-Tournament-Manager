@@ -492,9 +492,7 @@ export default function ScorePage() {
                     <Box sx={{
                         pl: PAD, pr: PAD, pb: PAD,
                         display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'
-                    }}><Typography level="h2">
-                        {fieldName ? `Match - ${fieldName}` : "Match"}
-                    </Typography>
+                    }}>
                         <Typography level="h2">
                             {fieldName ? `Match - ${fieldName}` : "Match"}
                         </Typography>

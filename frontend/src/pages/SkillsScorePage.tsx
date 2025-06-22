@@ -295,7 +295,7 @@ function SetScorePage({
                         </> :
                     <>
                         <Typography level="h2">
-                            Score - {teamNumber}: {skillType === SkillType.autoSkill ? "Autonomous" : "Drivers"}
+                            Score - {teamNumber}: {skillType === SkillType.autoSkillDetails ? "Autonomous" : "Drivers"}
                         </Typography>
                         <ButtonGroup size="lg">
                             <MenuDrawer sendParam={`${FIELD_NAME_KEY}=${field}`}/>
