@@ -29,6 +29,7 @@ export class Match {
 
     _handleEliminationDraw(divisionName: string, matchType: string) {
         let data = this.db.getData();
+        let RETURN_MATCHES: MatchObject[] = [];
         const decodedDivisionName = decodeURIComponent(divisionName);
         let division: MatchWithDivision | undefined = data.matches.find(div => div.divisionName === decodedDivisionName);
         if (division) {
@@ -43,15 +44,20 @@ export class Match {
                     }
                     scoreMap.get(match.matchScore)!.push(match);
                 });
-                const sameScoreMatches = Array.from(scoreMap.values()).filter(group => group.length > 1);
-                let newmatchNumber = division.matches[division.matches.length - 1].matchNumber + 1;
+                let sameScoreMatches = Array.from(scoreMap.values()).filter(group => group.length > 1);
+                const hasSomeMatchIsAdditional = sameScoreMatches.some(group => group.some(match => match.isAdditional));
+                if (hasSomeMatchIsAdditional) {
+                    //limit someScoreMatches to additional matches only
+                    sameScoreMatches = sameScoreMatches.map(group => group.filter(match => match.isAdditional));
+                }
+                let newMatchNumber = division.matches[division.matches.length - 1].matchNumber + 1;
                 let ScheduleTools = new Schedule();
                 let fields = ScheduleTools._getAllFieldsInDivision(divisionName);
                 // 如果有分数相同的淘汰赛，创建新的淘汰赛
                 sameScoreMatches.forEach(sameScoreMatch => {
                     sameScoreMatch.forEach((match) => {
                         let newMatch: MatchObject = {
-                            matchNumber: newmatchNumber++,
+                            matchNumber: newMatchNumber++,
                             matchType: match.matchType,
                             matchField: match.matchField,
                             matchFieldSet: 0,
@@ -62,15 +68,15 @@ export class Match {
                             hasScore: false,
                             matchScore: 0,
                             matchScoreHistory: [],
-                            scoreDetails: {}
+                            scoreDetails: {},
+                            isAdditional: true,
                         };
-
-                        data.matches[divisionName.indexOf(divisionName)].matches.push(newMatch);
+                        RETURN_MATCHES.push(newMatch);
                     })
                 })
-                this.db.updateData(data);
             }
         }
+        return(RETURN_MATCHES);
     }
 
     setScore(
@@ -109,8 +115,19 @@ export class Match {
 
         this._update(divisionName, currentMatch);
 
-        if (currentMatch.matchType !== "Qualification") {
-            this._handleEliminationDraw(decodedDivisionName, currentMatch.matchType);
+        if (currentMatch.matchType !== "Qualification" && !currentMatch.isAdditional) {
+            let additionalMatch = this._handleEliminationDraw(decodedDivisionName, currentMatch.matchType);
+            if (additionalMatch.length > 0) {
+                let newData: Data = this.db.getData();
+                newData.matches.forEach(division => {
+                    if (division.divisionName === decodedDivisionName) {
+                        additionalMatch.forEach(match => {
+                            division.matches.push(match);
+                        });
+                    }
+                });
+                this.db.updateData(newData);
+            }
         }
 
         return currentMatch;

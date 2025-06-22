@@ -143,16 +143,31 @@ export class Ranking {
             if (match.matchType === 'Elimination' || match.matchType === 'Final') {
                 eliminationMatches.push(match);
             }
-        })
-        let ranking: { rank: number, teams: string[], score:number }[] = [];
+        });
         eliminationMatches = eliminationMatches.filter(match => match.hasScore);
         eliminationMatches.sort((a, b) => b.matchScore - a.matchScore);
+        let ranking: { rank: number, teams: string[], score: number }[] = [];
+        const teamsMap = new Map<string, number>(); // Maps team pairs to their index in ranking array
         eliminationMatches.forEach(match => {
+            const sortedTeams = [...match.matchTeam].sort();
+            const teamKey = sortedTeams.join(',');
+            if (teamsMap.has(teamKey)) {
+                // If we've seen this team pairing before, remove the old entry
+                const oldIndex = teamsMap.get(teamKey)!;
+                ranking.splice(oldIndex, 1);
+                // Update indexes in the map for all entries after the removed one
+                teamsMap.forEach((index, key) => {
+                    if (index > oldIndex) {
+                        teamsMap.set(key, index - 1);
+                    }
+                });
+            }
             ranking.push({
                 rank: 0,
                 teams: match.matchTeam,
                 score: match.matchScore
             });
+            teamsMap.set(teamKey, ranking.length - 1);
         });
         ranking.forEach((rank, index) => {
             if (index === 0) {
@@ -164,7 +179,7 @@ export class Ranking {
                     rank.rank = index + 1;
                 }
             }
-        })
+        });
         return ranking;
     }
 }

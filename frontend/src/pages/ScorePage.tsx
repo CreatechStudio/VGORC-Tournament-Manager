@@ -116,7 +116,10 @@ function ChooseMatchPage({
                         >
                             {m.matchType} {m.matchNumber} {
                                 m.hasScore ? "✅" : "❌"
+                            } {
+                            m.isAdditional ? " (Additional)" : ""
                             }
+
                         </Button>
                     </ListItem>
                 ))
@@ -314,6 +317,9 @@ function SetScorePage({
             <Typography level="h3">
                 {displayMode ? "" : `${current?.matchField} - ${current?.matchTeam.join(' & ')}`}
             </Typography>
+            <Typography level="h3">
+                {current?.isAdditional ? "Additional Match" : ""}
+            </Typography>
             <Box sx={{height: '100%', width: '100%'}}>
                 <Grid
                     container
@@ -487,7 +493,9 @@ export default function ScorePage() {
                     <Box sx={{
                         pl: PAD, pr: PAD, pb: PAD,
                         display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'
-                    }}>
+                    }}><Typography level="h2">
+                        {fieldName ? `Match - ${fieldName}` : "Match"}
+                    </Typography>
                         <Typography level="h2">
                             {fieldName ? `Match - ${fieldName}` : "Match"}
                         </Typography>

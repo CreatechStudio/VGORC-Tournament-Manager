@@ -13,6 +13,7 @@ export interface MatchObject {
     scoreDetails: {
         [goalKey: string]: number;
     };
+    isAdditional?: boolean;
 }
 
 export interface MatchWithDivision {
