@@ -18,13 +18,17 @@ jobs:
         with:
           node-version: 18.x
 
-      - name: Install dependencies
-        run: npm install
-        working-directory: ./frontend
+      - name: Run install
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: install
+          dir: ./frontend
 
-      - name: Build frontend
-        run: npm run build
-        working-directory: ./frontend
+      - name: Build production bundle
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: build
+          dir: ./frontend
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
