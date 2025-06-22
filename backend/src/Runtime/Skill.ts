@@ -71,10 +71,10 @@ export class Skill {
         if (index !== -1) {
             // Team found, update the existing team
             if (actualSkillType === SkillType.driverSkill) {
-                this.data[index].driverSkill = [totalScore];
+                this.data[index].driverSkill.push(totalScore);
                 this.data[index].driverSkillDetails = scoreDetails;
             } else if (actualSkillType === SkillType.autoSkill) {
-                this.data[index].autoSkill = [totalScore];
+                this.data[index].autoSkill.push(totalScore);
                 this.data[index].autoSkillDetails = scoreDetails;
             }
         } else {
