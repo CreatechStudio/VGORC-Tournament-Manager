@@ -13,12 +13,18 @@ export function getNameFromMatchGoalId(matchGoals: MatchGoalArrayItem[] | MatchG
     if (matchGoals instanceof Array) {
         matchGoals = array2MatchGoals(matchGoals);
     }
+    if (matchGoals[id] === undefined) {
+        return "";
+    }
     return matchGoals[id].name;
 }
 
 export function getPointsFromMatchGoalId(matchGoals: MatchGoalArrayItem[] | MatchGoals, id: string): number {
     if (matchGoals instanceof Array) {
         matchGoals = array2MatchGoals(matchGoals);
+    }
+    if (matchGoals[id] === undefined) {
+        return 0;
     }
     return matchGoals[id].points;
 }

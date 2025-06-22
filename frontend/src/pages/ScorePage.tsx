@@ -259,9 +259,9 @@ function SetScorePage({
         if (current) {
             current.matchScore = getTotal();
             current.scoreDetails = array2ScoreDetails(details);
-        }
-        if (current?.hasScore) {
-            success = confirm("Make sure you want to save the edited score.");
+            if (current.hasScore) {
+                success = confirm("Make sure you want to save the edited score.");
+            }
         }
         if (success) {
             if (current) {
@@ -381,7 +381,6 @@ function SetScorePage({
                                                 if (current && currentGoalId) {
                                                     const newDetails = details.filter(detail => detail.goalId !== currentGoalId);
                                                     setDetails(newDetails);
-                                                    // 选中下一个goal（如果有），否则设为null
                                                     if (newDetails.length > 0) {
                                                         setCurrentGoalId(newDetails[0].goalId);
                                                     } else {

@@ -1,6 +1,8 @@
 export enum SkillType {
     driverSkill = 'driverSkill',
-    autoSkill = 'autoSkill'
+    autoSkill = 'autoSkill',
+    driverSkillDetails = 'driverSkillDetails',
+    autoSkillDetails = 'autoSkillDetails',
 }
 
 export interface SkillWithTeam {
