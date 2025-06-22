@@ -4,7 +4,7 @@ import {FieldSetObject} from "../../common/FieldSet.ts";
 import {PeriodObject} from "../../common/Period.ts";
 import {getReq} from "./net.ts";
 import toast from "react-hot-toast";
-import {MatchGoalArrayItem} from "./accordions/BasicAccordion.tsx";
+import {MatchGoalArrayItem} from "./utils/MatchGoal.ts";
 
 let env = {
     TM_RANK_TABLE_SCROLL_SPEED: "",
