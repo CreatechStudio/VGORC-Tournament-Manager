@@ -46,6 +46,10 @@ export default function NewGoalModal({
     }, [goals, details]);
 
     function handleSubmit() {
+        if (count === 0) {
+            toast.error("Count must be greater than 0");
+            return;
+        }
         if (selectedGoalId === null) {
             toast.error("Match goal is not selected");
             return;

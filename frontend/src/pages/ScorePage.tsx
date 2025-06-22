@@ -22,6 +22,7 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import ListAltOutlinedIcon from '@mui/icons-material/ListAltOutlined';
 import LogoutIcon from "@mui/icons-material/Logout";
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import Timer from "../components/Timer.tsx";
 import toast from "react-hot-toast";
 import {useHistoryModal} from "../components/HistoryModal.tsx";
@@ -369,6 +370,20 @@ function SetScorePage({
                                                 }
                                             }}>
                                                 <AddIcon/>
+                                            </IconButton>
+                                            <IconButton variant="outlined" size="lg" onClick={() => {
+                                                if (current && currentGoalId) {
+                                                    const newDetails = details.filter(detail => detail.goalId !== currentGoalId);
+                                                    setDetails(newDetails);
+                                                    // 选中下一个goal（如果有），否则设为null
+                                                    if (newDetails.length > 0) {
+                                                        setCurrentGoalId(newDetails[0].goalId);
+                                                    } else {
+                                                        setCurrentGoalId(null);
+                                                    }
+                                                }
+                                            }}>
+                                                <DeleteOutlineOutlinedIcon/>
                                             </IconButton>
                                         </Stack>
                                         <Divider/>
