@@ -236,7 +236,7 @@ function SetScorePage({
         detailss.forEach((details) => {
             detailssArr.push(array2ScoreDetails(details));
         });
-
+        console.log(detailssArr);
         postReq('/skill/update', {
             teamNumber: teamNumber,
             skillType: skillType,
@@ -381,7 +381,10 @@ function SetScorePage({
                                                 <AddIcon/>
                                             </IconButton>
                                             <IconButton variant="outlined" size="lg" onClick={() => {
-                                                handleDelete(index);
+                                                let success = confirm("Make sure you want to delete this attempt.");
+                                                if (success) {
+                                                    handleDelete(index);
+                                                }
                                             }}>
                                                 <DeleteOutlineOutlinedIcon/>
                                             </IconButton>
