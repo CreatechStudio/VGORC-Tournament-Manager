@@ -6,13 +6,17 @@ import {Box, Button, CircularProgress} from "@mui/joy";
 import {generateSocketUrl, LARGE_PART, PAD, PAD2, SMALL_PART} from "../constants.ts";
 import {PingPongTest} from "../net.ts";
 
+const RETRY_INTERVAL = 1000; // 1 second
+
+let currentTime = 0;
+
 export default function Timer({
     displayMode,
     current,
     fieldName
 } : {
     displayMode: boolean;
-    current: any;
+    current: never;
     fieldName: string | null;
 }) {
     const [totalTime, setTotalTime] = useState<number | null>(null);
@@ -57,15 +61,31 @@ export default function Timer({
         };
     }, [isActive, localTime]);
 
+    useEffect(() => {
+        currentTime = localTime;
+    }, [localTime]);
+
+    useEffect(() => {
+        if (time) {
+            currentTime = time;
+        }
+    }, [time]);
+
     function retryConnectTimer(matchField: string) {
         if (isConnected) {
+            return;
+        }
+        if (currentTime > 0) {
+            setTimeout(() => {
+                retryConnectTimer(matchField);
+            }, RETRY_INTERVAL);
             return;
         }
         const ws = connectTimer(matchField);
         ws.addEventListener(WebsocketEvent.close, () => {
             setTimeout(() => {
                 retryConnectTimer(matchField);
-            }, 1000);
+            }, RETRY_INTERVAL);
         });
         setTimerWs(ws);
     }
