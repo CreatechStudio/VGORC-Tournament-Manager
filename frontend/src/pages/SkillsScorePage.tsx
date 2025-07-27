@@ -423,7 +423,7 @@ function SetScorePage({
                             }
                             {
                                 displayMode ? <></> :
-                                    currentGoalIds.length < 3 ?
+                                    detailss.length < 3 ?
                                     <Button
                                         variant="outlined"
                                         size="lg"
