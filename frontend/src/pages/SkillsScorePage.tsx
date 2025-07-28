@@ -35,6 +35,7 @@ import {
 import {AdminObject} from "../../../common/Admin.ts";
 import NewGoalModal from "../components/NewGoalModal.tsx";
 import useScoreDetailModal from "../components/ScoreDetailModal.tsx";
+import {DEFAULT_MATCH_OBJECT} from "../../../common/Match.ts";
 
 const TEAM_NUMBER_KEY = "teamNumber";
 const SKILL_TYPE_KEY = "skillType";
@@ -326,7 +327,7 @@ function SetScorePage({
                         }}>
                             <Timer
                                 displayMode={displayMode}
-                                current={{matchField: field}}
+                                current={{...DEFAULT_MATCH_OBJECT, matchField: field || ""}}
                                 fieldName={fieldName}
                             />
                             {
@@ -381,7 +382,7 @@ function SetScorePage({
                                                 <AddIcon/>
                                             </IconButton>
                                             <IconButton variant="outlined" size="lg" onClick={() => {
-                                                let success = confirm("Make sure you want to delete this attempt.");
+                                                const success = confirm("Make sure you want to delete this attempt.");
                                                 if (success) {
                                                     handleDelete(index);
                                                 }

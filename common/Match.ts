@@ -20,3 +20,18 @@ export interface MatchWithDivision {
     divisionName: string,
     matches: MatchObject[],
 }
+
+export const DEFAULT_MATCH_OBJECT: MatchObject = {
+    matchNumber: 0,
+    matchType: "",
+    matchField: "",
+    matchFieldSet: 0,
+    matchPeriod: 0,
+    matchCountInPeriod: 0,
+    matchStartTime: "",
+    matchTeam: [],
+    hasScore: false,
+    matchScore: 0,
+    matchScoreHistory: [],
+    scoreDetails: {},
+}

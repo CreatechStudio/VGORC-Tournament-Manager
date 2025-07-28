@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import {Box, Button, CircularProgress} from "@mui/joy";
 import {generateSocketUrl, LARGE_PART, PAD, PAD2, SMALL_PART} from "../constants.ts";
 import {PingPongTest} from "../net.ts";
+import {MatchObject} from "../../../common/Match.ts";
 
 const RETRY_INTERVAL = 1000; // 1 second
 
@@ -16,7 +17,7 @@ export default function Timer({
     fieldName
 } : {
     displayMode: boolean;
-    current: never;
+    current: MatchObject | null;
     fieldName: string | null;
 }) {
     const [totalTime, setTotalTime] = useState<number | null>(null);
