@@ -140,9 +140,9 @@ export default function BasicAccordion({
                     <tr>
                         <td>
                             <FormControl sx={{p: PAD}}>
-                                <FormLabel>Elimination Alliances</FormLabel>
+                                <FormLabel>Elimination Teams</FormLabel>
                                 <FormHelperText>
-                                    Number of alliances advanced to elimination.
+                                    Number of teams advanced to elimination.
                                 </FormHelperText>
                             </FormControl>
                         </td>
