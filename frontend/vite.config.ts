@@ -20,7 +20,7 @@ export default ({mode}) => {
             controlFlowFlattening: false,
             deadCodeInjection: false,
             debugProtection: true,
-            debugProtectionInterval: 1,
+            debugProtectionInterval: 3000,
             disableConsoleOutput: true,
             identifierNamesGenerator: 'hexadecimal',
             log: false,
