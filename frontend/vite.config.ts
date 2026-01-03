@@ -13,39 +13,6 @@ export default ({mode}) => {
   return {
     plugins: [
         react(),
-        obfuscatorPlugin({
-          apply: "build",
-          options: {
-            compact: true,
-            controlFlowFlattening: false,
-            deadCodeInjection: false,
-            debugProtection: true,
-            debugProtectionInterval: 3000,
-            disableConsoleOutput: true,
-            identifierNamesGenerator: 'hexadecimal',
-            log: false,
-            numbersToExpressions: false,
-            renameGlobals: false,
-            selfDefending: false,
-            simplify: true,
-            splitStrings: true,
-            splitStringsChunkLength: 10,
-            stringArray: true,
-            stringArrayCallsTransform: false,
-            stringArrayCallsTransformThreshold: 0.5,
-            stringArrayEncoding: [],
-            stringArrayIndexShift: true,
-            stringArrayRotate: true,
-            stringArrayShuffle: true,
-            stringArrayWrappersCount: 1,
-            stringArrayWrappersChainedCalls: true,
-            stringArrayWrappersParametersMaxCount: 2,
-            stringArrayWrappersType: 'variable',
-            stringArrayThreshold: 0.75,
-            transformObjectKeys: false,
-            unicodeEscapeSequence: false
-          }
-        }),
         viteSingleFile(),
         topLevelAwait()
     ],

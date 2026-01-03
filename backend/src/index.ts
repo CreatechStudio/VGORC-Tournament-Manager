@@ -1,4 +1,3 @@
-import {validLicenseKey} from "./Runtime/License";
 import {Elysia, t} from 'elysia';
 import {swagger} from '@elysiajs/swagger';
 import {cors} from "@elysiajs/cors";
@@ -27,22 +26,14 @@ export const BASE_URL = process.env.TM_BASE_URL || 'http://localhost:3000';
 export const BASE_PORT = new URL(BASE_URL).port;
 export const WEB_URL = process.env.TM_WEB_URL || 'http://localhost:5173';
 const JWT_SECRET = process.env.TM_JWT_SECRET || 'Createch';
-const licenseInfo = await validLicenseKey();
 
 function delay(ms: number) {
     return new Promise( resolve => setTimeout(resolve, ms) );
 }
 
-if (licenseInfo !== null && licenseInfo.status ===  "granted" && dayjs(licenseInfo.expiresAt).isAfter(dayjs())) {
-    console.log('✅ License is valid');
-    console.log('📅 License expire date:', licenseInfo.expiresAt);
-    console.log('🏢 Organization:', licenseInfo.customer.name);
-} else {
-    console.log('❌ License is invalid or not granted');
-    console.log('Please contact Createch Support for more information.');
-    console.log('License key:', process.env.TM_LICENSE_KEY);
-    process.exit(1);
-}
+console.log('✅ License is valid');
+console.log('🏢 Organization: To All VEX Lovers & Event Partners');
+console.log('📅 License Expiration Date: Never Expires');
 
 function backupDB() {
     const UtilsTools = new Utils();
